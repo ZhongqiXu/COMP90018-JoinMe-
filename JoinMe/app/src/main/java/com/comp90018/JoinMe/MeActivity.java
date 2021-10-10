@@ -1,5 +1,6 @@
 package com.comp90018.JoinMe;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -10,18 +11,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
 public class MeActivity extends AppCompatActivity {
 
 
-    TextView uid,userName,welname;
+    TextView userName,welname,gender,age,brief,email;
     FirebaseAuth mAuth;
-    DatabaseReference base;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,24 +37,32 @@ public class MeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_me);
 
         welname = findViewById(R.id.wel_name);
+        userName = findViewById(R.id.ds_name);
+        gender = findViewById(R.id.ds_gender);
+        email = findViewById(R.id.ds_email);
+        brief = findViewById(R.id.ds_brief);
+        age = findViewById(R.id.ds_age);
 
-        String key = getIntent().getStringExtra("uid");
+        final String uid = mAuth.getUid();
 
-        welname.setText(key);
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference().child("user").child(uid);
 
-        System.out.println(key);
-        System.out.println("sfsfsfsfs");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull  DataSnapshot snapshot) {
+                User user = snapshot.getValue(User.class);
+                System.out.println(user);
+                welname.setText(user.getUserName());
+                bind(user);
+                Toast.makeText(MeActivity.this,"seucc",Toast.LENGTH_SHORT).show();
+            }
 
-        String uid = mAuth.getCurrentUser().getUid();
-        System.out.println(uid);
-
-        System.out.println(uid.equals("key"));
-
-        // 查询demo
-        base = FirebaseDatabase.getInstance().getReference("user");
-
-        Query query = base.equalTo(uid);
-        System.out.println(query);
+            @Override
+            public void onCancelled(@NonNull  DatabaseError error) {
+                Toast.makeText(MeActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
     }
@@ -64,7 +77,7 @@ public class MeActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.edit:
-                Toast.makeText(this, "点击了第一个菜单", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(MeActivity.this,settingActivity.class));
                 break;
             case R.id.logout:
                 FirebaseAuth.getInstance().signOut();
@@ -76,6 +89,14 @@ public class MeActivity extends AppCompatActivity {
         }
         return true;
 
+    }
+
+    public void bind(User user){
+        userName.setText(user.getUserName());
+        gender.setText(user.getGender());
+        email.setText(user.getEmail());
+        brief.setText(user.getBrief());
+        age.setText(user.getAge());
     }
 
 

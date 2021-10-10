@@ -37,8 +37,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:textStyle="bold"
-                    android:textSize="24sp"
-                    android:text="hshhshs"/>
+                    android:textSize="24sp" />
 
             </LinearLayout>
 
@@ -62,8 +61,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:layout_marginLeft="15dp"
-                    android:textSize="20sp"
-                    android:text="hah"/>
+                    android:textSize="20sp" />
 
             </LinearLayout>
 
@@ -92,8 +90,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:layout_marginLeft="15dp"
-                    android:textSize="20sp"
-                    android:text="hah"/>
+                    android:textSize="20sp" />
 
             </LinearLayout>
 
@@ -122,8 +119,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:layout_marginLeft="15dp"
-                    android:textSize="20sp"
-                    android:text="hah"/>
+                    android:textSize="20sp" />
 
             </LinearLayout>
 
@@ -151,8 +147,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:layout_marginLeft="15dp"
-                    android:textSize="20sp"
-                    android:text="hah"/>
+                    android:textSize="20sp" />
 
             </LinearLayout>
 
@@ -182,8 +177,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:layout_marginLeft="15dp"
-                    android:textSize="20sp"
-                    android:text="hah"/>
+                    android:textSize="20sp" />
 
             </LinearLayout>
 

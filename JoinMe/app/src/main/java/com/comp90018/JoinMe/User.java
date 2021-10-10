@@ -68,4 +68,16 @@ public class User {
     public void setBrief(String brief) {
         this.brief = brief;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "uid='" + uid + '\'' +
+                ", userName='" + userName + '\'' +
+                ", gender='" + gender + '\'' +
+                ", age='" + age + '\'' +
+                ", email='" + email + '\'' +
+                ", brief='" + brief + '\'' +
+                '}';
+    }
 }

@@ -86,9 +86,8 @@ public class RegisterActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
 
                             Intent intent = new Intent(RegisterActivity.this,MeActivity.class);
-                            intent.putExtra("user_id",uid);
-                            //intent.putExtra("user_name",name);
                             startActivity(intent);
+                            finish();
                         } else {
                             // If sign in fails, display a message to the user.
                             //Log.w(TAG, "createUserWithEmail:failure", task.getException().getMessage());
