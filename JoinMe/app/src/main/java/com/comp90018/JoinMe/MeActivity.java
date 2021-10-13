@@ -10,23 +10,25 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.HashMap;
+import object.User;
 
-public class MeActivity extends AppCompatActivity {
+public class MeActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
 
 
     TextView userName,welname,gender,age,brief,email;
     FirebaseAuth mAuth;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
+
+    NavigationBarView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +45,15 @@ public class MeActivity extends AppCompatActivity {
         brief = findViewById(R.id.ds_brief);
         age = findViewById(R.id.ds_age);
 
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setOnItemSelectedListener(this);
+        bottomNavigationView.getMenu().findItem(R.id.profile).setChecked(true);
+
         final String uid = mAuth.getUid();
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference().child("user").child(uid);
+
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -77,7 +84,7 @@ public class MeActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.edit:
-                startActivity(new Intent(MeActivity.this,settingActivity.class));
+                startActivity(new Intent(MeActivity.this, SettingActivity.class));
                 break;
             case R.id.logout:
                 FirebaseAuth.getInstance().signOut();
@@ -97,6 +104,22 @@ public class MeActivity extends AppCompatActivity {
         email.setText(user.getEmail());
         brief.setText(user.getBrief());
         age.setText(user.getAge());
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        bottomNavigationView.getMenu().findItem(item.getItemId()).setChecked(true);
+        switch (item.getItemId()) {
+            case R.id.activities:
+                startActivity(new Intent(this, MainActivity.class));
+                break;
+            case R.id.settings:
+                startActivity(new Intent(this, SettingActivity.class));
+                break;
+            default:
+                break;
+        }
+        return false;
     }
 
 

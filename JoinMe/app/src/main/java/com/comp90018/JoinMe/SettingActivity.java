@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,7 +23,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
-public class settingActivity extends AppCompatActivity {
+import object.User;
+
+public class SettingActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
 
     FirebaseAuth mAuth;
     TextView set_name,set_gender,set_age,set_brief;
@@ -29,6 +33,8 @@ public class settingActivity extends AppCompatActivity {
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
+
+    NavigationBarView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +46,10 @@ public class settingActivity extends AppCompatActivity {
         set_gender=findViewById(R.id.setting_gender);
         set_brief = findViewById(R.id.setting_brief);
         set_btn_submit = findViewById(R.id.setting_submit);
+
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setOnItemSelectedListener(this);
+        bottomNavigationView.getMenu().findItem(R.id.settings).setChecked(true);
 
         mAuth = FirebaseAuth.getInstance();
         final String uid = mAuth.getUid();
@@ -53,12 +63,12 @@ public class settingActivity extends AppCompatActivity {
                 User user = snapshot.getValue(User.class);
                 System.out.println(user);
                 bind(user);
-                Toast.makeText(settingActivity.this,"seucc",Toast.LENGTH_SHORT).show();
+                Toast.makeText(SettingActivity.this,"seucc",Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(settingActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(SettingActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -72,12 +82,12 @@ public class settingActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task task) {
                         if (task.isSuccessful()){
-                            Toast.makeText(settingActivity.this,"xixiix",Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(settingActivity.this,MeActivity.class));
+                            Toast.makeText(SettingActivity.this,"xixiix",Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(SettingActivity.this,MeActivity.class));
                             finish();
                         }
                         else
-                            Toast.makeText(settingActivity.this,task.getException().getMessage(),
+                            Toast.makeText(SettingActivity.this,task.getException().getMessage(),
                                     Toast.LENGTH_SHORT).show();
 
                     }
@@ -104,5 +114,21 @@ public class settingActivity extends AppCompatActivity {
         user.put("brief",brief);
 
         return user;
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        bottomNavigationView.getMenu().findItem(item.getItemId()).setChecked(true);
+        switch (item.getItemId()) {
+            case R.id.profile:
+                startActivity(new Intent(this, MeActivity.class));
+                break;
+            case R.id.activities:
+                startActivity(new Intent(this, MainActivity.class));
+                break;
+            default:
+                break;
+        }
+        return false;
     }
 }

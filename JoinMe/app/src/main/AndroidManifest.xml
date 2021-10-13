@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.JoinMe">
-        <activity android:name=".settingActivity"></activity>
+        <activity android:name=".SettingActivity"></activity>
         <activity android:name=".MeActivity">
 
         </activity>

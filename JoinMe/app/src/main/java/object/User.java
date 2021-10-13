@@ -1,4 +1,4 @@
-package com.comp90018.JoinMe;
+package object;
 
 public class User {
 
