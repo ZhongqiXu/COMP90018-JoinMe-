@@ -9,12 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.JoinMe">
-        <activity android:name=".SettingActivity"></activity>
-        <activity android:name=".MeActivity">
-
-        </activity>
+        <activity android:name=".SettingActivity"/>
+        <activity android:name=".MeActivity"/>
         <activity android:name=".reSetActivity" />
         <activity android:name=".RegisterActivity" />
+        <activity android:name=".NewActivity"/>
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
