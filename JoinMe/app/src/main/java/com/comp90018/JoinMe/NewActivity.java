@@ -2,6 +2,7 @@ package com.comp90018.JoinMe;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -14,6 +15,7 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -48,14 +50,16 @@ public class NewActivity extends AppCompatActivity implements NavigationBarView.
     EditText title, details;
     Button createActivity;
 
-    private TextView datePicker;
-    private Button datePickerBtn;
+    private TextView datePicker, timePicker;
+    private Button datePickerBtn, timePickerBtn;
+    private TimePickerDialog.OnTimeSetListener onTimeSetListener;
     private DatePickerDialog.OnDateSetListener onDateSetListener;
     private ToggleButton autoJoinBtn;
     private boolean isAutoJoin;
     private HorizontalNumberPicker activitySize;
 
     private String date;
+    private String time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +77,8 @@ public class NewActivity extends AppCompatActivity implements NavigationBarView.
 
         datePicker = findViewById(R.id.activity_date);
         datePickerBtn = findViewById(R.id.activity_date_btn);
+        timePicker = findViewById(R.id.activity_time);
+        timePickerBtn = findViewById(R.id.activity_time_btn);
         autoJoinBtn = (ToggleButton) findViewById(R.id.activity_autoJoin_btn);
 
         activitySize = findViewById(R.id.activity_size_btn);
@@ -114,9 +120,35 @@ public class NewActivity extends AppCompatActivity implements NavigationBarView.
         onDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                month = month + 2;
+                month = month + 1;
                 date = dayOfMonth + "/" + month + "/" + year;
                 datePicker.setText(date);
+            }
+        };
+
+        timePickerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
+                int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                int min = calendar.get(Calendar.MINUTE);
+
+                TimePickerDialog dialog = new TimePickerDialog(
+                        NewActivity.this,
+                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                        onTimeSetListener,
+                        hour, min, true);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+
+            }
+        });
+
+        onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                time = hourOfDay + ":" + minute;
+                timePicker.setText(time);
             }
         };
 
@@ -136,15 +168,14 @@ public class NewActivity extends AppCompatActivity implements NavigationBarView.
         if (user != null) {
             uid = user.getUid();
         }
-        @SuppressLint("SimpleDateFormat") DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        df.setLenient(false);
-        Date myDate = df.parse(date);
+
+        String dateTime = date +  ' ' + time;
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         String key = database.getReference("activity").push().getKey();
 
         final Map<String, Object> dataMap = new HashMap<String, Object>();
-        Activity newActivity = new Activity(title.getText().toString(), myDate, uid,
+        Activity newActivity = new Activity(title.getText().toString(), dateTime, uid,
                 new ArrayList<>(0), details.getText().toString(), activitySize.getValue(), isAutoJoin);
         FirebaseDatabase.getInstance().getReference().child("activity").child(key).setValue(newActivity).addOnCompleteListener(
                 task -> {

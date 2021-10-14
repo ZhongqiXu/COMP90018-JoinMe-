@@ -8,16 +8,16 @@ public class Activity implements Serializable {
 
     private String aid;
     private String title;
-    private Date time;
+    private String datetime;
     private String owner; // uid
     private List<String> participants; // uid of participants
     private String details;
     private int size;
     private boolean autoJoin;
 
-    public Activity(String title, Date time, String owner, List<String> participants, String details, int size, boolean autoJoin) {
+    public Activity(String title, String datetime, String owner, List<String> participants, String details, int size, boolean autoJoin) {
         this.title = title;
-        this.time = time;
+        this.datetime = datetime;
         this.owner = owner;
         this.participants = participants;
         this.details = details;
@@ -41,12 +41,12 @@ public class Activity implements Serializable {
         this.title = title;
     }
 
-    public Date getTime() {
-        return time;
+    public String getDatetime() {
+        return datetime;
     }
 
-    public void setTime(Date time) {
-        this.time = time;
+    public void setDatetime(String datetime) {
+        this.datetime = datetime;
     }
 
     public String getOwner() {
