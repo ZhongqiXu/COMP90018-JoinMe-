@@ -172,20 +172,31 @@ public class NewActivity extends AppCompatActivity implements NavigationBarView.
         String dateTime = date +  ' ' + time;
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        String key = database.getReference("activity").push().getKey();
 
-        final Map<String, Object> dataMap = new HashMap<String, Object>();
-        Activity newActivity = new Activity(title.getText().toString(), dateTime, uid,
-                new ArrayList<>(0), details.getText().toString(), activitySize.getValue(), isAutoJoin);
-        FirebaseDatabase.getInstance().getReference().child("activity").child(key).setValue(newActivity).addOnCompleteListener(
-                task -> {
-                    Toast.makeText(NewActivity.this, "Create activity success.", Toast.LENGTH_SHORT).show();
+        // validate empty fields
+        if (TextUtils.isEmpty(title.getText().toString()))
+            Toast.makeText(NewActivity.this,"Please enter title.",Toast.LENGTH_SHORT).show();
+        else if (TextUtils.isEmpty(date))
+            Toast.makeText(NewActivity.this,"Please enter date.",Toast.LENGTH_SHORT).show();
+        else if (TextUtils.isEmpty(time))
+            Toast.makeText(NewActivity.this,"Please enter time.",Toast.LENGTH_SHORT).show();
+        else if (activitySize.getValue() <= 0)
+            Toast.makeText(NewActivity.this,"activity size must be more than 0.",Toast.LENGTH_SHORT).show();
+        else{
+            String key = database.getReference("activity").push().getKey();
+            Activity newActivity = new Activity(title.getText().toString(), dateTime, uid,
+                    new ArrayList<>(0), details.getText().toString(), activitySize.getValue(), isAutoJoin);
+            FirebaseDatabase.getInstance().getReference().child("activity").child(key).setValue(newActivity).addOnCompleteListener(
+                    task -> {
+                        Toast.makeText(NewActivity.this, "Create activity success.", Toast.LENGTH_SHORT).show();
 
-                    Intent intent = new Intent(NewActivity.this,MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-        );
+                        Intent intent = new Intent(NewActivity.this,MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+            );
+        }
+
 
 
 
@@ -195,6 +206,9 @@ public class NewActivity extends AppCompatActivity implements NavigationBarView.
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         bottomNavigationView.getMenu().findItem(item.getItemId()).setChecked(true);
         switch (item.getItemId()) {
+            case R.id.activities:
+                startActivity(new Intent(this, MainActivity.class));
+                break;
             case R.id.profile:
                 startActivity(new Intent(this, MeActivity.class));
                 break;
