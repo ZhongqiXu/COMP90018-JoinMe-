@@ -13,13 +13,9 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
-import org.w3c.dom.Text;
-
-public class reSetActivity extends AppCompatActivity {
+public class ReSetActivity extends AppCompatActivity {
 
     Button  button;
     TextView re_email;
@@ -41,19 +37,19 @@ public class reSetActivity extends AppCompatActivity {
                 System.out.println("email is "+email);
 
                 if (TextUtils.isEmpty(email))
-                    Toast.makeText(reSetActivity.this,"Please enter email.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ReSetActivity.this,"Please enter email.",Toast.LENGTH_SHORT).show();
                 else {
                     FirebaseAuth.getInstance().sendPasswordResetEmail(email).
                             addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()){
-                                        Toast.makeText(reSetActivity.this,"success",Toast.LENGTH_SHORT);
-                                        startActivity(new Intent(reSetActivity.this,LoginActivity.class));
+                                        Toast.makeText(ReSetActivity.this,"success",Toast.LENGTH_SHORT);
+                                        startActivity(new Intent(ReSetActivity.this,LoginActivity.class));
 
                                     }
                                     else
-                                        Toast.makeText(reSetActivity.this,"fails",Toast.LENGTH_SHORT);
+                                        Toast.makeText(ReSetActivity.this,"fails",Toast.LENGTH_SHORT);
                                 }
                             });
                 }
