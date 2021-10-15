@@ -64,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         activityListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //System.out.println(activityIdList.get(position));
                 FirebaseDatabase.getInstance().getReference().child("activity").child(activityIdList.get(position))
                         .get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                     @Override
@@ -73,12 +72,12 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                             Log.e("firebase", "Error getting data", task.getException());
                         }
                         else {
-
-                            System.out.println("debugggggggggggg "+task.getResult().toString());
+                            Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+                            intent.putExtra("activityInfo", task.getResult().getValue().toString());
+                            startActivity(intent);
                         }
                     }
                 });
-                startActivity(new Intent(MainActivity.this, NewActivity.class));
             }
         });
 

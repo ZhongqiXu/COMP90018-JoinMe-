@@ -184,8 +184,16 @@ public class NewActivity extends AppCompatActivity implements NavigationBarView.
             Toast.makeText(NewActivity.this,"activity size must be more than 0.",Toast.LENGTH_SHORT).show();
         else{
             String key = database.getReference("activity").push().getKey();
-            Activity newActivity = new Activity(title.getText().toString(), dateTime, uid,
-                    new ArrayList<>(0), details.getText().toString(), activitySize.getValue(), isAutoJoin);
+            Activity newActivity = new Activity();
+
+            // setup  attributes
+            newActivity.setTitle(title.getText().toString());
+            newActivity.setDatetime(dateTime);
+            newActivity.setOwner(uid);
+            newActivity.setDetails(details.getText().toString());
+            newActivity.setSize(activitySize.getValue());
+            newActivity.setAutoJoin(isAutoJoin);
+
             FirebaseDatabase.getInstance().getReference().child("activity").child(key).setValue(newActivity).addOnCompleteListener(
                     task -> {
                         Toast.makeText(NewActivity.this, "Create activity success.", Toast.LENGTH_SHORT).show();

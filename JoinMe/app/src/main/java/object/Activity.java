@@ -15,15 +15,7 @@ public class Activity implements Serializable {
     private int size;
     private boolean autoJoin;
 
-    public Activity(String title, String datetime, String owner, List<String> participants, String details, int size, boolean autoJoin) {
-        this.title = title;
-        this.datetime = datetime;
-        this.owner = owner;
-        this.participants = participants;
-        this.details = details;
-        this.size = size;
-        this.autoJoin = autoJoin;
-    }
+    public Activity() {}
 
     public String getAid() {
         return aid;
@@ -87,5 +79,38 @@ public class Activity implements Serializable {
 
     public void setAutoJoin(boolean autoJoin) {
         this.autoJoin = autoJoin;
+    }
+
+    public void stringToActivity(Activity activity, String info){
+        for(String entry : info.split(", ")) {
+            String[] spl = entry.split("=");
+            if (spl.length != 2 ){
+                continue;
+            }
+            String name = spl[0];
+            String value = spl[1];
+            switch (name){
+                case "title":
+                    activity.setTitle(value);
+                    break;
+                case "datetime":
+                    activity.setDatetime(value);
+                    break;
+                case "owner":
+                    activity.setOwner(value);
+                    break;
+                case "details":
+                    activity.setDetails(value);
+                    break;
+                case "size":
+                    activity.setSize(Integer.parseInt(value));
+                    break;
+                case "autoJoin":
+                    activity.setAutoJoin(Boolean.parseBoolean(value));
+                    break;
+
+            }
+
+        }
     }
 }
