@@ -88,8 +88,11 @@ public class MeActivity extends AppCompatActivity implements NavigationBarView.O
                 break;
             case R.id.logout:
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(MeActivity.this,LoginActivity.class));
+                startActivity(new Intent(MeActivity.this, LoginActivity.class));
                 finish();
+                break;
+            case R.id.myActivities:
+                startActivity(new Intent(MeActivity.this, MyActivityListActivity.class));
                 break;
             default:
                 break;

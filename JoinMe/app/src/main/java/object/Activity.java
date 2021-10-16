@@ -2,7 +2,9 @@ package object;
 
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Activity implements Serializable {
 
@@ -108,9 +110,24 @@ public class Activity implements Serializable {
                 case "autoJoin":
                     activity.setAutoJoin(Boolean.parseBoolean(value));
                     break;
-
+                case "aid":
+                    activity.setAid(value);
+                    break;
             }
 
         }
+    }
+
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("aid", aid);
+        result.put("title", title);
+        result.put("autoJoin", autoJoin);
+        result.put("details", details);
+        result.put("size", size);
+        result.put("owner",owner);
+        result.put("datetime",datetime);
+
+        return result;
     }
 }

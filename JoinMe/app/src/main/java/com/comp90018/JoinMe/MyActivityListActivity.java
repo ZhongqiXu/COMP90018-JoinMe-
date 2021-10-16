@@ -13,10 +13,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,10 +29,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
+import object.User;
+
+public class MyActivityListActivity extends AppCompatActivity {
 
     NavigationBarView bottomNavigationView;
-    Button manageActivity;
 
     private ListView activityListView;
     private DatabaseReference databaseReference;
@@ -41,22 +45,9 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_list);
 
-        manageActivity = findViewById(R.id.newActivity);
-
-        manageActivity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, NewActivity.class));
-            }
-        });
-
-        bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setOnItemSelectedListener(this);
-        bottomNavigationView.getMenu().findItem(R.id.activities).setChecked(true);
-
-        adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.activity_list_view, activityList);
+        adapter = new ArrayAdapter<String>(MyActivityListActivity.this, R.layout.activity_list_view1, activityList);
 
         activityListView = (ListView) findViewById(R.id.activity_List);
         activityListView.setAdapter(adapter);
@@ -71,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                             Log.e("firebase", "Error getting data", task.getException());
                         }
                         else {
-                            Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+                            Intent intent = new Intent(MyActivityListActivity.this, MyActivityDetailActivity.class);
                             intent.putExtra("activityInfo", task.getResult().getValue().toString());
                             startActivity(intent);
                         }
@@ -86,9 +77,20 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
                 @SuppressWarnings("unchecked")
                 Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
-                activityList.add((String) map.get("title"));
-                activityIdList.add((String) dataSnapshot.getKey());
 
+                String uid = "";
+                FirebaseAuth auth = FirebaseAuth.getInstance();
+                FirebaseUser user = auth.getCurrentUser();
+                if (user != null) {
+                    uid = user.getUid();
+                }
+                String owner = (String) map.get("owner");
+
+                if (owner.equals(uid)) {
+                    Toast.makeText(MyActivityListActivity.this, (String) map.get("title"),Toast.LENGTH_SHORT).show();
+                    activityList.add((String) map.get("title"));
+                    activityIdList.add((String) dataSnapshot.getKey());
+                }
                 adapter.notifyDataSetChanged();
             }
 
@@ -113,24 +115,6 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
             }
         });
 
-
-
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        bottomNavigationView.getMenu().findItem(item.getItemId()).setChecked(true);
-        switch (item.getItemId()) {
-            case R.id.profile:
-                startActivity(new Intent(this, MeActivity.class));
-                break;
-            case R.id.settings:
-                startActivity(new Intent(this, SettingActivity.class));
-                break;
-            default:
-                break;
-        }
-        return false;
     }
 
 

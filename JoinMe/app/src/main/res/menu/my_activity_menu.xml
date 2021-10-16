@@ -3,17 +3,13 @@
 
 
     <item
-        android:id="@+id/myActivities"
-        android:title="My Activities"/>
-
-    <item
         android:id="@+id/edit"
         android:title="Edit"/>
 
     <item
-        android:id="@+id/logout"
-        android:title="Log Out"/>
-
+        android:id="@+id/delete"
+        android:icon="@color/design_default_color_error"
+        android:title="Delete" />
 
 
 </menu>

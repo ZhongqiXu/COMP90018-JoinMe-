@@ -44,11 +44,11 @@ import java.util.Map;
 import helper.HorizontalNumberPicker;
 import object.Activity;
 
-public class NewActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
+public class EditActivityActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
 
     NavigationBarView bottomNavigationView;
     EditText title, details;
-    Button createActivity;
+    Button edit_confirm;
 
     private TextView datePicker, timePicker;
     private Button datePickerBtn, timePickerBtn;
@@ -58,40 +58,63 @@ public class NewActivity extends AppCompatActivity implements NavigationBarView.
     private boolean isAutoJoin;
     private HorizontalNumberPicker activitySize;
 
+
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
+
     private String date;
     private String time;
+    private String aid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new);
+        setContentView(R.layout.activity_edit_activity);
+
+        Bundle bundle = getIntent().getExtras();
+        String activityInfo = bundle.getString("activityInfo");
+        Activity activity = new Activity();
+        activity.stringToActivity(activity, activityInfo.substring(1, activityInfo.length() - 1));
+
+
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
-
         bottomNavigationView.setOnItemSelectedListener(this);
         bottomNavigationView.getMenu().findItem(R.id.activities).setChecked(true);
 
         title=findViewById(R.id.activity_title);
         details=findViewById(R.id.activity_details);
-        createActivity=findViewById(R.id.create_activity);
+        edit_confirm=findViewById(R.id.edit_confirm);
 
         datePicker = findViewById(R.id.activity_date);
         datePickerBtn = findViewById(R.id.activity_date_btn);
         timePicker = findViewById(R.id.activity_time);
         timePickerBtn = findViewById(R.id.activity_time_btn);
         autoJoinBtn = (ToggleButton) findViewById(R.id.activity_autoJoin_btn);
-
         activitySize = findViewById(R.id.activity_size_btn);
 
+        date = activity.getDatetime().split(" ")[0];
+        time = activity.getDatetime().split(" ")[1];
 
-        createActivity.setOnClickListener(new View.OnClickListener() {
+        title.setText(activity.getTitle());
+        details.setText(activity.getDetails());
+        datePicker.setText(date);
+        timePicker.setText(time);
+        activitySize.setValue(activity.getSize());
+        aid = activity.getAid();
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference().child("activity").child(aid);
+
+
+        edit_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (TextUtils.isEmpty(title.getText().toString()))
-                    Toast.makeText(NewActivity.this, "Please enter title.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditActivityActivity.this, "Please enter title.", Toast.LENGTH_SHORT).show();
                 else {
                     try {
-                        newActivity();
+                        EditActivity();
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -108,7 +131,7 @@ public class NewActivity extends AppCompatActivity implements NavigationBarView.
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog dialog = new DatePickerDialog(
-                        NewActivity.this,
+                        EditActivityActivity.this,
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         onDateSetListener,
                         year, month, day);
@@ -134,7 +157,7 @@ public class NewActivity extends AppCompatActivity implements NavigationBarView.
                 int min = calendar.get(Calendar.MINUTE);
 
                 TimePickerDialog dialog = new TimePickerDialog(
-                        NewActivity.this,
+                        EditActivityActivity.this,
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         onTimeSetListener,
                         hour, min, true);
@@ -161,7 +184,7 @@ public class NewActivity extends AppCompatActivity implements NavigationBarView.
 
     }
 
-    public void newActivity() throws ParseException {
+    public void EditActivity() throws ParseException {
         String uid = "";
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
@@ -175,15 +198,14 @@ public class NewActivity extends AppCompatActivity implements NavigationBarView.
 
         // validate empty fields
         if (TextUtils.isEmpty(title.getText().toString()))
-            Toast.makeText(NewActivity.this,"Please enter title.",Toast.LENGTH_SHORT).show();
+            Toast.makeText(EditActivityActivity.this,"Please enter title.",Toast.LENGTH_SHORT).show();
         else if (TextUtils.isEmpty(date))
-            Toast.makeText(NewActivity.this,"Please enter date.",Toast.LENGTH_SHORT).show();
+            Toast.makeText(EditActivityActivity.this,"Please enter date.",Toast.LENGTH_SHORT).show();
         else if (TextUtils.isEmpty(time))
-            Toast.makeText(NewActivity.this,"Please enter time.",Toast.LENGTH_SHORT).show();
+            Toast.makeText(EditActivityActivity.this,"Please enter time.",Toast.LENGTH_SHORT).show();
         else if (activitySize.getValue() <= 0)
-            Toast.makeText(NewActivity.this,"activity size must be more than 0.",Toast.LENGTH_SHORT).show();
+            Toast.makeText(EditActivityActivity.this,"activity size must be more than 0.",Toast.LENGTH_SHORT).show();
         else{
-            String key = database.getReference("activity").push().getKey();
             Activity newActivity = new Activity();
 
             // setup  attributes
@@ -193,13 +215,15 @@ public class NewActivity extends AppCompatActivity implements NavigationBarView.
             newActivity.setDetails(details.getText().toString());
             newActivity.setSize(activitySize.getValue());
             newActivity.setAutoJoin(isAutoJoin);
-            newActivity.setAid(key);
+            newActivity.setAid(aid);
 
-            FirebaseDatabase.getInstance().getReference().child("activity").child(key).setValue(newActivity).addOnCompleteListener(
+            Map<String, Object> activityValues = newActivity.toMap();
+
+            databaseReference.updateChildren(activityValues).addOnCompleteListener(
                     task -> {
-                        Toast.makeText(NewActivity.this, "Create activity success.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditActivityActivity.this, "Edit activity success.", Toast.LENGTH_SHORT).show();
 
-                        Intent intent = new Intent(NewActivity.this,MainActivity.class);
+                        Intent intent = new Intent(EditActivityActivity.this, MyActivityListActivity.class);
                         startActivity(intent);
                         finish();
                     }

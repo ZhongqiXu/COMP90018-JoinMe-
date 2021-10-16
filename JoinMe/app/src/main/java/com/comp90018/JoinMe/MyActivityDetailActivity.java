@@ -1,10 +1,14 @@
 package com.comp90018.JoinMe;
 
+import android.accounts.AccountManagerFuture;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -27,20 +32,23 @@ import java.util.Objects;
 import helper.HorizontalNumberPicker;
 import object.Activity;
 
-public class DetailActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
+public class MyActivityDetailActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
     NavigationBarView bottomNavigationView;
 
     TextView host, title, details, dateTime, autoEnabled, size;
     Button back;
+    Bundle bundle;
+    String activityInfo;
+    Button edit;
+    Activity activity = new Activity();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
+        setContentView(R.layout.activity_my_activity);
 
-        Bundle bundle = getIntent().getExtras();
-        String activityInfo = bundle.getString("activityInfo");
-        Activity activity = new Activity();
+        bundle = getIntent().getExtras();
+        activityInfo = bundle.getString("activityInfo");
         activity.stringToActivity(activity, activityInfo.substring(1, activityInfo.length() - 1));
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
@@ -78,10 +86,69 @@ public class DetailActivity extends AppCompatActivity implements NavigationBarVi
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(DetailActivity.this, MainActivity.class));
+                startActivity(new Intent(MyActivityDetailActivity.this, MyActivityListActivity.class));
+            }
+        });
+
+        edit = findViewById(R.id.edit);
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MyActivityDetailActivity.this, EditActivityActivity.class);
+                intent.putExtra("activityInfo", activityInfo);
+                startActivity(intent);
             }
         });
     }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.my_activity_menu,menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.edit:
+                Intent intent = new Intent(MyActivityDetailActivity.this, EditActivityActivity.class);
+                intent.putExtra("activityInfo", activityInfo);
+                startActivity(intent);
+                break;
+            case R.id.delete:
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+                alertDialog
+                        .setTitle("title")
+                        .setMessage("Are you sure you want to delete this activity?")
+                        .setPositiveButton("OK",
+                                new DialogInterface.OnClickListener() {
+
+                                    @Override
+                                    public void onClick(DialogInterface dialog,
+                                                        int which) {
+                                        FirebaseDatabase.getInstance().getReference().child("activity").child(activity.getAid()).removeValue();
+                                        Intent intent = new Intent(MyActivityDetailActivity.this,MyActivityListActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                })
+                        .setNegativeButton("Cancel",
+                                new DialogInterface.OnClickListener() {
+
+                                    @Override
+                                    public void onClick(DialogInterface dialog,
+                                                        int which) {
+
+                                    }
+                                }).show();
+                break;
+            default:
+                break;
+        }
+        return true;
+
+    }
+
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -101,4 +168,5 @@ public class DetailActivity extends AppCompatActivity implements NavigationBarVi
         }
         return false;
     }
+
 }
