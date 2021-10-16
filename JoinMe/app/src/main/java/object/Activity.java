@@ -3,12 +3,15 @@ package object;
 
 import java.io.Serializable;
 import java.util.List;
+import com.google.android.gms.maps.model.LatLng;
 
 public class Activity implements Serializable {
 
     private String aid;
     private String title;
     private String datetime;
+    private String placeName;
+    private LatLng LatLng;
     private String owner; // uid
     private List<String> participants; // uid of participants
     private String details;
@@ -79,6 +82,22 @@ public class Activity implements Serializable {
 
     public void setAutoJoin(boolean autoJoin) {
         this.autoJoin = autoJoin;
+    }
+
+    public String getPlaceName() {
+        return placeName;
+    }
+
+    public void setPlaceName(String placeName) {
+        this.placeName = placeName;
+    }
+
+    public com.google.android.gms.maps.model.LatLng getLatLng() {
+        return LatLng;
+    }
+
+    public void setLatLng(com.google.android.gms.maps.model.LatLng latLng) {
+        LatLng = latLng;
     }
 
     public void stringToActivity(Activity activity, String info){
