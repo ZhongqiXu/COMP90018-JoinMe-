@@ -22,6 +22,7 @@ import android.widget.ToggleButton;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationBarView;
@@ -50,8 +51,8 @@ public class NewActivity extends AppCompatActivity implements NavigationBarView.
     EditText title, details;
     Button createActivity;
 
-    private TextView datePicker, timePicker;
-    private Button datePickerBtn, timePickerBtn;
+    private TextView datePicker, timePicker, location;
+    private Button datePickerBtn, timePickerBtn, locationBtn;
     private TimePickerDialog.OnTimeSetListener onTimeSetListener;
     private DatePickerDialog.OnDateSetListener onDateSetListener;
     private ToggleButton autoJoinBtn;
@@ -60,6 +61,9 @@ public class NewActivity extends AppCompatActivity implements NavigationBarView.
 
     private String date;
     private String time;
+
+    private String locationName;
+    private LatLng locationLatLng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,26 +83,41 @@ public class NewActivity extends AppCompatActivity implements NavigationBarView.
         datePickerBtn = findViewById(R.id.activity_date_btn);
         timePicker = findViewById(R.id.activity_time);
         timePickerBtn = findViewById(R.id.activity_time_btn);
+        location = findViewById(R.id.activity_location);
+        locationBtn = findViewById(R.id.activity_location_btn);
         autoJoinBtn = (ToggleButton) findViewById(R.id.activity_autoJoin_btn);
 
         activitySize = findViewById(R.id.activity_size_btn);
 
 
+        // create new activity
         createActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (TextUtils.isEmpty(title.getText().toString()))
-                    Toast.makeText(NewActivity.this, "Please enter title.", Toast.LENGTH_SHORT).show();
-                else {
-                    try {
-                        newActivity();
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
+                try {
+                    newActivity();
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
             }
         });
 
+
+        // set location
+        locationBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: replace with action direct to map
+                Intent intent = new Intent(NewActivity.this, MainActivity.class);
+                startActivity(intent);
+                location = null;
+                locationName =  "";
+                locationLatLng =  new LatLng(0, 0);
+            }
+        });
+        // TODO: set onDataSetListener for location, require result of querying location
+
+        // set date
         datePickerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,6 +136,7 @@ public class NewActivity extends AppCompatActivity implements NavigationBarView.
 
             }
         });
+        // change text in date field
         onDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -126,6 +146,7 @@ public class NewActivity extends AppCompatActivity implements NavigationBarView.
             }
         };
 
+        // set time
         timePickerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -143,7 +164,7 @@ public class NewActivity extends AppCompatActivity implements NavigationBarView.
 
             }
         });
-
+        // change text in time field
         onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -152,6 +173,7 @@ public class NewActivity extends AppCompatActivity implements NavigationBarView.
             }
         };
 
+        // set enable auto join button
         autoJoinBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 autoJoinBtn.setChecked(isChecked);
@@ -161,6 +183,7 @@ public class NewActivity extends AppCompatActivity implements NavigationBarView.
 
     }
 
+    // create activity
     public void newActivity() throws ParseException {
         String uid = "";
         FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -180,6 +203,8 @@ public class NewActivity extends AppCompatActivity implements NavigationBarView.
             Toast.makeText(NewActivity.this,"Please enter date.",Toast.LENGTH_SHORT).show();
         else if (TextUtils.isEmpty(time))
             Toast.makeText(NewActivity.this,"Please enter time.",Toast.LENGTH_SHORT).show();
+        else if (TextUtils.isEmpty(time))
+            Toast.makeText(NewActivity.this,"Please enter time.",Toast.LENGTH_SHORT).show();
         else if (activitySize.getValue() <= 0)
             Toast.makeText(NewActivity.this,"activity size must be more than 0.",Toast.LENGTH_SHORT).show();
         else{
@@ -193,7 +218,8 @@ public class NewActivity extends AppCompatActivity implements NavigationBarView.
             newActivity.setDetails(details.getText().toString());
             newActivity.setSize(activitySize.getValue());
             newActivity.setAutoJoin(isAutoJoin);
-            newActivity.setAid(key);
+            newActivity.setPlaceName(locationName);
+            newActivity.setLatLng(locationLatLng);
 
             FirebaseDatabase.getInstance().getReference().child("activity").child(key).setValue(newActivity).addOnCompleteListener(
                     task -> {
