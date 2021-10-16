@@ -212,6 +212,8 @@ public class NewActivity extends AppCompatActivity implements NavigationBarView.
             Activity newActivity = new Activity();
 
             // setup  attributes
+
+            newActivity.setAid(key);
             newActivity.setTitle(title.getText().toString());
             newActivity.setDatetime(dateTime);
             newActivity.setOwner(uid);

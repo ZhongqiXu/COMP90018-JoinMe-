@@ -2,7 +2,10 @@ package object;
 
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import com.google.android.gms.maps.model.LatLng;
 
 public class Activity implements Serializable {
@@ -127,9 +130,27 @@ public class Activity implements Serializable {
                 case "autoJoin":
                     activity.setAutoJoin(Boolean.parseBoolean(value));
                     break;
+                case "placeName":
+                    activity.setPlaceName(value);
+                case "aid":
+                    activity.setAid(value);
 
             }
 
         }
+    }
+
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("aid", aid);
+        result.put("autoJoin", autoJoin);
+        result.put("title", title);
+        result.put("datetime", datetime);
+        result.put("details", details);
+        result.put("size", size);
+        result.put("placeName", placeName);
+        result.put("LatLng", LatLng);
+        result.put("owner", owner);
+        return result;
     }
 }

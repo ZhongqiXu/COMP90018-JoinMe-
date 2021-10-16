@@ -22,6 +22,7 @@ import android.widget.ToggleButton;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationBarView;
@@ -50,14 +51,13 @@ public class EditActivityActivity extends AppCompatActivity implements Navigatio
     EditText title, details;
     Button edit_confirm;
 
-    private TextView datePicker, timePicker;
-    private Button datePickerBtn, timePickerBtn;
+    private TextView datePicker, timePicker, location;
+    private Button datePickerBtn, timePickerBtn, locationBtn;
     private TimePickerDialog.OnTimeSetListener onTimeSetListener;
     private DatePickerDialog.OnDateSetListener onDateSetListener;
     private ToggleButton autoJoinBtn;
     private boolean isAutoJoin;
     private HorizontalNumberPicker activitySize;
-
 
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
@@ -65,6 +65,9 @@ public class EditActivityActivity extends AppCompatActivity implements Navigatio
     private String date;
     private String time;
     private String aid;
+
+    private String locationName;
+    private LatLng locationLatLng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,30 +79,32 @@ public class EditActivityActivity extends AppCompatActivity implements Navigatio
         Activity activity = new Activity();
         activity.stringToActivity(activity, activityInfo.substring(1, activityInfo.length() - 1));
 
-
-
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(this);
         bottomNavigationView.getMenu().findItem(R.id.activities).setChecked(true);
 
         title=findViewById(R.id.activity_title);
         details=findViewById(R.id.activity_details);
-        edit_confirm=findViewById(R.id.edit_confirm);
+        edit_confirm=findViewById(R.id.create_activity);
 
         datePicker = findViewById(R.id.activity_date);
         datePickerBtn = findViewById(R.id.activity_date_btn);
         timePicker = findViewById(R.id.activity_time);
         timePickerBtn = findViewById(R.id.activity_time_btn);
+        location = findViewById(R.id.activity_location);
+        locationBtn = findViewById(R.id.activity_location_btn);
         autoJoinBtn = (ToggleButton) findViewById(R.id.activity_autoJoin_btn);
+
         activitySize = findViewById(R.id.activity_size_btn);
 
         date = activity.getDatetime().split(" ")[0];
         time = activity.getDatetime().split(" ")[1];
 
         title.setText(activity.getTitle());
-        details.setText(activity.getDetails());
         datePicker.setText(date);
         timePicker.setText(time);
+        location.setText(activity.getPlaceName());
+        details.setText(activity.getDetails());
         activitySize.setValue(activity.getSize());
         aid = activity.getAid();
 
@@ -107,21 +112,20 @@ public class EditActivityActivity extends AppCompatActivity implements Navigatio
         databaseReference = firebaseDatabase.getReference().child("activity").child(aid);
 
 
+        // edit activity
         edit_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (TextUtils.isEmpty(title.getText().toString()))
-                    Toast.makeText(EditActivityActivity.this, "Please enter title.", Toast.LENGTH_SHORT).show();
-                else {
-                    try {
-                        EditActivity();
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
+                try {
+                    EditActivity();
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
             }
         });
 
+
+        // set date
         datePickerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -140,6 +144,7 @@ public class EditActivityActivity extends AppCompatActivity implements Navigatio
 
             }
         });
+        // change text in date field
         onDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -149,6 +154,7 @@ public class EditActivityActivity extends AppCompatActivity implements Navigatio
             }
         };
 
+        // set time
         timePickerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -166,7 +172,7 @@ public class EditActivityActivity extends AppCompatActivity implements Navigatio
 
             }
         });
-
+        // change text in time field
         onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -175,6 +181,7 @@ public class EditActivityActivity extends AppCompatActivity implements Navigatio
             }
         };
 
+        // set enable auto join button
         autoJoinBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 autoJoinBtn.setChecked(isChecked);
@@ -184,6 +191,7 @@ public class EditActivityActivity extends AppCompatActivity implements Navigatio
 
     }
 
+    // Edit activity
     public void EditActivity() throws ParseException {
         String uid = "";
         FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -203,6 +211,8 @@ public class EditActivityActivity extends AppCompatActivity implements Navigatio
             Toast.makeText(EditActivityActivity.this,"Please enter date.",Toast.LENGTH_SHORT).show();
         else if (TextUtils.isEmpty(time))
             Toast.makeText(EditActivityActivity.this,"Please enter time.",Toast.LENGTH_SHORT).show();
+        else if (TextUtils.isEmpty(locationName))
+            Toast.makeText(EditActivityActivity.this,"Please enter location.",Toast.LENGTH_SHORT).show();
         else if (activitySize.getValue() <= 0)
             Toast.makeText(EditActivityActivity.this,"activity size must be more than 0.",Toast.LENGTH_SHORT).show();
         else{
@@ -215,6 +225,8 @@ public class EditActivityActivity extends AppCompatActivity implements Navigatio
             newActivity.setDetails(details.getText().toString());
             newActivity.setSize(activitySize.getValue());
             newActivity.setAutoJoin(isAutoJoin);
+            newActivity.setPlaceName(locationName);
+            newActivity.setLatLng(locationLatLng);
             newActivity.setAid(aid);
 
             Map<String, Object> activityValues = newActivity.toMap();

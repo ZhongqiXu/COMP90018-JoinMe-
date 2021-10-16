@@ -35,7 +35,7 @@ import object.Activity;
 public class MyActivityDetailActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
     NavigationBarView bottomNavigationView;
 
-    TextView host, title, details, dateTime, autoEnabled, size;
+    TextView host, title, details, dateTime, autoEnabled, size, placeName;
     Button back;
     Bundle bundle;
     String activityInfo;
@@ -59,6 +59,7 @@ public class MyActivityDetailActivity extends AppCompatActivity implements Navig
         title = findViewById(R.id.activity_title);
         details = findViewById(R.id.activity_details);
         dateTime = findViewById(R.id.activity_date_view);
+        placeName = findViewById(R.id.activity_location_view);
 
         autoEnabled = findViewById(R.id.activity_autoJoin_view);
         size = findViewById(R.id.activity_size_view);
@@ -67,6 +68,7 @@ public class MyActivityDetailActivity extends AppCompatActivity implements Navig
         details.setText(activity.getDetails());
         dateTime.setText(activity.getDatetime());
         autoEnabled.setText(String.valueOf(activity.isAutoJoin()));
+        placeName.setText(activity.getPlaceName());
         size.setText(String.valueOf(activity.getSize()));
 
         FirebaseDatabase.getInstance().getReference().child("user").child(activity.getOwner()).child("userName")
