@@ -10,16 +10,13 @@
 
 
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/mainFields"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView">
+            android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/settingText"
@@ -119,26 +116,6 @@
                 android:orientation="horizontal"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp">
-
-                <TextView
-                    android:id="@+id/activity_location"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Location"/>
-                <Button
-                    android:id="@+id/activity_location_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Location"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp">
                 <TextView
                     android:id="@+id/activity_autoJoin"
                     android:layout_width="0dp"
@@ -179,8 +156,6 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="30dp"
-                android:layout_marginBottom="30dp"
-                app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
                 android:text="create activity">
             </Button>
 
