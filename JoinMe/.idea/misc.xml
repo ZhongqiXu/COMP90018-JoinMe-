@@ -9,10 +9,11 @@
         <entry key="app/src/main/res/layout/activity_list.xml" value="0.13234347618705175" />
         <entry key="app/src/main/res/layout/activity_list_view.xml" value="0.19519927536231885" />
         <entry key="app/src/main/res/layout/activity_list_view1.xml" value="0.19519927536231885" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.1956521739130435" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19519927536231885" />
         <entry key="app/src/main/res/layout/activity_me.xml" value="0.19519927536231885" />
         <entry key="app/src/main/res/layout/activity_my_activity.xml" value="0.19519927536231885" />
-        <entry key="app/src/main/res/layout/activity_new.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_new.xml" value="0.375" />
         <entry key="app/src/main/res/layout/horizontal_number_picker.xml" value="0.19519927536231885" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.23541666666666666" />
         <entry key="app/src/main/res/menu/me_menu.xml" value="0.23541666666666666" />

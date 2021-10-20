@@ -85,7 +85,7 @@ public class EditActivityActivity extends AppCompatActivity implements Navigatio
 
         title=findViewById(R.id.activity_title);
         details=findViewById(R.id.activity_details);
-        edit_confirm=findViewById(R.id.create_activity);
+        edit_confirm=findViewById(R.id.edit_confirm);
 
         datePicker = findViewById(R.id.activity_date);
         datePickerBtn = findViewById(R.id.activity_date_btn);
@@ -124,6 +124,19 @@ public class EditActivityActivity extends AppCompatActivity implements Navigatio
             }
         });
 
+        // set location
+        locationBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: replace with action direct to map
+                // Intent intent = new Intent(EditActivityActivity.this, MainActivity.class);
+                // startActivity(intent);
+                location = null;
+                locationName =  "";
+                locationLatLng =  new LatLng(0, 0);
+            }
+        });
+        // TODO: set onDataSetListener for location, require result of querying location
 
         // set date
         datePickerBtn.setOnClickListener(new View.OnClickListener() {
