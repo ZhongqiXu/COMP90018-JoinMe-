@@ -2,9 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.comp90018.JoinMe">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -13,19 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.JoinMe">
         <activity
-            android:name=".MarkOnMap"
+            android:name=".ImageShowing"
             android:exported="true" />
         <activity
-            android:name=".MapActivity"
+            android:name=".ChatWindow"
             android:exported="true" />
         <activity
-            android:name=".PermissionCheck"
+            android:name=".ChatActivity"
             android:exported="true" />
-
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBQmvewrebqRmPDQL1E1SEPA3J29EhdlcM" />
-
         <activity android:name=".MyActivityListActivity" />
         <activity android:name=".MyActivityDetailActivity" />
         <activity android:name=".EditActivityActivity" />
