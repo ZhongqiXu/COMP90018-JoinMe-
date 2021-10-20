@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ChatWindow">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerviewofspecific"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/getmessage"
+        android:padding="5dp" />
+
+    <ImageButton
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="5dp"
+        android:paddingLeft="20dp"
+        android:paddingEnd="10dp"
+        android:paddingRight="10dp"
+        android:layout_marginRight="0dp"
+        android:src="@drawable/ic_baseline_camera_alt_24"
+        app:tint="@color/black"
+        android:scaleType="centerCrop"
+        android:backgroundTint="@android:color/transparent"
+        android:id="@+id/picbtn"
+        android:layout_gravity="center"
+        android:padding="5dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Type a message"
+        android:layout_marginLeft="0dp"
+        android:layout_marginBottom="5dp"
+        android:layout_toRightOf="@+id/picbtn"
+        android:paddingLeft="20dp"
+        android:paddingEnd="10dp"
+        android:paddingRight="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="55dp"
+        android:textColor="@color/black"
+        android:id="@+id/getmessage"
+        android:textSize="18sp"
+        android:textAlignment="textStart"
+        android:textColorHint="#A8A7A7"
+        android:background="@drawable/messagebackground"
+        android:layout_gravity="start" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:id="@+id/cardviewofsendmessage"
+        android:layout_toRightOf="@+id/getmessage"
+        android:layout_marginLeft="-50dp"
+        android:layout_marginBottom="5dp"
+        android:backgroundTint="#0D8F80"
+        android:layout_alignParentBottom="true"
+        app:cardCornerRadius="45dp">
+
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_baseline_arrow_forward_24"
+            app:tint="@color/white"
+            android:scaleType="centerCrop"
+            android:backgroundTint="@android:color/transparent"
+            android:background="@android:color/transparent"
+            android:id="@+id/imageviewsendmessage"
+            android:layout_gravity="center"
+            android:padding="5dp"/>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

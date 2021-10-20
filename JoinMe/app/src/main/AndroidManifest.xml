@@ -9,15 +9,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.JoinMe">
-        <activity android:name=".MyActivityListActivity"/>
-        <activity android:name=".MyActivityDetailActivity"/>
-        <activity android:name=".EditActivityActivity"/>
-        <activity android:name=".SettingActivity"/>
-        <activity android:name=".MeActivity"/>
+        <activity
+            android:name=".ImageShowing"
+            android:exported="true" />
+        <activity
+            android:name=".ChatWindow"
+            android:exported="true" />
+        <activity
+            android:name=".ChatActivity"
+            android:exported="true" />
+        <activity android:name=".MyActivityListActivity" />
+        <activity android:name=".MyActivityDetailActivity" />
+        <activity android:name=".EditActivityActivity" />
+        <activity android:name=".SettingActivity" />
+        <activity android:name=".MeActivity" />
         <activity android:name=".ReSetActivity" />
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".NewActivity"/>
-        <activity android:name=".DetailActivity"/>
+        <activity android:name=".NewActivity" />
+        <activity android:name=".DetailActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
