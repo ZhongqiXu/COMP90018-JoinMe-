@@ -21,6 +21,15 @@
         <activity
             android:name=".ChatActivity"
             android:exported="true" />
+        <activity
+            android:name=".PermissionCheck"
+            android:exported="true" />
+        <activity
+            android:name=".MapActivity"
+            android:exported="true" />
+        <activity
+            android:name=".MarkOnMap"
+            android:exported="true" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
