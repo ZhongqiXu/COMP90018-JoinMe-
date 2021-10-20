@@ -186,7 +186,15 @@
                 android:layout_height="1dp"
                 android:background="#303F9F"/>
 
-
+            <Button
+                android:id="@+id/button_map"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@color/green"
+                android:textColor="#FFFFFF"
+                android:text="Map"
+                android:textAllCaps="false"/>
 
         </LinearLayout>
 

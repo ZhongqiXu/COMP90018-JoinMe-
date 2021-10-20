@@ -62,8 +62,8 @@ public class NewActivity extends AppCompatActivity implements NavigationBarView.
     private String date;
     private String time;
 
-    private String locationName;
-    private LatLng locationLatLng;
+    static public String locationName;
+    static public LatLng locationLatLng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +89,12 @@ public class NewActivity extends AppCompatActivity implements NavigationBarView.
 
         activitySize = findViewById(R.id.activity_size_btn);
 
+        //locationname.findViewById(R.id.activity_location_name);
+        if(locationName != null)
+            location.setText(locationName);
+        //else
+        //    locationname.setText(locationName);
+
 
         // create new activity
         createActivity.setOnClickListener(new View.OnClickListener() {
@@ -108,11 +114,11 @@ public class NewActivity extends AppCompatActivity implements NavigationBarView.
             @Override
             public void onClick(View v) {
                 // TODO: replace with action direct to map
-                Intent intent = new Intent(NewActivity.this, MainActivity.class);
+                Intent intent = new Intent(NewActivity.this, MapActivity.class);
                 startActivity(intent);
-                location = null;
-                locationName =  "";
-                locationLatLng =  new LatLng(0, 0);
+                //location = null;
+                //locationName =  "";
+                //locationLatLng =  new LatLng(0, 0);
             }
         });
         // TODO: set onDataSetListener for location, require result of querying location

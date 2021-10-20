@@ -85,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
 
                             Toast.makeText(LoginActivity.this, "Authentication success.",
                                     Toast.LENGTH_SHORT).show();
-                            Intent intent= new Intent(LoginActivity.this,MeActivity.class);
+                            Intent intent= new Intent(LoginActivity.this,PermissionCheck.class);
                             startActivity(intent);
                             finish();
 

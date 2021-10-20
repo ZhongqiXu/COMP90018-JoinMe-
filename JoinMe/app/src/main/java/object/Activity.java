@@ -100,7 +100,7 @@ public class Activity implements Serializable {
     }
 
     public void setLatLng(com.google.android.gms.maps.model.LatLng latLng) {
-        LatLng = latLng;
+        this.LatLng = latLng;
     }
 
     public void stringToActivity(Activity activity, String info){
