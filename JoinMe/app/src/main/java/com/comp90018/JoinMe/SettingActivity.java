@@ -17,6 +17,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,13 +51,17 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import helper.HorizontalNumberPicker;
 import object.User;
 
 public class SettingActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
 
     FirebaseAuth mAuth;
-    TextView set_name,set_gender,set_age,set_brief;
+    TextView set_name,set_brief;
     Button set_btn_submit;
+    RadioGroup genderSet;
+    RadioButton btn_gender,btn_male,btn_female;
+    private HorizontalNumberPicker age;
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
@@ -76,9 +82,13 @@ public class SettingActivity extends AppCompatActivity implements NavigationBarV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
-        set_age=findViewById(R.id.setting_age);
+        age=findViewById(R.id.setting_age);
         set_name=findViewById(R.id.setting_name);
-        set_gender=findViewById(R.id.setting_gender);
+
+        genderSet=findViewById(R.id.radioSex);
+        btn_male = findViewById(R.id.radioMale);
+        btn_female = findViewById(R.id.radioFemale);
+
         set_brief = findViewById(R.id.setting_brief);
         set_btn_submit = findViewById(R.id.setting_submit);
         //added by chatting
@@ -118,8 +128,12 @@ public class SettingActivity extends AppCompatActivity implements NavigationBarV
         set_btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HashMap updateUser = update(set_name.getText().toString(),set_age.getText().toString(),
-                        set_gender.getText().toString(), set_brief.getText().toString());
+
+                int selectId=genderSet.getCheckedRadioButtonId();
+                btn_gender = (RadioButton) findViewById(selectId);
+
+                HashMap updateUser = update(set_name.getText().toString(),String.valueOf(age.getValue()),
+                        btn_gender.getText().toString(), set_brief.getText().toString());
 
                 databaseReference.updateChildren(updateUser).addOnCompleteListener(new OnCompleteListener() {
                     @Override
@@ -184,9 +198,26 @@ public class SettingActivity extends AppCompatActivity implements NavigationBarV
 
     public void bind(User user){
         set_name.setText(user.getUserName());
-        set_gender.setText(user.getGender());
-        set_brief.setText(user.getBrief());
-        set_age.setText(user.getAge());
+
+        if (user.getGender()==null){
+            btn_female.setChecked(false);
+            btn_male.setChecked(false);
+        }
+        else if (user.getGender().equals("Male")){
+            btn_male.setChecked(true);
+        }else if (user.getGender().equals("Female"))
+            btn_female.setChecked(true);
+
+
+        if (user.getBrief()==null){
+            set_brief.setText("");
+        }else
+            set_brief.setText(user.getBrief());
+
+        if (user.getAge()==null)
+            age.setValue(0);
+        else
+            age.setValue(Integer.parseInt(user.getAge()));
     }
 
     public HashMap update(String name,String age,String gender,String brief){
