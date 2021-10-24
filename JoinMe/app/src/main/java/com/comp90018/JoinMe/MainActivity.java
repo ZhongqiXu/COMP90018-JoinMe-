@@ -9,9 +9,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -24,7 +26,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
+
+import object.Activity;
 
 public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
 
@@ -72,7 +77,8 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                         }
                         else {
                             Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-                            intent.putExtra("activityInfo", task.getResult().getValue().toString());
+                            HashMap activity = (HashMap) task.getResult().getValue();
+                            intent.putExtra("activityInfo", activity);
                             startActivity(intent);
                         }
                     }
@@ -88,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                 Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
                 activityList.add((String) map.get("title"));
                 activityIdList.add((String) dataSnapshot.getKey());
+                setListViewHeightBasedOnChildren(activityListView);
 
                 adapter.notifyDataSetChanged();
             }
@@ -113,8 +120,26 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
             }
         });
 
+    }
+    public void setListViewHeightBasedOnChildren(ListView activityListView) {
+        ListAdapter listAdapter = activityListView.getAdapter();
+        if (listAdapter == null) {
+            //pre-condition
+            return;
+        }
 
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, activityListView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
 
+        ViewGroup.LayoutParams params = activityListView.getLayoutParams();
+        params.height = totalHeight + (activityListView.getDividerHeight() * (listAdapter.getCount() - 1))
+                + manageActivity.getHeight() + bottomNavigationView.getHeight();
+        activityListView.setLayoutParams(params);
+        activityListView.requestLayout();
     }
 
     @Override
@@ -129,7 +154,6 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                 break;
             case R.id.chats:
                 startActivity(new Intent(this, ChatActivity.class));
-//                startActivity(new Intent(this, ChatActivity.class));
                 break;
             default:
                 break;

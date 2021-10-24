@@ -26,6 +26,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -38,9 +39,9 @@ public class MyActivityDetailActivity extends AppCompatActivity implements Navig
     TextView host, title, details, dateTime, autoEnabled, size, placeName;
     Button back;
     Bundle bundle;
-    String activityInfo;
     Button edit;
     Activity activity = new Activity();
+    HashMap activityInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +49,8 @@ public class MyActivityDetailActivity extends AppCompatActivity implements Navig
         setContentView(R.layout.activity_my_activity);
 
         bundle = getIntent().getExtras();
-        activityInfo = bundle.getString("activityInfo");
-        activity.stringToActivity(activity, activityInfo.substring(1, activityInfo.length() - 1));
+        activityInfo = (HashMap) bundle.get("activityInfo");
+        activity.mapToActivity(activity, activityInfo);
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(this);

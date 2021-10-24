@@ -210,6 +210,9 @@ public class SettingActivity extends AppCompatActivity implements NavigationBarV
             case R.id.activities:
                 startActivity(new Intent(this, MainActivity.class));
                 break;
+            case R.id.chats:
+                startActivity(new Intent(this, ChatActivity.class));
+                break;
             default:
                 break;
         }

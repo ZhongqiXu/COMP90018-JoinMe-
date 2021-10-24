@@ -27,6 +27,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import object.User;
@@ -63,7 +64,8 @@ public class MyActivityListActivity extends AppCompatActivity {
                         }
                         else {
                             Intent intent = new Intent(MyActivityListActivity.this, MyActivityDetailActivity.class);
-                            intent.putExtra("activityInfo", task.getResult().getValue().toString());
+                            HashMap activity = (HashMap) task.getResult().getValue();
+                            intent.putExtra("activityInfo", activity);
                             startActivity(intent);
                         }
                     }

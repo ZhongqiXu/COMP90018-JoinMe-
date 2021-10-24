@@ -75,9 +75,9 @@ public class EditActivityActivity extends AppCompatActivity implements Navigatio
         setContentView(R.layout.activity_edit_activity);
 
         Bundle bundle = getIntent().getExtras();
-        String activityInfo = bundle.getString("activityInfo");
+        HashMap activityInfo = (HashMap) bundle.get("activityInfo");
         Activity activity = new Activity();
-        activity.stringToActivity(activity, activityInfo.substring(1, activityInfo.length() - 1));
+        activity.mapToActivity(activity, activityInfo);
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(this);

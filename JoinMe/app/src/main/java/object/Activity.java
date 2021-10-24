@@ -2,9 +2,11 @@ package object;
 
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -17,6 +19,7 @@ public class Activity implements Serializable {
     private LatLng LatLng;
     private String owner; // uid
     private List<String> participants; // uid of participants
+    private List<String> candidates; // uid of candidates
     private String details;
     private int size;
     private boolean autoJoin;
@@ -63,6 +66,14 @@ public class Activity implements Serializable {
         this.participants = participants;
     }
 
+    public List<String> getCandidates() {
+        return candidates;
+    }
+
+    public void setCandidates(List<String> candidates) {
+        this.candidates = candidates;
+    }
+
     public String getDetails() {
         return details;
     }
@@ -103,40 +114,24 @@ public class Activity implements Serializable {
         this.LatLng = latLng;
     }
 
-    public void stringToActivity(Activity activity, String info){
-        for(String entry : info.split(", ")) {
-            String[] spl = entry.split("=");
-            if (spl.length != 2 ){
-                continue;
-            }
-            String name = spl[0];
-            String value = spl[1];
-            switch (name){
-                case "title":
-                    activity.setTitle(value);
-                    break;
-                case "datetime":
-                    activity.setDatetime(value);
-                    break;
-                case "owner":
-                    activity.setOwner(value);
-                    break;
-                case "details":
-                    activity.setDetails(value);
-                    break;
-                case "size":
-                    activity.setSize(Integer.parseInt(value));
-                    break;
-                case "autoJoin":
-                    activity.setAutoJoin(Boolean.parseBoolean(value));
-                    break;
-                case "placeName":
-                    activity.setPlaceName(value);
-                case "aid":
-                    activity.setAid(value);
+    public void mapToActivity(Activity activity, HashMap info){
+        activity.setAid((String) info.get("aid"));
+        if (info.get("autoJoin") != null) {
+            activity.setAutoJoin((Boolean) info.get("autoJoin"));
+        }
 
-            }
-
+        activity.setTitle((String) info.get("title"));
+        activity.setDatetime((String) info.get("datetime"));
+        activity.setDetails((String) info.get("details"));
+        activity.setSize(Integer.parseInt(Objects.requireNonNull(info.get("size")).toString()));
+        activity.setPlaceName((String) info.get("placeName"));
+        activity.setLatLng((com.google.android.gms.maps.model.LatLng) info.get("LatLng"));
+        activity.setOwner((String) info.get("owner"));
+        if (info.get("participants") != null) {
+            activity.setParticipants((List<String>) info.get("participants"));
+        }
+        if (info.get("candidates") != null) {
+            activity.setCandidates((List<String>) info.get("candidates"));
         }
     }
 
@@ -151,6 +146,8 @@ public class Activity implements Serializable {
         result.put("placeName", placeName);
         result.put("LatLng", LatLng);
         result.put("owner", owner);
+        result.put("participants", participants);
+        result.put("candidates", candidates);
         return result;
     }
 }

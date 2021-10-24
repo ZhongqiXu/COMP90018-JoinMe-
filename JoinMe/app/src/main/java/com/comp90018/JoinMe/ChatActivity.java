@@ -3,6 +3,7 @@ package com.comp90018.JoinMe;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -23,7 +25,9 @@ import com.squareup.picasso.Picasso;
 import object.firebasemodel;
 import helper.CustomLayout;
 
-public class ChatActivity extends AppCompatActivity {
+public class ChatActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
+
+    NavigationBarView bottomNavigationView;
 
     private FirebaseFirestore firebaseFirestore;
     LinearLayoutManager linearLayoutManager;
@@ -110,5 +114,24 @@ public class ChatActivity extends AppCompatActivity {
         if(chatAdapter != null){
             chatAdapter.stopListening();
         }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        bottomNavigationView.getMenu().findItem(item.getItemId()).setChecked(true);
+        switch (item.getItemId()) {
+            case R.id.profile:
+                startActivity(new Intent(this, MeActivity.class));
+                break;
+            case R.id.settings:
+                startActivity(new Intent(this, SettingActivity.class));
+                break;
+            case R.id.chats:
+                startActivity(new Intent(this, ChatActivity.class));
+                break;
+            default:
+                break;
+        }
+        return false;
     }
 }

@@ -139,6 +139,9 @@ public class MeActivity extends AppCompatActivity implements NavigationBarView.O
             case R.id.settings:
                 startActivity(new Intent(this, SettingActivity.class));
                 break;
+            case R.id.chats:
+                startActivity(new Intent(this, ChatActivity.class));
+                break;
             default:
                 break;
         }
