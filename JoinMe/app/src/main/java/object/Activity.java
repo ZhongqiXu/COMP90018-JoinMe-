@@ -16,7 +16,9 @@ public class Activity implements Serializable {
     private String title;
     private String datetime;
     private String placeName;
-    private LatLng LatLng;
+    //private LatLng LatLng;
+    private Double latitude;
+    private Double longitude;
     private String owner; // uid
     private List<String> participants; // uid of participants
     private List<String> candidates; // uid of candidates
@@ -106,13 +108,21 @@ public class Activity implements Serializable {
         this.placeName = placeName;
     }
 
-    public com.google.android.gms.maps.model.LatLng getLatLng() {
-        return LatLng;
-    }
+    //public com.google.android.gms.maps.model.LatLng getLatLng() {
+    //    return LatLng;
+    //}
 
-    public void setLatLng(com.google.android.gms.maps.model.LatLng latLng) {
-        this.LatLng = latLng;
-    }
+    //public void setLatLng(com.google.android.gms.maps.model.LatLng latLng) {
+    //    this.LatLng = latLng;
+    //}
+
+    public double getLatitude() { return latitude; }
+
+    public void setLatitude(Double latitude1) { this.latitude = latitude1; }
+
+    public double getLongitude() { return longitude; }
+
+    public void setLongitude(Double longitude1) { this.longitude = longitude1; }
 
     public void mapToActivity(Activity activity, HashMap info){
         activity.setAid((String) info.get("aid"));
@@ -125,7 +135,10 @@ public class Activity implements Serializable {
         activity.setDetails((String) info.get("details"));
         activity.setSize(Integer.parseInt(Objects.requireNonNull(info.get("size")).toString()));
         activity.setPlaceName((String) info.get("placeName"));
-        activity.setLatLng((com.google.android.gms.maps.model.LatLng) info.get("LatLng"));
+        //activity.setLatLng((com.google.android.gms.maps.model.LatLng) info.get("LatLng"));
+        activity.setLatitude((Double) info.get("latitude"));
+        activity.setLongitude((Double) info.get("longitude"));
+
         activity.setOwner((String) info.get("owner"));
         if (info.get("participants") != null) {
             activity.setParticipants((List<String>) info.get("participants"));
@@ -144,7 +157,9 @@ public class Activity implements Serializable {
         result.put("details", details);
         result.put("size", size);
         result.put("placeName", placeName);
-        result.put("LatLng", LatLng);
+        //result.put("LatLng", LatLng);
+        result.put("latitude", latitude);
+        result.put("longitude", longitude);
         result.put("owner", owner);
         result.put("participants", participants);
         result.put("candidates", candidates);
