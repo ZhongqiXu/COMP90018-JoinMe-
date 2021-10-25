@@ -240,7 +240,9 @@ public class EditActivityActivity extends AppCompatActivity implements Navigatio
             newActivity.setSize(activitySize.getValue());
             newActivity.setAutoJoin(isAutoJoin);
             newActivity.setPlaceName(locationName);
-            newActivity.setLatLng(locationLatLng);
+            //newActivity.setLatLng(locationLatLng);
+            newActivity.setLongitude(locationLatLng.longitude);
+            newActivity.setLatitude(locationLatLng.latitude);
             newActivity.setAid(aid);
 
             Map<String, Object> activityValues = newActivity.toMap();

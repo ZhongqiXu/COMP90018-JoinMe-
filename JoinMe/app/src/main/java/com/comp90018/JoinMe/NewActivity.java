@@ -227,7 +227,9 @@ public class NewActivity extends AppCompatActivity implements NavigationBarView.
             newActivity.setSize(activitySize.getValue());
             newActivity.setAutoJoin(isAutoJoin);
             newActivity.setPlaceName(locationName);
-            newActivity.setLatLng(locationLatLng);
+            newActivity.setLatitude(locationLatLng.latitude);
+            newActivity.setLongitude(locationLatLng.longitude);
+            //newActivity.setLatLng(locationLatLng);
 
             FirebaseDatabase.getInstance().getReference().child("activity").child(key).setValue(newActivity).addOnCompleteListener(
                     task -> {

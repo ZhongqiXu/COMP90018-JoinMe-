@@ -52,8 +52,8 @@ public class MarkOnMap extends AppCompatActivity implements OnMapReadyCallback {
     ArrayList<String> location = new ArrayList<>();
     ArrayList<String> time = new ArrayList<>();
     ArrayList<String> details = new ArrayList<>();
-    ArrayList<Double> lats = new ArrayList<Double>();
-    ArrayList<Double> lngs = new ArrayList<Double>();
+    ArrayList<Double> lats = new ArrayList<>();
+    ArrayList<Double> lngs = new ArrayList<>();
 
 
     private final ArrayList<Activity> activities = new ArrayList<>();
@@ -138,40 +138,16 @@ public class MarkOnMap extends AppCompatActivity implements OnMapReadyCallback {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("activity");
         databaseReference.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            public void onChildAdded(@NonNull DataSnapshot snapshot, String s) {
                 //activities.clear();
                 Map<String, Object> map = (Map<String, Object>) snapshot.getValue();
+                lats.add((Double) map.get("latitude"));
+                lngs.add((Double) map.get("longitude"));
                 activityName.add((String) map.get("title"));
                 owner.add((String) map.get("owner"));
                 location.add((String) map.get("placeName"));
                 time.add((String) map.get("datetime"));
                 details.add((String) map.get("details"));
-            }
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference().child("activity").child("latLng");
-        databaseReference2.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                Map<String, Object> map = (Map<String, Object>) snapshot.getValue();
-                lats.add((double) map.get("latitude"));
-                lngs.add((double) map.get("longitude"));
                 for (int i=0; i<lats.size(); i++) {
                     mMap.addMarker(new MarkerOptions().position(new LatLng(lats.get(i), lngs.get(i)))
                             .title(activityName.get(i))
@@ -183,7 +159,7 @@ public class MarkOnMap extends AppCompatActivity implements OnMapReadyCallback {
                 }
             }
             @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String s) {
 
             }
             @Override
@@ -191,7 +167,7 @@ public class MarkOnMap extends AppCompatActivity implements OnMapReadyCallback {
 
             }
             @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String s) {
 
             }
             @Override
