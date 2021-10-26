@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -28,6 +29,7 @@ import helper.CustomLayout;
 public class ChatActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
 
     NavigationBarView bottomNavigationView;
+//    ScrollView scrollView;
 
     private FirebaseFirestore firebaseFirestore;
     LinearLayoutManager linearLayoutManager;
@@ -43,6 +45,8 @@ public class ChatActivity extends AppCompatActivity implements NavigationBarView
 
         firebaseAuth=FirebaseAuth.getInstance();
         firebaseFirestore=FirebaseFirestore.getInstance();
+        bottomNavigationView=findViewById(R.id.bottomNavigationView);
+//        scrollView = findViewById(R.id.scrollView);
         mrecyclerview= findViewById(R.id.recyclerview);
         mrecyclerview.setHasFixedSize(true);
         linearLayoutManager=new CustomLayout(this);

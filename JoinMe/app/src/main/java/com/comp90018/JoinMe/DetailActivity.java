@@ -20,10 +20,15 @@ import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import object.Activity;
 
@@ -101,6 +106,7 @@ public class DetailActivity extends AppCompatActivity implements NavigationBarVi
                 startActivity(new Intent(DetailActivity.this, MainActivity.class));
             }
         });
+
         join = findViewById(R.id.join);
         join.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,6 +153,61 @@ public class DetailActivity extends AppCompatActivity implements NavigationBarVi
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
+                        //added for chatting
+                        Calendar calender = Calendar.getInstance();
+                        int time = (int)(calender.getTimeInMillis()/1000);
+                        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+                        DocumentReference dfCurrent = firebaseFirestore.collection("User").document(currentUser);
+                        dfCurrent.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    if (document != null) {
+                                        DocumentReference documentReference=firebaseFirestore.collection("Contact").document(owner+currentUser);
+                                        String imageCurrent = document.getString("image");
+                                        String nameCurrent = document.getString("name");
+                                        Map<String, Object> contact = new HashMap<>();
+                                        contact.put("name", nameCurrent);
+                                        contact.put("image", imageCurrent);
+                                        contact.put("uid", owner);
+                                        contact.put("time", time);
+                                        contact.put("uid_contacter", currentUser);
+                                        documentReference.set(contact);
+                                    } else {
+                                        Log.d("LOGGER", "No such document");
+                                    }
+                                } else {
+                                    Log.d("LOGGER", "get failed with ", task.getException());
+                                }
+                            }
+                        });
+                        DocumentReference dfOwner = firebaseFirestore.collection("User").document(owner);
+                        dfOwner.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    if (document != null) {
+                                        DocumentReference documentReference=firebaseFirestore.collection("Contact").document(currentUser+owner);
+                                        String imageOwner = document.getString("image");
+                                        String nameOwner = document.getString("name");
+                                        Map<String, Object> contact = new HashMap<>();
+                                        contact.put("name", nameOwner);
+                                        contact.put("image", imageOwner);
+                                        contact.put("uid", currentUser);
+                                        contact.put("time", time);
+                                        contact.put("uid_contacter", owner);
+                                        documentReference.set(contact);
+                                    } else {
+                                        Log.d("LOGGER", "No such document");
+                                    }
+                                } else {
+                                    Log.d("LOGGER", "get failed with ", task.getException());
+                                }
+                            }
+                        });
+
                         if (autoEnabled.getText().equals("false")){
                             candidates.add(currentUser);
                             FirebaseDatabase.getInstance().getReference().child("activity").child(aId).child("candidates")
