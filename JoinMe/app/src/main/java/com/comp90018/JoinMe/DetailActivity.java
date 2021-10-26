@@ -20,7 +20,17 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+<<<<<<< Updated upstream
+=======
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+>>>>>>> Stashed changes
 import java.util.Map;
 import java.util.Objects;
 
@@ -83,6 +93,154 @@ public class DetailActivity extends AppCompatActivity implements NavigationBarVi
                 startActivity(new Intent(DetailActivity.this, MainActivity.class));
             }
         });
+<<<<<<< Updated upstream
+=======
+        join = findViewById(R.id.join);
+        join.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog alertDialog = new AlertDialog.Builder(DetailActivity.this).create();
+                alertDialog.setTitle("You can not join this activity");
+                if (currentUser.equals(owner)){
+                    alertDialog.setMessage("You are the host of this activity, no need to join!");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "CLOSE",new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    alertDialog.show();
+                }
+                else if (participants != null && !participants.isEmpty() && participants.contains(currentUser)){
+                    alertDialog.setMessage("You are already in this activity!");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "CLOSE",new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    alertDialog.show();
+                }else if (candidates != null && !candidates.isEmpty() && candidates.contains(currentUser)){
+                    alertDialog.setMessage("You are already in the waiting list!");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "CLOSE",new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    alertDialog.show();
+                }
+                else{
+                    createAlertDialog();
+                }
+            }
+        });
+    }
+
+    public void createAlertDialog() {
+        AlertDialog alertDialog = new AlertDialog.Builder(DetailActivity.this).create();
+        alertDialog.setTitle("Are you sure?");
+        alertDialog.setMessage("Confirm to join this activity?");
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        //added for chatting
+                        Calendar calender = Calendar.getInstance();
+                        int time = (int)(calender.getTimeInMillis()/1000);
+                        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+                        DocumentReference dfCurrent = firebaseFirestore.collection("User").document(currentUser);
+                        dfCurrent.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    if (document != null) {
+                                        DocumentReference documentReference=firebaseFirestore.collection("Contact").document(owner+currentUser);
+                                        String imageCurrent = document.getString("image");
+                                        String nameCurrent = document.getString("name");
+                                        Map<String, Object> contact = new HashMap<>();
+                                        contact.put("name", nameCurrent);
+                                        contact.put("image", imageCurrent);
+                                        contact.put("uid", owner);
+                                        contact.put("time", time);
+                                        contact.put("uid_contacter", currentUser);
+                                        documentReference.set(contact);
+                                    } else {
+                                        Log.d("LOGGER", "No such document");
+                                    }
+                                } else {
+                                    Log.d("LOGGER", "get failed with ", task.getException());
+                                }
+                            }
+                        });
+                        DocumentReference dfOwner = firebaseFirestore.collection("User").document(owner);
+                        dfOwner.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    if (document != null) {
+                                        DocumentReference documentReference=firebaseFirestore.collection("Contact").document(currentUser+owner);
+                                        String imageOwner = document.getString("image");
+                                        String nameOwner = document.getString("name");
+                                        Map<String, Object> contact = new HashMap<>();
+                                        contact.put("name", nameOwner);
+                                        contact.put("image", imageOwner);
+                                        contact.put("uid", currentUser);
+                                        contact.put("time", time);
+                                        contact.put("uid_contacter", owner);
+                                        documentReference.set(contact);
+                                    } else {
+                                        Log.d("LOGGER", "No such document");
+                                    }
+                                } else {
+                                    Log.d("LOGGER", "get failed with ", task.getException());
+                                }
+                            }
+                        });
+
+                        if (autoEnabled.getText().equals("false")){
+                            candidates.add(currentUser);
+                            FirebaseDatabase.getInstance().getReference().child("activity").child(aId).child("candidates")
+                                    .setValue(candidates).addOnSuccessListener(new OnSuccessListener() {
+                                @Override
+                                public void onSuccess(Object o) {
+                                    AlertDialog alertDialog = new AlertDialog.Builder(DetailActivity.this).create();
+                                    alertDialog.setTitle("Please wait");
+                                    alertDialog.setMessage("This activity needs confirmation from host, please wait for response");
+                                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "CLOSE",new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    });
+                                    alertDialog.show();
+                                }
+                            });
+                        }else{
+                            participants.add(currentUser);
+                            FirebaseDatabase.getInstance().getReference().child("activity").child(aId).child("participants")
+                                    .setValue(participants).addOnSuccessListener(new OnSuccessListener() {
+                                @Override
+                                public void onSuccess(Object o) {
+                                    AlertDialog alertDialog = new AlertDialog.Builder(DetailActivity.this).create();
+                                    alertDialog.setTitle("Confirmation of your join");
+                                    alertDialog.setMessage("Join activity successfully!");
+                                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "CLOSE",new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    });
+                                    alertDialog.show();
+                                }
+                            });
+                        }
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "NO",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+>>>>>>> Stashed changes
     }
 
     @Override
