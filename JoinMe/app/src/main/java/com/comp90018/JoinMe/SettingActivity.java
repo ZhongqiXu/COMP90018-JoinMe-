@@ -139,7 +139,6 @@ public class SettingActivity extends AppCompatActivity implements NavigationBarV
                     @Override
                     public void onComplete(@NonNull Task task) {
                         if (task.isSuccessful()){
-                            Toast.makeText(SettingActivity.this,"xixiix",Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(SettingActivity.this,MeActivity.class));
                             finish();
                         }
