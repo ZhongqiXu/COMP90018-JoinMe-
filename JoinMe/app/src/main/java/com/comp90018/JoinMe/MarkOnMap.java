@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -39,6 +40,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import object.Activity;
@@ -54,6 +56,8 @@ public class MarkOnMap extends AppCompatActivity implements OnMapReadyCallback {
     ArrayList<String> details = new ArrayList<>();
     ArrayList<Double> lats = new ArrayList<>();
     ArrayList<Double> lngs = new ArrayList<>();
+
+    private ArrayList<String> activityIdList = new ArrayList<String>();
 
 
     private final ArrayList<Activity> activities = new ArrayList<>();
@@ -190,7 +194,37 @@ public class MarkOnMap extends AppCompatActivity implements OnMapReadyCallback {
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(@NonNull Marker marker) {
-                startActivity((new Intent(MarkOnMap.this, DetailActivity.class)));
+                String title = marker.getTitle();
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("activity");
+                databaseReference.addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                        Map<String, Object> map = (Map<String, Object>) snapshot.getValue();
+                        if(map.get("title").equals(title)) {
+                            Intent intent = new Intent(MarkOnMap.this, DetailActivity.class);
+                            HashMap activity = (HashMap) map;
+                            intent.putExtra("activityInfo", activity);
+                            startActivity(intent);
+                        }
+                    }
+                    @Override
+                    public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                    }
+                    @Override
+                    public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                    }
+                    @Override
+                    public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
             }
         });
     }
