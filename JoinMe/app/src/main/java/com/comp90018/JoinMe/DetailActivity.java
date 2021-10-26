@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,7 +34,8 @@ public class DetailActivity extends AppCompatActivity implements NavigationBarVi
     private Button back;
     private Button join;
     private String owner;
-    private List<String> participants, candidates = new ArrayList<>(1);
+    private List<String> participants = new ArrayList<>(1);
+    private List<String> candidates = new ArrayList<>(1);
     private String currentUser, aId;
 
     @Override

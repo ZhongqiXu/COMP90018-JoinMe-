@@ -108,6 +108,7 @@ public class EditActivityActivity extends AppCompatActivity implements Navigatio
         activitySize.setValue(activity.getSize());
         aid = activity.getAid();
 
+
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference().child("activity").child(aid);
 

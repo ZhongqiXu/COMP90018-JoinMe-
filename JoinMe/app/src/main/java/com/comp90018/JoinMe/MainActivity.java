@@ -29,8 +29,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import object.Activity;
-
 public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
 
     NavigationBarView bottomNavigationView;

@@ -1,9 +1,6 @@
 package com.comp90018.JoinMe;
 
-import android.accounts.AccountManagerFuture;
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,9 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,15 +17,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationBarView;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
-import helper.HorizontalNumberPicker;
 import object.Activity;
 
 public class MyActivityDetailActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
@@ -40,6 +32,7 @@ public class MyActivityDetailActivity extends AppCompatActivity implements Navig
     Button back;
     Bundle bundle;
     Button edit;
+    private Button candidate_list;
     Activity activity = new Activity();
     HashMap activityInfo;
 
@@ -103,6 +96,25 @@ public class MyActivityDetailActivity extends AppCompatActivity implements Navig
             }
         });
 
+
+
+        candidate_list = findViewById(R.id.activity_List);
+        candidate_list.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MyActivityDetailActivity.this, CandidateList.class);
+                intent.putExtra("activityInfo", activityInfo);
+                startActivity(intent);
+            }
+        });
+
+
+
+
+
+
+
+
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -152,6 +164,8 @@ public class MyActivityDetailActivity extends AppCompatActivity implements Navig
         return true;
 
     }
+
+
 
 
 
