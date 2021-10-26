@@ -141,7 +141,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // use .setCountry("au") to restrict country
                 FindAutocompletePredictionsRequest predictionsRequest =
-                        FindAutocompletePredictionsRequest.builder().setCountry("us")
+                        FindAutocompletePredictionsRequest.builder()
                                 .setTypeFilter(TypeFilter.ADDRESS).setSessionToken(token)
                                 .setQuery(s.toString())
                                 .build();
