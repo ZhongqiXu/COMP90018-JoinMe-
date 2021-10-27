@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -23,31 +24,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.navigation.NavigationBarView;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
 
 import helper.HorizontalNumberPicker;
 import object.Activity;
 
-public class NewActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
+public class NewActivity extends AppCompatActivity {
 
-    NavigationBarView bottomNavigationView;
     EditText title, details;
     Button createActivity;
 
@@ -69,11 +57,6 @@ public class NewActivity extends AppCompatActivity implements NavigationBarView.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new);
-
-        bottomNavigationView = findViewById(R.id.bottomNavigationView);
-
-        bottomNavigationView.setOnItemSelectedListener(this);
-        bottomNavigationView.getMenu().findItem(R.id.activities).setChecked(true);
 
         title=findViewById(R.id.activity_title);
         details=findViewById(R.id.activity_details);
@@ -206,11 +189,11 @@ public class NewActivity extends AppCompatActivity implements NavigationBarView.
         if (TextUtils.isEmpty(title.getText().toString()))
             Toast.makeText(NewActivity.this,"Please enter title.",Toast.LENGTH_SHORT).show();
         else if (TextUtils.isEmpty(date))
-            Toast.makeText(NewActivity.this,"Please enter date.",Toast.LENGTH_SHORT).show();
+            Toast.makeText(NewActivity.this,"Please choose date.",Toast.LENGTH_SHORT).show();
         else if (TextUtils.isEmpty(time))
-            Toast.makeText(NewActivity.this,"Please enter time.",Toast.LENGTH_SHORT).show();
-        else if (TextUtils.isEmpty(time))
-            Toast.makeText(NewActivity.this,"Please enter time.",Toast.LENGTH_SHORT).show();
+            Toast.makeText(NewActivity.this,"Please choose time.",Toast.LENGTH_SHORT).show();
+        else if (TextUtils.isEmpty(locationName))
+            Toast.makeText(NewActivity.this,"Please choose location.",Toast.LENGTH_SHORT).show();
         else if (activitySize.getValue() <= 0)
             Toast.makeText(NewActivity.this,"activity size must be more than 0.",Toast.LENGTH_SHORT).show();
         else{
@@ -245,24 +228,5 @@ public class NewActivity extends AppCompatActivity implements NavigationBarView.
 
 
 
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        bottomNavigationView.getMenu().findItem(item.getItemId()).setChecked(true);
-        switch (item.getItemId()) {
-            case R.id.activities:
-                startActivity(new Intent(this, MainActivity.class));
-                break;
-            case R.id.profile:
-                startActivity(new Intent(this, MeActivity.class));
-                break;
-            case R.id.settings:
-                startActivity(new Intent(this, SettingActivity.class));
-                break;
-            default:
-                break;
-        }
-        return false;
     }
 }

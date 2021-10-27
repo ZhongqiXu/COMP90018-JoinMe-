@@ -46,6 +46,8 @@ public class ChatActivity extends AppCompatActivity implements NavigationBarView
         firebaseAuth=FirebaseAuth.getInstance();
         firebaseFirestore=FirebaseFirestore.getInstance();
         bottomNavigationView=findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setOnItemSelectedListener(this);
+        bottomNavigationView.getMenu().findItem(R.id.chats).setChecked(true);
 //        scrollView = findViewById(R.id.scrollView);
         mrecyclerview= findViewById(R.id.recyclerview);
         mrecyclerview.setHasFixedSize(true);
@@ -130,8 +132,8 @@ public class ChatActivity extends AppCompatActivity implements NavigationBarView
             case R.id.settings:
                 startActivity(new Intent(this, SettingActivity.class));
                 break;
-            case R.id.chats:
-                startActivity(new Intent(this, ChatActivity.class));
+            case R.id.activities:
+                startActivity(new Intent(this, MainActivity.class));
                 break;
             default:
                 break;

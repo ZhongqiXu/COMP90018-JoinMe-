@@ -16,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
@@ -32,8 +31,7 @@ import java.util.Map;
 import java.util.Objects;
 import object.Activity;
 
-public class DetailActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
-    NavigationBarView bottomNavigationView;
+public class DetailActivity extends AppCompatActivity{
 
     private TextView host, title, details, dateTime, autoEnabled, size, placeName;
     private Button back;
@@ -53,10 +51,6 @@ public class DetailActivity extends AppCompatActivity implements NavigationBarVi
 
         Activity activity = new Activity();
         activity.mapToActivity(activity, activityInfo);
-
-        bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setOnItemSelectedListener(this);
-        bottomNavigationView.getMenu().findItem(R.id.activities).setChecked(true);
 
         host = findViewById(R.id.activity_host);
         title = findViewById(R.id.activity_title);
@@ -252,24 +246,5 @@ public class DetailActivity extends AppCompatActivity implements NavigationBarVi
                     }
                 });
         alertDialog.show();
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        bottomNavigationView.getMenu().findItem(item.getItemId()).setChecked(true);
-        switch (item.getItemId()) {
-            case R.id.activities:
-                startActivity(new Intent(this, MainActivity.class));
-                break;
-            case R.id.profile:
-                startActivity(new Intent(this, MeActivity.class));
-                break;
-            case R.id.settings:
-                startActivity(new Intent(this, SettingActivity.class));
-                break;
-            default:
-                break;
-        }
-        return false;
     }
 }
