@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -40,11 +39,22 @@ import com.google.firebase.database.DatabaseError;
 import java.util.ArrayList;
 import java.util.Map;
 
+import object.Activity;
+
 public class CandidateList extends AppCompatActivity {
     NavigationBarView bottomNavigationView;
+    Bundle bundle;
+    Activity activity = new Activity();
+    HashMap activityInfo;
 
-    public static String title[]=new String[]{"菜名0","菜名1","菜名2","菜名3","菜名4","菜名5","菜名6","菜名7","菜名8","菜名9"};
-    public static String info[]=new String[]{ "￥：28","￥：28","￥：28","￥：28","￥：28","￥：28","￥：28","￥：28","￥：28","￥：28",};
+
+    public static String title_key[]= new String[]{};
+    public static String title[]= new String[]{};
+    public static String can_list[] = new String[]{};
+    public static String can_key[] = new String[]{};
+//    public static String info[]=new String[]{ "￥：28","￥：28","￥：28","￥：28","￥：28","￥：28","￥：28","￥：28","￥：28","￥：28",};
+
+
 
     private List<Map<String, Object>> mData;
     private int flag;
@@ -53,23 +63,94 @@ public class CandidateList extends AppCompatActivity {
     private DatabaseReference databaseReference;
     private ArrayList<String> candidateList = new ArrayList<String>();
     private ArrayList<String> candidateIdList = new ArrayList<String>();
-    private ArrayAdapter<String> adapter;
+//    private ArrayAdapter<String> adapter;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_test);
+
+        Bundle bundle = getIntent().getExtras();
+        HashMap activityInfo = (HashMap) bundle.get("activityInfo");
+        object.Activity activity = new Activity();
+        activity.mapToActivity(activity, activityInfo);
+        title_key = activity.getCandidates().toArray(new String[0]);
+
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("user");
+        databaseReference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
+                @SuppressWarnings("unchecked")
+                Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
+
+
+                candidateList.add((String) map.get("userName"));
+                candidateIdList.add((String) map.get("uid"));
+                String[] can_list_temp = new String[candidateList.size()];
+                String[] can_key_temp = new String[candidateIdList.size()];
+
+                for (int i = 0; i < candidateList.size(); i++){
+                    can_list_temp[i] = candidateList.get(i);
+                }
+                for (int i = 0; i < candidateIdList.size(); i++){
+                    can_key_temp[i] = candidateIdList.get(i);
+                }
+
+                can_list = can_list_temp;
+                can_key = can_key_temp;
+
+
+//                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        String [] temp = new String[can_list.length];
+        for (int i = 0; i < title_key.length; i++) {
+
+            for (int j = 0; j< can_key.length;j++){
+                if (can_key[j].equals(title_key[i])) {
+                        temp[i] = can_list[j];
+                }
+            }
+        }
+        title = temp;
+
+
+//        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+//        for(int i=0;i<title.length;i++){
+//            for
+//            Map<String, Object> map = new HashMap<String, Object>();
+//            map.put("title", title[i]);
+////            map.put("info", info[i]);
+//            list.add(map);
+
+
         mData = getData();
         ListView listView = (ListView) findViewById(R.id.listView);
         MyAdapter adapter = new MyAdapter(this);
         listView.setAdapter(adapter);
-
-
-
-
-
-
+    }
 
 
 
@@ -83,7 +164,7 @@ public class CandidateList extends AppCompatActivity {
 //                candidateList.add((String) map.get("details"));
 //                candidateIdList.add((String) dataSnapshot.getKey());
 //
-//                adapter.notifyDataSetChanged();
+////                adapter.notifyDataSetChanged();
 //            }
 //
 //            @Override
@@ -109,19 +190,22 @@ public class CandidateList extends AppCompatActivity {
 
 
 
-    }
+
 
     private List<Map<String, Object>> getData() {
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("activity");
         List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-        for(int i=0;i<title.length;i++){
+        for(int i=0;i<title_key.length;i++){
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("title", title[i]);
-            map.put("info", info[i]);
+//            map.put("info", info[i]);
             list.add(map);
-        }
+
+
+   }
 
         return list;
-    }
+}
 
     public class MyAdapter extends BaseAdapter {
 
