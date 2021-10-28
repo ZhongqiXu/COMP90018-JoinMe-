@@ -1,6 +1,5 @@
 package com.comp90018.JoinMe;
 
-import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -8,8 +7,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -23,7 +20,13 @@ import android.widget.ToggleButton;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
@@ -34,12 +37,12 @@ import java.util.Calendar;
 import helper.HorizontalNumberPicker;
 import object.Activity;
 
-public class NewActivity extends AppCompatActivity {
+public class NewActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     EditText title, details;
     Button createActivity;
 
-    private TextView datePicker, timePicker, location;
+    private TextView datePicker, timePicker;
     private Button datePickerBtn, timePickerBtn, locationBtn;
     private TimePickerDialog.OnTimeSetListener onTimeSetListener;
     private DatePickerDialog.OnDateSetListener onDateSetListener;
@@ -58,25 +61,21 @@ public class NewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new);
 
-        title=findViewById(R.id.activity_title);
-        details=findViewById(R.id.activity_details);
-        createActivity=findViewById(R.id.create_activity);
+        title = findViewById(R.id.activity_title);
+        details = findViewById(R.id.activity_details);
+        createActivity = findViewById(R.id.create_activity);
 
         datePicker = findViewById(R.id.activity_date);
         datePickerBtn = findViewById(R.id.activity_date_btn);
         timePicker = findViewById(R.id.activity_time);
         timePickerBtn = findViewById(R.id.activity_time_btn);
-        location = findViewById(R.id.activity_location);
         locationBtn = findViewById(R.id.activity_location_btn);
         autoJoinBtn = (ToggleButton) findViewById(R.id.activity_autoJoin_btn);
 
         activitySize = findViewById(R.id.activity_size_btn);
 
-        //locationname.findViewById(R.id.activity_location_name);
-        if(locationName != null)
-            location.setText(locationName);
-        //else
-        //    locationname.setText(locationName);
+        SupportMapFragment mapFragment = (SupportMapFragment)this.getSupportFragmentManager().findFragmentById(R.id.map_new);
+        mapFragment.getMapAsync(this);
 
 
         // create new activity
@@ -192,7 +191,7 @@ public class NewActivity extends AppCompatActivity {
             Toast.makeText(NewActivity.this,"Please choose date.",Toast.LENGTH_SHORT).show();
         else if (TextUtils.isEmpty(time))
             Toast.makeText(NewActivity.this,"Please choose time.",Toast.LENGTH_SHORT).show();
-        else if (TextUtils.isEmpty(locationName))
+        else if (locationLatLng == null)
             Toast.makeText(NewActivity.this,"Please choose location.",Toast.LENGTH_SHORT).show();
         else if (activitySize.getValue() <= 0)
             Toast.makeText(NewActivity.this,"activity size must be more than 0.",Toast.LENGTH_SHORT).show();
@@ -224,9 +223,19 @@ public class NewActivity extends AppCompatActivity {
                     }
             );
         }
+    }
 
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+        if(locationLatLng != null){
+            googleMap.addMarker(new MarkerOptions().position(locationLatLng).title(locationName));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locationLatLng,15));
+            // Zoom in, animating the camera.
+            googleMap.animateCamera(CameraUpdateFactory.zoomIn());
+            // Zoom out to zoom level 10, animating with a duration of 2 seconds.
+            googleMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
 
-
+        }
 
     }
 }

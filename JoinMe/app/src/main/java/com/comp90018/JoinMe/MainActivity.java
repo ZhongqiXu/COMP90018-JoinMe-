@@ -32,7 +32,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
 
     NavigationBarView bottomNavigationView;
-    Button manageActivity;
+    Button newActivity;
 
     private ListView activityListView;
     private DatabaseReference databaseReference;
@@ -46,12 +46,12 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        manageActivity = findViewById(R.id.newActivity);
+        newActivity = findViewById(R.id.newActivity);
 
-        manageActivity.setOnClickListener(new View.OnClickListener() {
+        newActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, NewActivity.class));
+                startActivity(new Intent(MainActivity.this, MapActivity.class));
             }
         });
 
@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
 
         ViewGroup.LayoutParams params = activityListView.getLayoutParams();
         params.height = totalHeight + (activityListView.getDividerHeight() * (listAdapter.getCount() - 1))
-                + manageActivity.getHeight() + bottomNavigationView.getHeight();
+                + newActivity.getHeight() + bottomNavigationView.getHeight();
         activityListView.setLayoutParams(params);
         activityListView.requestLayout();
     }

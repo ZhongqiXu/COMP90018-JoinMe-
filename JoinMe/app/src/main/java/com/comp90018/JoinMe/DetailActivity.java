@@ -13,6 +13,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -31,18 +37,19 @@ import java.util.Map;
 import java.util.Objects;
 import object.Activity;
 
-public class DetailActivity extends AppCompatActivity{
+public class DetailActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    private TextView host, title, details, dateTime, autoEnabled, size, placeName;
+    private TextView host, title, details, dateTime, autoEnabled, size;
     private Button back;
     private Button join;
-    private String owner;
+    private String owner, placeName;
     private List<String> participants = new ArrayList<>(1);
     private List<String> candidates = new ArrayList<>(1);
     private String currentUser, aId;
+    private double latitude = 200, longitude = 100;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
@@ -56,7 +63,6 @@ public class DetailActivity extends AppCompatActivity{
         title = findViewById(R.id.activity_title);
         details = findViewById(R.id.activity_details);
         dateTime = findViewById(R.id.activity_date_view);
-        placeName = findViewById(R.id.activity_location_view);
 
         autoEnabled = findViewById(R.id.activity_autoJoin_view);
         size = findViewById(R.id.activity_size_view);
@@ -65,9 +71,14 @@ public class DetailActivity extends AppCompatActivity{
         details.setText(activity.getDetails());
         dateTime.setText(activity.getDatetime());
         autoEnabled.setText(String.valueOf(activity.isAutoJoin()));
-        System.out.println("place:"+activity.getPlaceName());
-        placeName.setText(activity.getPlaceName());
         size.setText(String.valueOf(activity.getSize()));
+
+        latitude = activity.getLatitude();
+        longitude = activity.getLongitude();
+        placeName = activity.getPlaceName();
+
+        SupportMapFragment mapFragment = (SupportMapFragment)this.getSupportFragmentManager().findFragmentById(R.id.map_detail);
+        mapFragment.getMapAsync(this);
 
         owner = activity.getOwner();
         if (activity.getParticipants() != null && !activity.getParticipants().isEmpty()) {
@@ -246,5 +257,20 @@ public class DetailActivity extends AppCompatActivity{
                     }
                 });
         alertDialog.show();
+    }
+
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+        if(longitude >= -180 && longitude <= 180 && latitude >= -90 && latitude <= 90){
+            LatLng locationLatLng = new LatLng(latitude, longitude);
+            googleMap.addMarker(new MarkerOptions().position(locationLatLng).title(placeName));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locationLatLng,15));
+            // Zoom in, animating the camera.
+            googleMap.animateCamera(CameraUpdateFactory.zoomIn());
+            // Zoom out to zoom level 10, animating with a duration of 2 seconds.
+            googleMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
+
+        }
+
     }
 }
