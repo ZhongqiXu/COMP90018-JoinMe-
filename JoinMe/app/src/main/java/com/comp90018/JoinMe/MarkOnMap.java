@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -39,6 +40,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import object.Activity;
@@ -49,17 +51,13 @@ public class MarkOnMap extends AppCompatActivity implements OnMapReadyCallback {
 
     ArrayList<String> activityName = new ArrayList<>();
     ArrayList<String> owner = new ArrayList<>();
+    ArrayList<String> ownerId = new ArrayList<>();
+    ArrayList<String> ownerName = new ArrayList<>();
     ArrayList<String> location = new ArrayList<>();
     ArrayList<String> time = new ArrayList<>();
     ArrayList<String> details = new ArrayList<>();
     ArrayList<Double> lats = new ArrayList<>();
     ArrayList<Double> lngs = new ArrayList<>();
-
-
-    private final ArrayList<Activity> activities = new ArrayList<>();
-
-    LatLng sydney = new LatLng(-34, 151);
-    LatLng TamWorth = new LatLng(-31, 150.9);
 
 
 
@@ -148,15 +146,6 @@ public class MarkOnMap extends AppCompatActivity implements OnMapReadyCallback {
                 location.add((String) map.get("placeName"));
                 time.add((String) map.get("datetime"));
                 details.add((String) map.get("details"));
-                for (int i=0; i<lats.size(); i++) {
-                    mMap.addMarker(new MarkerOptions().position(new LatLng(lats.get(i), lngs.get(i)))
-                            .title(activityName.get(i))
-                            .snippet("owner: " + owner.get(i) +
-                                    "\nlocation: " + location.get(i) +
-                                    "\ntime: " + time.get(i) +
-                                    "\ndetails: " + details.get(i)));
-                    //mMap.animateCamera(CameraUpdateFactory.zoomTo());
-                }
             }
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String s) {
@@ -168,6 +157,48 @@ public class MarkOnMap extends AppCompatActivity implements OnMapReadyCallback {
             }
             @Override
             public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String s) {
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference().child("user");
+        databaseReference2.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                Map<String, Object> map = (Map<String, Object>) snapshot.getValue();
+                ownerName.add((String) map.get("userName"));
+                ownerId.add((String) map.get("uid"));
+                for (int i=0; i<lats.size(); i++) {
+                    String name = "";
+                    for (int j=0; j<ownerId.size(); j++) {
+                        if(owner.get(i).equals(ownerId.get(j))) {
+                            name = ownerName.get(j);
+                            break;
+                        }
+                    }
+                    mMap.addMarker(new MarkerOptions().position(new LatLng(lats.get(i), lngs.get(i)))
+                            .title(activityName.get(i))
+                            .snippet("owner: " + name +
+                                    "\nlocation: " + location.get(i) +
+                                    "\ntime: " + time.get(i) +
+                                    "\ndetails: " + details.get(i)));
+                    //mMap.animateCamera(CameraUpdateFactory.zoomTo());
+                }
+            }
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
             }
             @Override
@@ -190,7 +221,37 @@ public class MarkOnMap extends AppCompatActivity implements OnMapReadyCallback {
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(@NonNull Marker marker) {
-                startActivity((new Intent(MarkOnMap.this, DetailActivity.class)));
+                String title = marker.getTitle();
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("activity");
+                databaseReference.addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                        Map<String, Object> map = (Map<String, Object>) snapshot.getValue();
+                        if(map.get("title").equals(title)) {
+                            Intent intent = new Intent(MarkOnMap.this, DetailActivity.class);
+                            HashMap activity = (HashMap) map;
+                            intent.putExtra("activityInfo", activity);
+                            startActivity(intent);
+                        }
+                    }
+                    @Override
+                    public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                    }
+                    @Override
+                    public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                    }
+                    @Override
+                    public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
             }
         });
     }

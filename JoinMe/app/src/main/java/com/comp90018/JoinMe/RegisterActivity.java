@@ -18,6 +18,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import object.User;
 
@@ -57,7 +62,7 @@ public class RegisterActivity extends AppCompatActivity {
                 else if (TextUtils.isEmpty(userName.getText().toString()))
                     Toast.makeText(RegisterActivity.this,"Please enter username.",Toast.LENGTH_SHORT).show();
                 else
-                    loginEvent(Email.getText().toString(),pwds.getText().toString(),userName.getText().toString());
+                    loginEvent(Email.getText().toString(), pwds.getText().toString(), userName.getText().toString());
             }
         });
     }
@@ -79,6 +84,13 @@ public class RegisterActivity extends AppCompatActivity {
                             user.setUserName(name);
                             System.out.println(uid);
 
+                            String defaultImage = "https://firebasestorage.googleapis.com/v0/b/joinme-37c01.appspot.com/o/images%2Fdefault%2Fdefaultprofile.png?alt=media&token=a9444751-2027-4908-abe2-7e78b88cd21e";                            FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+                            DocumentReference documentReference=firebaseFirestore.collection("User").document(mAuth.getUid());
+                            Map<String, Object> userdata = new HashMap<>();
+                            userdata.put("name", userName.getText().toString());
+                            userdata.put("image", defaultImage);
+                            userdata.put("uid", uid);
+                            documentReference.set(userdata);
 
                             FirebaseDatabase.getInstance().getReference().child("user").child(uid).setValue(user);
                             Toast.makeText(RegisterActivity.this, "Authentication success.",

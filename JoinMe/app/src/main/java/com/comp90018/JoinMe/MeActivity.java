@@ -10,10 +10,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -22,6 +25,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -37,8 +44,9 @@ public class MeActivity extends AppCompatActivity implements NavigationBarView.O
     DatabaseReference databaseReference;
 
     NavigationBarView bottomNavigationView;
+    private ImageView profileImageview;
 
-    private Button button_map;
+    private Button button_setting;
 
 
 
@@ -56,7 +64,7 @@ public class MeActivity extends AppCompatActivity implements NavigationBarView.O
         email = findViewById(R.id.ds_email);
         brief = findViewById(R.id.ds_brief);
         age = findViewById(R.id.ds_age);
-
+        profileImageview=findViewById(R.id.profileImageview);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(this);
         bottomNavigationView.getMenu().findItem(R.id.profile).setChecked(true);
@@ -66,14 +74,29 @@ public class MeActivity extends AppCompatActivity implements NavigationBarView.O
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference().child("user").child(uid);
 
+        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+        DocumentReference documentReference = firebaseFirestore.collection("User").document(uid);
+
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull  DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
-                System.out.println(user);
+                //System.out.println(user);
                 welname.setText(user.getUserName());
                 bind(user);
-                Toast.makeText(MeActivity.this,"seucc",Toast.LENGTH_SHORT).show();
+
+                documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                String uri = (String) document.getString("image");
+                                Picasso.get().load(uri).into(profileImageview);
+                            }
+                        }
+                    }
+                });
             }
 
             @Override
@@ -83,11 +106,11 @@ public class MeActivity extends AppCompatActivity implements NavigationBarView.O
         });
 
         // put the button into the navigation bar latter
-        button_map = findViewById(R.id.button_map);
-        button_map.setOnClickListener(new View.OnClickListener() {
+        button_setting = findViewById(R.id.button_setting);
+        button_setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MeActivity.this, MarkOnMap.class));
+                startActivity(new Intent(MeActivity.this, SettingActivity.class));
             }
         });
 
@@ -136,8 +159,8 @@ public class MeActivity extends AppCompatActivity implements NavigationBarView.O
             case R.id.activities:
                 startActivity(new Intent(this, MainActivity.class));
                 break;
-            case R.id.settings:
-                startActivity(new Intent(this, SettingActivity.class));
+            case R.id.mapView:
+                startActivity(new Intent(this, MarkOnMap.class));
                 break;
             case R.id.chats:
                 startActivity(new Intent(this, ChatActivity.class));

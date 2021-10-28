@@ -8,6 +8,15 @@ public class User {
     private String age;
     private String email;
     private String brief;
+    private String uri;
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
 
     public User() {
     }

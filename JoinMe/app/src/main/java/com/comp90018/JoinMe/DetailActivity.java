@@ -9,37 +9,47 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import object.Activity;
 
-public class DetailActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
-    NavigationBarView bottomNavigationView;
+public class DetailActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    private TextView host, title, details, dateTime, autoEnabled, size, placeName;
+    private TextView host, title, details, dateTime, autoEnabled, size;
     private Button back;
     private Button join;
-    private String owner;
-    private List<String> participants, candidates = new ArrayList<>(1);
+    private String owner, placeName;
+    private List<String> participants = new ArrayList<>(1);
+    private List<String> candidates = new ArrayList<>(1);
     private String currentUser, aId;
+    private double latitude = 200, longitude = 100;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
@@ -49,15 +59,10 @@ public class DetailActivity extends AppCompatActivity implements NavigationBarVi
         Activity activity = new Activity();
         activity.mapToActivity(activity, activityInfo);
 
-        bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setOnItemSelectedListener(this);
-        bottomNavigationView.getMenu().findItem(R.id.activities).setChecked(true);
-
         host = findViewById(R.id.activity_host);
         title = findViewById(R.id.activity_title);
         details = findViewById(R.id.activity_details);
         dateTime = findViewById(R.id.activity_date_view);
-        placeName = findViewById(R.id.activity_location_view);
 
         autoEnabled = findViewById(R.id.activity_autoJoin_view);
         size = findViewById(R.id.activity_size_view);
@@ -66,9 +71,14 @@ public class DetailActivity extends AppCompatActivity implements NavigationBarVi
         details.setText(activity.getDetails());
         dateTime.setText(activity.getDatetime());
         autoEnabled.setText(String.valueOf(activity.isAutoJoin()));
-        System.out.println("place:"+activity.getPlaceName());
-        placeName.setText(activity.getPlaceName());
         size.setText(String.valueOf(activity.getSize()));
+
+        latitude = activity.getLatitude();
+        longitude = activity.getLongitude();
+        placeName = activity.getPlaceName();
+
+        SupportMapFragment mapFragment = (SupportMapFragment)this.getSupportFragmentManager().findFragmentById(R.id.map_detail);
+        mapFragment.getMapAsync(this);
 
         owner = activity.getOwner();
         if (activity.getParticipants() != null && !activity.getParticipants().isEmpty()) {
@@ -101,6 +111,7 @@ public class DetailActivity extends AppCompatActivity implements NavigationBarVi
                 startActivity(new Intent(DetailActivity.this, MainActivity.class));
             }
         });
+
         join = findViewById(R.id.join);
         join.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,6 +158,61 @@ public class DetailActivity extends AppCompatActivity implements NavigationBarVi
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
+                        //added for chatting
+                        Calendar calender = Calendar.getInstance();
+                        int time = (int)(calender.getTimeInMillis()/1000);
+                        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+                        DocumentReference dfCurrent = firebaseFirestore.collection("User").document(currentUser);
+                        dfCurrent.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    if (document != null) {
+                                        DocumentReference documentReference=firebaseFirestore.collection("Contact").document(owner+currentUser);
+                                        String imageCurrent = document.getString("image");
+                                        String nameCurrent = document.getString("name");
+                                        Map<String, Object> contact = new HashMap<>();
+                                        contact.put("name", nameCurrent);
+                                        contact.put("image", imageCurrent);
+                                        contact.put("uid", owner);
+                                        contact.put("time", time);
+                                        contact.put("uid_contacter", currentUser);
+                                        documentReference.set(contact);
+                                    } else {
+                                        Log.d("LOGGER", "No such document");
+                                    }
+                                } else {
+                                    Log.d("LOGGER", "get failed with ", task.getException());
+                                }
+                            }
+                        });
+                        DocumentReference dfOwner = firebaseFirestore.collection("User").document(owner);
+                        dfOwner.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    if (document != null) {
+                                        DocumentReference documentReference=firebaseFirestore.collection("Contact").document(currentUser+owner);
+                                        String imageOwner = document.getString("image");
+                                        String nameOwner = document.getString("name");
+                                        Map<String, Object> contact = new HashMap<>();
+                                        contact.put("name", nameOwner);
+                                        contact.put("image", imageOwner);
+                                        contact.put("uid", currentUser);
+                                        contact.put("time", time);
+                                        contact.put("uid_contacter", owner);
+                                        documentReference.set(contact);
+                                    } else {
+                                        Log.d("LOGGER", "No such document");
+                                    }
+                                } else {
+                                    Log.d("LOGGER", "get failed with ", task.getException());
+                                }
+                            }
+                        });
+
                         if (autoEnabled.getText().equals("false")){
                             candidates.add(currentUser);
                             FirebaseDatabase.getInstance().getReference().child("activity").child(aId).child("candidates")
@@ -194,21 +260,17 @@ public class DetailActivity extends AppCompatActivity implements NavigationBarVi
     }
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        bottomNavigationView.getMenu().findItem(item.getItemId()).setChecked(true);
-        switch (item.getItemId()) {
-            case R.id.activities:
-                startActivity(new Intent(this, MainActivity.class));
-                break;
-            case R.id.profile:
-                startActivity(new Intent(this, MeActivity.class));
-                break;
-            case R.id.settings:
-                startActivity(new Intent(this, SettingActivity.class));
-                break;
-            default:
-                break;
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+        if(longitude >= -180 && longitude <= 180 && latitude >= -90 && latitude <= 90){
+            LatLng locationLatLng = new LatLng(latitude, longitude);
+            googleMap.addMarker(new MarkerOptions().position(locationLatLng).title(placeName));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locationLatLng,15));
+            // Zoom in, animating the camera.
+            googleMap.animateCamera(CameraUpdateFactory.zoomIn());
+            // Zoom out to zoom level 10, animating with a duration of 2 seconds.
+            googleMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
+
         }
-        return false;
+
     }
 }
