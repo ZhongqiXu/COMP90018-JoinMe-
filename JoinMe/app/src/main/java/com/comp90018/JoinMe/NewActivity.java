@@ -45,7 +45,6 @@ public class NewActivity extends AppCompatActivity implements OnMapReadyCallback
     private TextView datePicker, timePicker;
     private Button datePickerBtn, timePickerBtn, locationBtn;
     private TimePickerDialog.OnTimeSetListener onTimeSetListener;
-    private DatePickerDialog.OnDateSetListener onDateSetListener;
     private ToggleButton autoJoinBtn;
     private boolean isAutoJoin;
     private HorizontalNumberPicker activitySize;
@@ -95,15 +94,10 @@ public class NewActivity extends AppCompatActivity implements OnMapReadyCallback
         locationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: replace with action direct to map
                 Intent intent = new Intent(NewActivity.this, MapActivity.class);
                 startActivity(intent);
-                //location = null;
-                //locationName =  "";
-                //locationLatLng =  new LatLng(0, 0);
             }
         });
-        // TODO: set onDataSetListener for location, require result of querying location
 
         // set date
         datePickerBtn.setOnClickListener(new View.OnClickListener() {
@@ -115,24 +109,18 @@ public class NewActivity extends AppCompatActivity implements OnMapReadyCallback
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog dialog = new DatePickerDialog(
-                        NewActivity.this,
-                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
-                        onDateSetListener,
-                        year, month, day);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        NewActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        month += 1;
+                        date = dayOfMonth + "/" + month + "/" + year;
+                        datePicker.setText(date);
+                    }
+                }, year, month, day);
                 dialog.show();
 
             }
         });
-        // change text in date field
-        onDateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                month = month + 1;
-                date = dayOfMonth + "/" + month + "/" + year;
-                datePicker.setText(date);
-            }
-        };
 
         // set time
         timePickerBtn.setOnClickListener(new View.OnClickListener() {
