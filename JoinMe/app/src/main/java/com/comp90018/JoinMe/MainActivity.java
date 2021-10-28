@@ -147,8 +147,8 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
             case R.id.profile:
                 startActivity(new Intent(this, MeActivity.class));
                 break;
-            case R.id.settings:
-                startActivity(new Intent(this, SettingActivity.class));
+            case R.id.mapView:
+                startActivity(new Intent(this, MarkOnMap.class));
                 break;
             case R.id.chats:
                 startActivity(new Intent(this, ChatActivity.class));

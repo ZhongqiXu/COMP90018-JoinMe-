@@ -129,8 +129,8 @@ public class ChatActivity extends AppCompatActivity implements NavigationBarView
             case R.id.profile:
                 startActivity(new Intent(this, MeActivity.class));
                 break;
-            case R.id.settings:
-                startActivity(new Intent(this, SettingActivity.class));
+            case R.id.mapView:
+                startActivity(new Intent(this, MarkOnMap.class));
                 break;
             case R.id.activities:
                 startActivity(new Intent(this, MainActivity.class));

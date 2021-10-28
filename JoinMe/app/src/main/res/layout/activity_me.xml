@@ -215,13 +215,13 @@
                 android:background="#303F9F"/>
 
             <Button
-                android:id="@+id/button_map"
+                android:id="@+id/button_setting"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:background="@color/green"
                 android:textColor="#FFFFFF"
-                android:text="Map"
+                android:text="Setting"
                 android:textAllCaps="false"/>
 
         </LinearLayout>

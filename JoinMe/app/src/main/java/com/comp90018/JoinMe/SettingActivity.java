@@ -13,7 +13,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -23,10 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,7 +34,6 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
@@ -54,7 +50,7 @@ import java.util.Map;
 import helper.HorizontalNumberPicker;
 import object.User;
 
-public class SettingActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
+public class SettingActivity extends AppCompatActivity {
 
     FirebaseAuth mAuth;
     TextView set_name,set_brief;
@@ -65,8 +61,6 @@ public class SettingActivity extends AppCompatActivity implements NavigationBarV
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
-
-    NavigationBarView bottomNavigationView;
 
     //added by chatting
     private CardView set_image;
@@ -94,10 +88,6 @@ public class SettingActivity extends AppCompatActivity implements NavigationBarV
         //added by chatting
         set_image=findViewById(R.id.getuserimage);
         getuserimageinimageview=findViewById(R.id.getuserimageinimageview);
-
-        bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setOnItemSelectedListener(this);
-        bottomNavigationView.getMenu().findItem(R.id.settings).setChecked(true);
 
         mAuth = FirebaseAuth.getInstance();
         final String uid = mAuth.getUid();
@@ -229,26 +219,6 @@ public class SettingActivity extends AppCompatActivity implements NavigationBarV
 
         return user;
     }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        bottomNavigationView.getMenu().findItem(item.getItemId()).setChecked(true);
-        switch (item.getItemId()) {
-            case R.id.profile:
-                startActivity(new Intent(this, MeActivity.class));
-                break;
-            case R.id.activities:
-                startActivity(new Intent(this, MainActivity.class));
-                break;
-            case R.id.chats:
-                startActivity(new Intent(this, ChatActivity.class));
-                break;
-            default:
-                break;
-        }
-        return false;
-    }
-
     //added by chatting
     private void sendImagetoStorage(){
         StorageReference imageref=storageReference.child("images").child(mAuth.getUid()).child("Profile Pic");

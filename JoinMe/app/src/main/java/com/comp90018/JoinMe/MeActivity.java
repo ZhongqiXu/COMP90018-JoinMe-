@@ -46,7 +46,7 @@ public class MeActivity extends AppCompatActivity implements NavigationBarView.O
     NavigationBarView bottomNavigationView;
     private ImageView profileImageview;
 
-    private Button button_map;
+    private Button button_setting;
 
 
 
@@ -106,11 +106,11 @@ public class MeActivity extends AppCompatActivity implements NavigationBarView.O
         });
 
         // put the button into the navigation bar latter
-        button_map = findViewById(R.id.button_map);
-        button_map.setOnClickListener(new View.OnClickListener() {
+        button_setting = findViewById(R.id.button_setting);
+        button_setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MeActivity.this, MarkOnMap.class));
+                startActivity(new Intent(MeActivity.this, SettingActivity.class));
             }
         });
 
@@ -159,8 +159,8 @@ public class MeActivity extends AppCompatActivity implements NavigationBarView.O
             case R.id.activities:
                 startActivity(new Intent(this, MainActivity.class));
                 break;
-            case R.id.settings:
-                startActivity(new Intent(this, SettingActivity.class));
+            case R.id.mapView:
+                startActivity(new Intent(this, MarkOnMap.class));
                 break;
             case R.id.chats:
                 startActivity(new Intent(this, ChatActivity.class));

@@ -273,8 +273,8 @@ public class EditActivityActivity extends AppCompatActivity implements Navigatio
             case R.id.profile:
                 startActivity(new Intent(this, MeActivity.class));
                 break;
-            case R.id.settings:
-                startActivity(new Intent(this, SettingActivity.class));
+            case R.id.mapView:
+                startActivity(new Intent(this, MarkOnMap.class));
                 break;
             default:
                 break;
