@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     private ArrayList<String> activityIdList = new ArrayList<String>();
     private ArrayAdapter<String> adapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
