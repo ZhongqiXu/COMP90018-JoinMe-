@@ -44,6 +44,8 @@ public class CandidateList extends AppCompatActivity {
 
     public static String candidatesId[]= new String[]{}; // candidates_id
     public static String candidatesName[]= new String[]{};  // candidate_name
+    private List<String> participants = new ArrayList<>(1);
+    private List<String> candidates = new ArrayList<>(1);
 
     public static String participatesId[]= new String[]{}; // participates_id
     public static String participatesName[]= new String[]{};  // participates_name
@@ -60,6 +62,7 @@ public class CandidateList extends AppCompatActivity {
     private ArrayList<String> userList = new ArrayList<String>();
     private ArrayList<String> userIdList = new ArrayList<String>();
     private ArrayAdapter<String> adapter;
+    private String autoJoin;
 
 
 
@@ -72,9 +75,23 @@ public class CandidateList extends AppCompatActivity {
         HashMap activityInfo = (HashMap) bundle.get("activityInfo");
         object.Activity activity = new Activity();
         activity.mapToActivity(activity, activityInfo);
-        candidatesId = activity.getCandidates().toArray(new String[0]);
-        participatesId = activity.getParticipants().toArray(new String[0]);
+        autoJoin = String.valueOf(activity.isAutoJoin());
+
+        if (autoJoin == "false" && activity.getCandidates() != null && !activity.getCandidates().isEmpty()){
+        candidatesId = activity.getCandidates().toArray(new String[0]);}
+
+        if (activity.getParticipants() != null && !activity.getParticipants().isEmpty()) {
+            participatesId = activity.getParticipants().toArray(new String[0]);
+        }
         aId = activity.getAid();
+
+        if (activity.getParticipants() != null && !activity.getParticipants().isEmpty()) {
+            participants = activity.getParticipants();
+        }
+        if (activity.getCandidates() != null && !activity.getCandidates().isEmpty()) {
+            candidates= activity.getCandidates();
+        }
+
 
         databaseReference = FirebaseDatabase.getInstance().getReference().child("user");
         databaseReference.addChildEventListener(new ChildEventListener() {
@@ -125,6 +142,7 @@ public class CandidateList extends AppCompatActivity {
 
 
         // candidates
+        if (autoJoin == "false" && activity.getCandidates() != null && !activity.getCandidates().isEmpty()){
         String[] temp = new String[candidatesId.length];
 
         for (int i = 0; i < candidatesId.length; i++) {
@@ -142,28 +160,30 @@ public class CandidateList extends AppCompatActivity {
         MyAdapter adapter = new MyAdapter(this);
         listView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-
+    }
 
 
         // participants
-        String[] temp2 = new String[participatesId.length];
+        if (activity.getParticipants() != null && !activity.getParticipants().isEmpty()) {
+            String[] temp2 = new String[participatesId.length];
 
-        for (int i = 0; i < participatesId.length; i++) {
+            for (int i = 0; i < participatesId.length; i++) {
 
-            for (int j = 0; j< user_id_array.length;j++){
-                if (participatesId[i].equals(user_id_array[j])) {
-                    temp2[i] = user_list_array[j];
+                for (int j = 0; j < user_id_array.length; j++) {
+                    if (participatesId[i].equals(user_id_array[j])) {
+                        temp2[i] = user_list_array[j];
+                    }
                 }
             }
+            participatesName = temp2;
+
+            mData2 = getData2();
+            ListView listView2 = (ListView) findViewById(R.id.list_view2);
+            MyAdapter2 adapter2 = new MyAdapter2(this);
+            listView2.setAdapter(adapter2);
+            adapter2.notifyDataSetChanged();
+
         }
-        participatesName = temp2;
-
-
-        mData2 = getData2();
-        ListView listView2 = (ListView) findViewById(R.id.list_view2);
-        MyAdapter2 adapter2 = new MyAdapter2(this);
-        listView2.setAdapter(adapter2);
-        adapter2.notifyDataSetChanged();
 
 
     }
@@ -344,20 +364,10 @@ public class CandidateList extends AppCompatActivity {
                     })
                     .show();
 
-            FirebaseDatabase.getInstance().getReference().child("activity").child(aId)
-                    .child("candidates").child(candidatesId[position]).removeValue();
-
-           databaseReference = FirebaseDatabase.getInstance().getReference().child("activity").child(aId);
-
-
-
-
-
-
-
-
-
-
+            participants.add(candidatesId[position]);
+            candidates.remove(position);
+            FirebaseDatabase.getInstance().getReference().child("activity").child(aId).child("participants").setValue(participants);
+            FirebaseDatabase.getInstance().getReference().child("activity").child(aId).child("candidates").setValue(candidates);
 
         }
 
