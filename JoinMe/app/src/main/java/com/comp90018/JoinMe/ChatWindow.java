@@ -1,6 +1,8 @@
 package com.comp90018.JoinMe;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,6 +19,8 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -49,7 +53,7 @@ import helper.MessageAdapter;
 public class ChatWindow extends AppCompatActivity {
     EditText getMsg;
     CardView sendMsgCardV;
-    ImageButton sendBtn, picBtn;
+    ImageButton sendBtn, picBtn, cameraBtn;
 
     RecyclerView mmesagerecyclerview;
     ArrayList<Message> messageArrayList;
@@ -73,8 +77,25 @@ public class ChatWindow extends AppCompatActivity {
             if(result != null && result.getResultCode() == RESULT_OK){
                 if(result.getData() != null){
                     imagepath = result.getData().getData();
-                    sendImageToStorage();
+                    Bitmap bitmap=null;
+                    try{
+                        bitmap=MediaStore.Images.Media.getBitmap(getContentResolver(), imagepath);
+                    }catch (IOException e){
+                        e.printStackTrace();
+                    }
+                    sendImageToStorage(bitmap);
                 }
+            }
+        }
+    });
+
+    ActivityResultLauncher<Intent> startForResultCamera = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            if(result.getResultCode() == RESULT_OK && result.getData() != null){
+                Bundle bundle = result.getData().getExtras();
+                Bitmap bitmap = (Bitmap) bundle.get("data");
+                sendImageToStorage(bitmap);
             }
         }
     });
@@ -89,6 +110,7 @@ public class ChatWindow extends AppCompatActivity {
         sendMsgCardV =findViewById(R.id.cardviewofsendmessage);
         sendBtn =findViewById(R.id.imageviewsendmessage);
         picBtn = findViewById(R.id.picbtn);
+        cameraBtn = findViewById(R.id.cameraBtn);
 
         messageArrayList =new ArrayList<>();
         mmesagerecyclerview = findViewById(R.id.recyclerviewofspecific);
@@ -163,45 +185,34 @@ public class ChatWindow extends AppCompatActivity {
             }
         });
 
+        cameraBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ContextCompat.checkSelfPermission(ChatWindow.this,
+                        Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+                    ActivityCompat.requestPermissions(ChatWindow.this,
+                            new String[]{
+                                    Manifest.permission.CAMERA
+                            },100);
+                }
+
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startForResultCamera.launch(intent);
+            }
+        });
+
         picBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
                 startForResult.launch(intent);
-                int time = (int)(calender.getTimeInMillis()/1000);
-                DocumentReference documentReference=firebaseFirestore.collection("Contact").document(senderroom);
-                DocumentReference documentReference2=firebaseFirestore.collection("Contact").document(receiverroom);
-                documentReference.update("time", time);
-                documentReference2.update("time", time);
-
-                currenttime=simpleDateFormat.format(calender.getTime());
-                Message message = new Message(ImageUriAcessToken, firebaseAuth.getUid(), time, currenttime, "Image");
-                firebaseDatabase=FirebaseDatabase.getInstance();
-                firebaseDatabase.getReference().child("chats").child(senderroom).push().setValue(message).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        firebaseDatabase.getReference().child("chats").child(receiverroom).push().setValue(message).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                Toast.makeText(getApplicationContext(), "Sent ", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                });
             }
         });
     }
 
-    private void sendImageToStorage(){
+    private void sendImageToStorage(Bitmap bitmap){
         UUID uuid = UUID.randomUUID();
         StorageReference imageref=storageReference.child("images").child(senderroom).child(uuid.toString());
-
-        Bitmap bitmap=null;
-        try{
-            bitmap=MediaStore.Images.Media.getBitmap(getContentResolver(), imagepath);
-        }catch (IOException e){
-            e.printStackTrace();
-        }
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 25, byteArrayOutputStream);
@@ -216,6 +227,7 @@ public class ChatWindow extends AppCompatActivity {
                     @Override
                     public void onSuccess(Uri uri) {
                         ImageUriAcessToken = uri.toString();
+                        sendImageDatabase();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -231,6 +243,29 @@ public class ChatWindow extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void sendImageDatabase(){
+        int time = (int)(calender.getTimeInMillis()/1000);
+        DocumentReference documentReference=firebaseFirestore.collection("Contact").document(senderroom);
+        DocumentReference documentReference2=firebaseFirestore.collection("Contact").document(receiverroom);
+        documentReference.update("time", time);
+        documentReference2.update("time", time);
+
+        currenttime=simpleDateFormat.format(calender.getTime());
+        Message message = new Message(ImageUriAcessToken, firebaseAuth.getUid(), time, currenttime, "Image");
+        firebaseDatabase=FirebaseDatabase.getInstance();
+        firebaseDatabase.getReference().child("chats").child(senderroom).push().setValue(message).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                firebaseDatabase.getReference().child("chats").child(receiverroom).push().setValue(message).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Toast.makeText(getApplicationContext(), "Sent ", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
     }
 
 

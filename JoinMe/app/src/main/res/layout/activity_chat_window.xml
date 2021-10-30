@@ -14,25 +14,46 @@
         android:padding="5dp" />
 
     <ImageButton
+        android:id="@+id/cameraBtn"
         android:layout_width="45dp"
         android:layout_height="45dp"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
         android:layout_marginLeft="5dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="0dp"
         android:layout_marginBottom="5dp"
+        android:backgroundTint="@android:color/transparent"
+        android:padding="5dp"
         android:paddingLeft="20dp"
         android:paddingEnd="10dp"
         android:paddingRight="10dp"
-        android:layout_marginRight="0dp"
-        android:src="@drawable/ic_baseline_camera_alt_24"
-        app:tint="@color/black"
         android:scaleType="centerCrop"
-        android:backgroundTint="@android:color/transparent"
+        android:src="@drawable/ic_baseline_camera_alt_24"
+        app:tint="@color/black" />
+
+    <ImageButton
         android:id="@+id/picbtn"
-        android:layout_gravity="center"
-        android:padding="5dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp" />
+        android:layout_gravity="center"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="5dp"
+        android:layout_toRightOf="@id/cameraBtn"
+        android:backgroundTint="@android:color/transparent"
+        android:padding="5dp"
+        android:paddingLeft="20dp"
+        android:paddingEnd="10dp"
+        android:paddingRight="10dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_baseline_image_24"
+        app:tint="@color/black" />
 
     <EditText
         android:layout_width="match_parent"
