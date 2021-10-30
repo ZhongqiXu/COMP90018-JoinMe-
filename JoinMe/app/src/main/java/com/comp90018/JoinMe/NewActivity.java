@@ -32,6 +32,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import helper.HorizontalNumberPicker;
@@ -199,6 +200,8 @@ public class NewActivity extends AppCompatActivity implements OnMapReadyCallback
             newActivity.setPlaceName(locationName);
             newActivity.setLatitude(locationLatLng.latitude);
             newActivity.setLongitude(locationLatLng.longitude);
+            newActivity.setCandidates(new ArrayList<>(1));
+            newActivity.setParticipants(new ArrayList<>(1));
             //newActivity.setLatLng(locationLatLng);
 
             FirebaseDatabase.getInstance().getReference().child("activity").child(key).setValue(newActivity).addOnCompleteListener(
