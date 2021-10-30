@@ -5,10 +5,16 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -58,6 +64,7 @@ public class SettingActivity extends AppCompatActivity {
     RadioGroup genderSet;
     RadioButton btn_gender,btn_male,btn_female;
     private HorizontalNumberPicker age;
+    ImageView camera;
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
@@ -88,6 +95,8 @@ public class SettingActivity extends AppCompatActivity {
         //added by chatting
         set_image=findViewById(R.id.getuserimage);
         getuserimageinimageview=findViewById(R.id.getuserimageinimageview);
+        //camera
+        camera=findViewById(R.id.camera);
 
         mAuth = FirebaseAuth.getInstance();
         final String uid = mAuth.getUid();
@@ -129,6 +138,7 @@ public class SettingActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task task) {
                         if (task.isSuccessful()){
+
                             startActivity(new Intent(SettingActivity.this,MeActivity.class));
                             finish();
                         }
@@ -182,7 +192,39 @@ public class SettingActivity extends AppCompatActivity {
         });
 
 
+        if (ContextCompat.checkSelfPermission(SettingActivity.this,
+                Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(SettingActivity.this,
+                    new String[]{
+                            Manifest.permission.CAMERA
+                    },100);
+        }
+
+        camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // open camera
+                Intent intent=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent,100);
+            }
+        });
+
+
     }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100) {
+            Bitmap captureImage = (Bitmap) data.getExtras().get("data");
+
+            getuserimageinimageview.setImageBitmap(captureImage);
+        }
+    }
+
+
 
 
     public void bind(User user){
