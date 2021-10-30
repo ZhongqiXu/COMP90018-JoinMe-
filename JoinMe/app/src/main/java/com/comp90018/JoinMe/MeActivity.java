@@ -173,6 +173,4 @@ public class MeActivity extends AppCompatActivity implements NavigationBarView.O
 
 
 
-
-
 }
