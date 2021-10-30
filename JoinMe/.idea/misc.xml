@@ -26,7 +26,7 @@
         <entry key="app/src/main/res/layout/activity_permission_check.xml" value="0.11246200607902736" />
         <entry key="app/src/main/res/layout/activity_re_set.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_setting.xml" value="0.2953125" />
-        <entry key="app/src/main/res/layout/candidate_list.xml" value="0.19429347826086957" />
+        <entry key="app/src/main/res/layout/candidate_list.xml" value="0.11" />
         <entry key="app/src/main/res/layout/candidate_list_view.xml" value="0.21422101449275363" />
         <entry key="app/src/main/res/layout/canditate_list.xml" value="0.25677083333333334" />
         <entry key="app/src/main/res/layout/chatviewlayout.xml" value="0.2953125" />
@@ -35,7 +35,7 @@
         <entry key="app/src/main/res/layout/main_test.xml" value="0.1" />
         <entry key="app/src/main/res/layout/receiverchatlayout.xml" value="0.1578125" />
         <entry key="app/src/main/res/layout/vlist.xml" value="0.17447916666666666" />
-        <entry key="app/src/main/res/layout/vlist_2.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/vlist_2.xml" value="0.165" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.23541666666666666" />
         <entry key="app/src/main/res/menu/me_menu.xml" value="0.23541666666666666" />
         <entry key="app/src/main/res/menu/my_activity_menu.xml" value="0.20612771582490919" />

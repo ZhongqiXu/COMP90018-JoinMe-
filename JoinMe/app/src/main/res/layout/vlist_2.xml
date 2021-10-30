@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="70.0dip"
-    android:background="@drawable/item">
+    android:background="@drawable/item"
+    android:minHeight="70.0dip">
 
     <TextView
         android:id="@+id/title"
@@ -17,5 +18,6 @@
         android:singleLine="true"
         android:text="TextView"
         android:textColor="@color/listTitle"
-        android:textSize="20.0sp" />
+        android:textSize="20.0sp"
+        android:textStyle="bold" />
 </RelativeLayout>
