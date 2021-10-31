@@ -23,20 +23,6 @@
         android:textSize="20.0sp" />
 
 
-    <TextView
-       android:id="@+id/info"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-        android:layout_below="@id/title"
-        android:layout_toRightOf="@id/sItemIcon"
-
-        android:layout_marginLeft="20dip"
-       android:layout_marginTop="20dip"
-        android:singleLine="true"
-        android:ellipsize="marquee"
-        android:textColor="#ff4400"
-        android:textSize="12.0sp" />
-
 	<Button
 		android:id="@+id/view_btn"
 		android:layout_width="wrap_content"

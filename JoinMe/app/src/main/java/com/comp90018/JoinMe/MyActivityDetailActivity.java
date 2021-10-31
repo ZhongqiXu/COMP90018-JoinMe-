@@ -90,9 +90,21 @@ public class MyActivityDetailActivity extends AppCompatActivity implements Navig
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MyActivityDetailActivity.this, EditActivityActivity.class);
-                intent.putExtra("activityInfo", activityInfo);
-                startActivity(intent);
+                FirebaseDatabase.getInstance().getReference().child("activity")
+                        .get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+                        if (!task.isSuccessful()) {
+                            Log.e("firebase", "Error getting data", task.getException());
+                        }
+                        else {
+                            Intent intent = new Intent(MyActivityDetailActivity.this, CandidateList.class);
+                            HashMap activity = (HashMap) task.getResult().getValue();
+                            intent.putExtra("activityInfo", activity);
+                            startActivity(intent);
+                        }
+                    }
+                });
             }
         });
 

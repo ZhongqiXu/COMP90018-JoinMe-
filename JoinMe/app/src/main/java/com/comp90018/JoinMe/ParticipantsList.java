@@ -38,7 +38,7 @@ import com.google.firebase.database.DatabaseError;
 
 import object.Activity;
 
-public class CandidateList extends AppCompatActivity {
+public class ParticipantsList extends AppCompatActivity {
     NavigationBarView bottomNavigationView;
     Bundle bundle;
     Activity activity = new Activity();
@@ -73,7 +73,7 @@ public class CandidateList extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.candidate_list);
+        setContentView(R.layout.participants_list);
 
         Bundle bundle = getIntent().getExtras();
         HashMap activityInfo = (HashMap) bundle.get("activityInfo");
@@ -82,7 +82,7 @@ public class CandidateList extends AppCompatActivity {
         autoJoin = String.valueOf(activity.isAutoJoin());
 
         if (autoJoin == "false" && activity.getCandidates() != null && !activity.getCandidates().isEmpty()){
-        candidatesId = activity.getCandidates().toArray(new String[0]);}
+            candidatesId = activity.getCandidates().toArray(new String[0]);}
 
         if (activity.getParticipants() != null && !activity.getParticipants().isEmpty()) {
             participatesId = activity.getParticipants().toArray(new String[0]);
@@ -150,33 +150,33 @@ public class CandidateList extends AppCompatActivity {
 
         // candidates
         if (autoJoin == "false" && activity.getCandidates() != null && !activity.getCandidates().isEmpty()){
-        String[] temp = new String[candidatesId.length];
+            String[] temp = new String[candidatesId.length];
 
-        for (int i = 0; i < candidatesId.length; i++) {
+            for (int i = 0; i < candidatesId.length; i++) {
 
-            for (int j = 0; j< user_id_array.length;j++){
-                if (candidatesId[i].equals(user_id_array[j])) {
+                for (int j = 0; j< user_id_array.length;j++){
+                    if (candidatesId[i].equals(user_id_array[j])) {
                         temp[i] = user_list_array[j];
+                    }
                 }
             }
-        }
-        candidatesName = temp;
+            candidatesName = temp;
 
             databaseReference = FirebaseDatabase.getInstance().getReference().child("activity");
             List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
             for(int i=0;i<candidatesId.length;i++) {
                 Map<String, Object> map = new HashMap<String, Object>();
                 map.put("candidatesName", candidatesName[i]);
-               list.add(map);
+                list.add(map);
             }
 
             mData = list;
 
-        ListView listView = (ListView) findViewById(R.id.listView);
-        MyAdapter adapter = new MyAdapter(this);
-        listView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-    }
+//            ListView listView = (ListView) findViewById(R.id.listView);
+//            MyAdapter adapter = new MyAdapter(this);
+//            listView.setAdapter(adapter);
+//            adapter.notifyDataSetChanged();
+        }
 
 
         // participants
@@ -202,11 +202,10 @@ public class CandidateList extends AppCompatActivity {
             }
             mData2  = list2;
 
-//            ListView listView2 = (ListView) findViewById(R.id.list_view2);
-//            MyAdapter2 adapter2 = new MyAdapter2(this);
-//            listView2.setAdapter(adapter2);
-//
-//            adapter2.notifyDataSetChanged();
+            ListView listView2 = (ListView) findViewById(R.id.list_view2);
+            MyAdapter2 adapter2 = new MyAdapter2(this);
+            listView2.setAdapter(adapter2);
+            adapter2.notifyDataSetChanged();
 
         }
 
@@ -218,90 +217,18 @@ public class CandidateList extends AppCompatActivity {
 
 
 
-    public class MyAdapter extends BaseAdapter {
-
-        private final LayoutInflater mInflater;
-
-        public MyAdapter(Context context) {
-            this.mInflater = LayoutInflater.from(context);
-        }
-
-        @Override
-        public int getCount() {
-            // TODO Auto-generated method stub
-            return mData.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            // TODO Auto-generated method stub
-            return 0;
-        }
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-//            ViewHolder holder = new ViewHolder();
-//            if (convertView == null) {
-//                //可以理解为从vlist获取view  之后把view返回给ListView
-//                convertView = mInflater.inflate(R.layout.vlist, null);
-//                holder.title = (TextView) convertView.findViewById(R.id.title);
-//                holder.viewBtn = (Button) convertView.findViewById(R.id.view_btn);
-//                convertView.setTag(holder);
-//
-//
-//            }
-//            else {
-//                holder = (ViewHolder) convertView.getTag();
-//            }
-//            holder.title.setText((String) mData.get(position).get("candidatesName"));
-//            holder.viewBtn.setTag(position);
-//            holder.viewBtn.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    confirm(position);
-//                }
-//            });
-//
-//            //holder.viewBtn.setOnClickListener(MyListener(position));
-//            return convertView;
-
-            convertView = mInflater.inflate(R.layout.vlist, null);
-            TextView title = (TextView) convertView.findViewById(R.id.title);
-            Button viewBtn = (Button) convertView.findViewById(R.id.view_btn);
-
-            title.setText((String) mData.get(position).get("candidatesName"));
-            viewBtn.setTag(position);
-            viewBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    confirm(position);
-                }
-            });
-
-            return convertView;
-
-
-        }
-    }
-
-//    public class MyAdapter2 extends BaseAdapter {
+//    public class MyAdapter extends BaseAdapter {
 //
 //        private final LayoutInflater mInflater;
-
-//        public MyAdapter2 (Context context) {
+//
+//        public MyAdapter(Context context) {
 //            this.mInflater = LayoutInflater.from(context);
 //        }
 //
 //        @Override
 //        public int getCount() {
 //            // TODO Auto-generated method stub
-//            return mData2.size();
+//            return mData.size();
 //        }
 //
 //        @Override
@@ -318,69 +245,140 @@ public class CandidateList extends AppCompatActivity {
 //
 //        @Override
 //        public View getView(final int position, View convertView, ViewGroup parent) {
-////            ViewHolder2 holder = new ViewHolder2();
+////            ViewHolder holder = new ViewHolder();
 ////            if (convertView == null) {
-////
 ////                //可以理解为从vlist获取view  之后把view返回给ListView
-////                convertView = mInflater.inflate(R.layout.vlist_2, null);
+////                convertView = mInflater.inflate(R.layout.vlist, null);
 ////                holder.title = (TextView) convertView.findViewById(R.id.title);
-////
+////                holder.viewBtn = (Button) convertView.findViewById(R.id.view_btn);
 ////                convertView.setTag(holder);
-////            } else {
-////                holder = (ViewHolder2) convertView.getTag();
+////
+////
 ////            }
+////            else {
+////                holder = (ViewHolder) convertView.getTag();
+////            }
+////            holder.title.setText((String) mData.get(position).get("candidatesName"));
+////            holder.viewBtn.setTag(position);
+////            holder.viewBtn.setOnClickListener(new View.OnClickListener() {
+////                @Override
+////                public void onClick(View v) {
+////                    confirm(position);
+////                }
+////            });
 ////
-////            holder.title.setText((String) mData2.get(position).get("participatesName"));
-////
-////
+////            //holder.viewBtn.setOnClickListener(MyListener(position));
 ////            return convertView;
 //
-//            convertView = mInflater.inflate(R.layout.vlist_2, null);
+//            convertView = mInflater.inflate(R.layout.vlist, null);
 //            TextView title = (TextView) convertView.findViewById(R.id.title);
-//            title.setText((String) mData2.get(position).get("participatesName"));
+//            Button viewBtn = (Button) convertView.findViewById(R.id.view_btn);
+//
+//            title.setText((String) mData.get(position).get("candidatesName"));
+//            viewBtn.setTag(position);
+//            viewBtn.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    confirm(position);
+//                }
+//            });
 //
 //            return convertView;
-//
-//
 //
 //
 //        }
 //    }
 
+    public class MyAdapter2 extends BaseAdapter {
 
-        public final class ViewHolder {
-            public TextView title;
-            public Button viewBtn;
+        private final LayoutInflater mInflater;
+
+        public MyAdapter2 (Context context) {
+            this.mInflater = LayoutInflater.from(context);
         }
 
-        public final class ViewHolder2 {
-            public TextView title;
+        @Override
+        public int getCount() {
+            // TODO Auto-generated method stub
+            return mData2.size();
         }
 
-        public void confirm(int position){
+        @Override
+        public Object getItem(int position) {
+            // TODO Auto-generated method stub
+            return null;
+        }
 
-            ImageView img=new ImageView(CandidateList.this);
-            new AlertDialog.Builder(this).setView(img)
-                    .setTitle("Are you sure you would like to add ")
-                    .setMessage(candidatesName[position]+" to the activity?")
-                    .setPositiveButton("confirm", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            participants.add(candidatesId[position]);
-                            candidates.remove(position);
-                            FirebaseDatabase.getInstance().getReference().child("activity").child(aId).child("participants").setValue(participants);
-                            FirebaseDatabase.getInstance().getReference().child("activity").child(aId).child("candidates").setValue(candidates);
+        @Override
+        public long getItemId(int position) {
+            // TODO Auto-generated method stub
+            return 0;
+        }
 
-                            recreate();
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+//            ViewHolder2 holder = new ViewHolder2();
+//            if (convertView == null) {
+//
+//                //可以理解为从vlist获取view  之后把view返回给ListView
+//                convertView = mInflater.inflate(R.layout.vlist_2, null);
+//                holder.title = (TextView) convertView.findViewById(R.id.title);
+//
+//                convertView.setTag(holder);
+//            } else {
+//                holder = (ViewHolder2) convertView.getTag();
+//            }
+//
+//            holder.title.setText((String) mData2.get(position).get("participatesName"));
+//
+//
+//            return convertView;
 
-                        }
-                    })
-                    .show();
+            convertView = mInflater.inflate(R.layout.vlist_2, null);
+            TextView title = (TextView) convertView.findViewById(R.id.title);
+            title.setText((String) mData2.get(position).get("participatesName"));
+            return convertView;
 
 
 
 
         }
+    }
+
+
+//    public final class ViewHolder {
+//        public TextView title;
+//        public Button viewBtn;
+//    }
+
+    public final class ViewHolder2 {
+        public TextView title;
+    }
+
+//    public void confirm(int position){
+//
+//        ImageView img=new ImageView(ParticipantsList.this);
+//        new AlertDialog.Builder(this).setView(img)
+//                .setTitle("Are you sure you would like to add ")
+//                .setMessage(candidatesName[position]+" to the activity?")
+//                .setPositiveButton("confirm", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        participants.add(candidatesId[position]);
+//                        candidates.remove(position);
+//                        FirebaseDatabase.getInstance().getReference().child("activity").child(aId).child("participants").setValue(participants);
+//                        FirebaseDatabase.getInstance().getReference().child("activity").child(aId).child("candidates").setValue(candidates);
+//
+//                        recreate();
+//
+//                    }
+//                })
+//                .show();
+//
+//
+//
+//
+//    }
 
 
 }

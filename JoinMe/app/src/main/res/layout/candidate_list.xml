@@ -17,17 +17,4 @@
         android:divider="@drawable/list_line"
         android:dividerHeight="1dip" />
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="match_parent"
-        android:layout_height="53dp"
-        android:text="Participants" />
-
-    <ListView
-        android:id="@+id/list_view2"
-        android:layout_width="match_parent"
-        android:layout_height="310dp"
-        android:divider="@drawable/list_line"
-        android:dividerHeight="1dip" />
-
 </LinearLayout>
