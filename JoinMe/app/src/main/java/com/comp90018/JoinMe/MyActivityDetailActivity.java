@@ -50,7 +50,7 @@ public class MyActivityDetailActivity extends AppCompatActivity implements OnMap
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
+        setContentView(R.layout.activity_my_activity);
 
         Bundle bundle = getIntent().getExtras();
         HashMap activityInfo = (HashMap) bundle.get("activityInfo");
@@ -103,7 +103,7 @@ public class MyActivityDetailActivity extends AppCompatActivity implements OnMap
             }
         });
 
-        candidate_list = findViewById(R.id.activity_List);
+        candidate_list = findViewById(R.id.candidate_List);
         candidate_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -232,7 +232,6 @@ public class MyActivityDetailActivity extends AppCompatActivity implements OnMap
             googleMap.animateCamera(CameraUpdateFactory.zoomIn());
             // Zoom out to zoom level 10, animating with a duration of 2 seconds.
             googleMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
-
         }
 
     }

@@ -3,6 +3,7 @@ package com.comp90018.JoinMe;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -45,8 +46,11 @@ public class MyActivityListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
-        ImageView imageView = (ImageView) findViewById(R.id.imageView);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        // using toolbar as ActionBar
+        setSupportActionBar(toolbar);
 
+        ImageView imageView = (ImageView) findViewById(R.id.imageView);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
 
@@ -97,7 +101,6 @@ public class MyActivityListActivity extends AppCompatActivity {
                 String owner = (String) map.get("owner");
 
                 if (owner.equals(uid)) {
-
                     activityList.add((String) map.get("title"));
                     activityIdList.add((String) dataSnapshot.getKey());
                 }
