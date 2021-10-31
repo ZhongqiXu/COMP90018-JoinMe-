@@ -1,0 +1,95 @@
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"DesignSurface\">\n    <option name=\"filePathToZoomLevelMap\">\n      <map>\n        <entry key=\"../../../../../../layout/custom_preview.xml\" value=\"0.26197916666666665\" />\n        <entry key=\"app/src/main/res/drawable/btn_detail_selecter.xml\" value=\"0.190625\" />\n        <entry key=\"app/src/main/res/drawable/item.xml\" value=\"0.190625\" />\n        <entry key=\"app/src/main/res/layout/activity_chat.xml\" value=\"0.2953125\" />\n        <entry key=\"app/src/main/res/layout/activity_chat_activity.xml\" value=\"0.1503623188405797\" />\n        <entry key=\"app/src/main/res/layout/activity_chat_window.xml\" value=\"0.3098958333333333\" />\n        <entry key=\"app/src/main/res/layout/activity_chat_window_new.xml\" value=\"0.1578125\" />\n        <entry key=\"app/src/main/res/layout/activity_detail.xml\" value=\"0.19519927536231885\" />\n        <entry key=\"app/src/main/res/layout/activity_edit_activity.xml\" value=\"0.19519927536231885\" />\n        <entry key=\"app/src/main/res/layout/activity_image_showing.xml\" value=\"0.1578125\" />\n        <entry key=\"app/src/main/res/layout/activity_image_showing2.xml\" value=\"0.1578125\" />\n        <entry key=\"app/src/main/res/layout/activity_list.xml\" value=\"0.13234347618705175\" />\n        <entry key=\"app/src/main/res/layout/activity_list_view.xml\" value=\"0.19519927536231885\" />\n        <entry key=\"app/src/main/res/layout/activity_list_view1.xml\" value=\"0.19519927536231885\" />\n        <entry key=\"app/src/main/res/layout/activity_login.xml\" value=\"0.1956521739130435\" />\n        <entry key=\"app/src/main/res/layout/activity_main.xml\" value=\"0.19519927536231885\" />\n        <entry key=\"app/src/main/res/layout/activity_me.xml\" value=\"0.19519927536231885\" />\n        <entry key=\"app/src/main/res/layout/activity_my_activity.xml\" value=\"0.19519927536231885\" />\n        <entry key=\"app/src/main/res/layout/activity_new.xml\" value=\"0.1\" />\n        <entry key=\"app/src/main/res/layout/activity_new_chat.xml\" value=\"0.14447463768115942\" />\n        <entry key=\"app/src/main/res/layout/activity_permission_check.xml\" value=\"0.11246200607902736\" />\n        <entry key=\"app/src/main/res/layout/activity_re_set.xml\" value=\"0.1\" />\n        <entry key=\"app/src/main/res/layout/activity_setting.xml\" value=\"0.2953125\" />\n        <entry key=\"app/src/main/res/layout/candidate_list.xml\" value=\"0.11\" />\n        <entry key=\"app/src/main/res/layout/candidate_list_view.xml\" value=\"0.21422101449275363\" />\n        <entry key=\"app/src/main/res/layout/canditate_list.xml\" value=\"0.25677083333333334\" />\n        <entry key=\"app/src/main/res/layout/chatviewlayout.xml\" value=\"0.2953125\" />\n        <entry key=\"app/src/main/res/layout/horizontal_number_picker.xml\" value=\"0.19519927536231885\" />\n        <entry key=\"app/src/main/res/layout/info_window.xml\" value=\"0.11246200607902736\" />\n        <entry key=\"app/src/main/res/layout/main_test.xml\" value=\"0.1\" />\n        <entry key=\"app/src/main/res/layout/receiverchatlayout.xml\" value=\"0.1578125\" />\n        <entry key=\"app/src/main/res/layout/vlist.xml\" value=\"0.17447916666666666\" />\n        <entry key=\"app/src/main/res/layout/vlist_2.xml\" value=\"0.165\" />\n        <entry key=\"app/src/main/res/menu/bottom_nav_menu.xml\" value=\"0.23541666666666666\" />\n        <entry key=\"app/src/main/res/menu/me_menu.xml\" value=\"0.23541666666666666\" />\n        <entry key=\"app/src/main/res/menu/my_activity_menu.xml\" value=\"0.20612771582490919\" />\n      </map>\n    </option>\n  </component>\n  <component name=\"ExternalStorageConfigurationManager\" enabled=\"true\" />\n  <component name=\"ProjectPlainTextFileTypeManager\">\n    <file url=\"file://$PROJECT_DIR$/app/src/main/res/layout/candidate_list.xml\" />\n  </component>\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_14\" default=\"false\" project-jdk-name=\"11\" project-jdk-type=\"JavaSDK\">\n    <output url=\"file://$PROJECT_DIR$/build/classes\" />\n  </component>\n  <component name=\"ProjectType\">\n    <option name=\"id\" value=\"Android\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	
++++ b/.idea/misc.xml	
+@@ -5,6 +5,9 @@
+       <map>
+         <entry key="../../../../../../layout/custom_preview.xml" value="0.26197916666666665" />
+         <entry key="app/src/main/res/drawable/btn_detail_selecter.xml" value="0.190625" />
++        <entry key="app/src/main/res/drawable/custom_button.xml" value="0.13055555555555556" />
++        <entry key="app/src/main/res/drawable/ic_baseline_chat_24.xml" value="0.13055555555555556" />
++        <entry key="app/src/main/res/drawable/ic_baseline_format_list_bulleted_24.xml" value="0.13055555555555556" />
+         <entry key="app/src/main/res/drawable/item.xml" value="0.190625" />
+         <entry key="app/src/main/res/layout/activity_chat.xml" value="0.2953125" />
+         <entry key="app/src/main/res/layout/activity_chat_activity.xml" value="0.1503623188405797" />
+@@ -19,14 +22,16 @@
+         <entry key="app/src/main/res/layout/activity_list_view1.xml" value="0.19519927536231885" />
+         <entry key="app/src/main/res/layout/activity_login.xml" value="0.1956521739130435" />
+         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19519927536231885" />
++        <entry key="app/src/main/res/layout/activity_map.xml" value="0.16847826086956522" />
+         <entry key="app/src/main/res/layout/activity_me.xml" value="0.19519927536231885" />
+         <entry key="app/src/main/res/layout/activity_my_activity.xml" value="0.19519927536231885" />
+         <entry key="app/src/main/res/layout/activity_new.xml" value="0.1" />
+         <entry key="app/src/main/res/layout/activity_new_chat.xml" value="0.14447463768115942" />
+         <entry key="app/src/main/res/layout/activity_permission_check.xml" value="0.11246200607902736" />
+         <entry key="app/src/main/res/layout/activity_re_set.xml" value="0.1" />
++        <entry key="app/src/main/res/layout/activity_register.xml" value="0.36811068878469155" />
+         <entry key="app/src/main/res/layout/activity_setting.xml" value="0.2953125" />
+-        <entry key="app/src/main/res/layout/candidate_list.xml" value="0.11" />
++        <entry key="app/src/main/res/layout/candidate_list.xml" value="0.19429347826086957" />
+         <entry key="app/src/main/res/layout/candidate_list_view.xml" value="0.21422101449275363" />
+         <entry key="app/src/main/res/layout/canditate_list.xml" value="0.25677083333333334" />
+         <entry key="app/src/main/res/layout/chatviewlayout.xml" value="0.2953125" />
+@@ -35,7 +40,7 @@
+         <entry key="app/src/main/res/layout/main_test.xml" value="0.1" />
+         <entry key="app/src/main/res/layout/receiverchatlayout.xml" value="0.1578125" />
+         <entry key="app/src/main/res/layout/vlist.xml" value="0.17447916666666666" />
+-        <entry key="app/src/main/res/layout/vlist_2.xml" value="0.165" />
++        <entry key="app/src/main/res/layout/vlist_2.xml" value="0.25" />
+         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.23541666666666666" />
+         <entry key="app/src/main/res/menu/me_menu.xml" value="0.23541666666666666" />
+         <entry key="app/src/main/res/menu/my_activity_menu.xml" value="0.20612771582490919" />
+@@ -46,7 +51,7 @@
+   <component name="ProjectPlainTextFileTypeManager">
+     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/candidate_list.xml" />
+   </component>
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_14" default="false" project-jdk-name="11" project-jdk-type="JavaSDK">
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/build/classes" />
+   </component>
+   <component name="ProjectType">
+Index: .idea/compiler.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"CompilerConfiguration\">\n    <bytecodeTargetLevel target=\"14\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/compiler.xml b/.idea/compiler.xml
+--- a/.idea/compiler.xml	
++++ b/.idea/compiler.xml	
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+   <component name="CompilerConfiguration">
+-    <bytecodeTargetLevel target="14" />
++    <bytecodeTargetLevel target="11" />
+   </component>
+ </project>
+\ No newline at end of file
+Index: app/src/main/res/drawable/ic_baseline_settings_24.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/drawable/ic_baseline_settings_24.xml b/app/src/main/res/drawable/ic_baseline_settings_24.xml
+new file mode 100644
+--- /dev/null	
++++ b/app/src/main/res/drawable/ic_baseline_settings_24.xml	
+@@ -0,0 +1,10 @@
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
++    android:width="24dp"
++    android:height="24dp"
++    android:viewportWidth="24"
++    android:viewportHeight="24"
++    android:tint="?attr/colorControlNormal">
++  <path
++      android:fillColor="@android:color/white"
++      android:pathData="M19.14,12.94c0.04,-0.3 0.06,-0.61 0.06,-0.94c0,-0.32 -0.02,-0.64 -0.07,-0.94l2.03,-1.58c0.18,-0.14 0.23,-0.41 0.12,-0.61l-1.92,-3.32c-0.12,-0.22 -0.37,-0.29 -0.59,-0.22l-2.39,0.96c-0.5,-0.38 -1.03,-0.7 -1.62,-0.94L14.4,2.81c-0.04,-0.24 -0.24,-0.41 -0.48,-0.41h-3.84c-0.24,0 -0.43,0.17 -0.47,0.41L9.25,5.35C8.66,5.59 8.12,5.92 7.63,6.29L5.24,5.33c-0.22,-0.08 -0.47,0 -0.59,0.22L2.74,8.87C2.62,9.08 2.66,9.34 2.86,9.48l2.03,1.58C4.84,11.36 4.8,11.69 4.8,12s0.02,0.64 0.07,0.94l-2.03,1.58c-0.18,0.14 -0.23,0.41 -0.12,0.61l1.92,3.32c0.12,0.22 0.37,0.29 0.59,0.22l2.39,-0.96c0.5,0.38 1.03,0.7 1.62,0.94l0.36,2.54c0.05,0.24 0.24,0.41 0.48,0.41h3.84c0.24,0 0.44,-0.17 0.47,-0.41l0.36,-2.54c0.59,-0.24 1.13,-0.56 1.62,-0.94l2.39,0.96c0.22,0.08 0.47,0 0.59,-0.22l1.92,-3.32c0.12,-0.22 0.07,-0.47 -0.12,-0.61L19.14,12.94zM12,15.6c-1.98,0 -3.6,-1.62 -3.6,-3.6s1.62,-3.6 3.6,-3.6s3.6,1.62 3.6,3.6S13.98,15.6 12,15.6z"/>
++</vector>

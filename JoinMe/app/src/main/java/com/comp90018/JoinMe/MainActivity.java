@@ -3,6 +3,7 @@ package com.comp90018.JoinMe;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -32,7 +33,6 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
 
     NavigationBarView bottomNavigationView;
-    Button newActivity;
 
     private ListView activityListView;
     private DatabaseReference databaseReference;
@@ -47,11 +47,18 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        newActivity = findViewById(R.id.newActivity);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        newActivity.setOnClickListener(new View.OnClickListener() {
+        // using toolbar as ActionBar
+        setSupportActionBar(toolbar);
+
+        ImageView imageView = (ImageView) findViewById(R.id.imageView);
+
+        imageView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+
+            // incrementing the value of textView
+            public void onClick( View view ) {
                 startActivity(new Intent(MainActivity.this, MapActivity.class));
             }
         });
@@ -120,6 +127,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         });
 
     }
+
     public void setListViewHeightBasedOnChildren(ListView activityListView) {
         ListAdapter listAdapter = activityListView.getAdapter();
         if (listAdapter == null) {
@@ -136,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
 
         ViewGroup.LayoutParams params = activityListView.getLayoutParams();
         params.height = totalHeight + (activityListView.getDividerHeight() * (listAdapter.getCount() - 1))
-                + newActivity.getHeight() + bottomNavigationView.getHeight();
+                + bottomNavigationView.getHeight();
         activityListView.setLayoutParams(params);
         activityListView.requestLayout();
     }
@@ -145,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         bottomNavigationView.getMenu().findItem(item.getItemId()).setChecked(true);
         switch (item.getItemId()) {
-            case R.id.profile:
+            case R.id.Me:
                 startActivity(new Intent(this, MeActivity.class));
                 break;
             case R.id.mapView:

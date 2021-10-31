@@ -5,11 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -27,31 +29,42 @@ import com.squareup.picasso.Picasso;
 
 import object.User;
 
-public class MeActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener{
-    NavigationBarView bottomNavigationView;
-    private Button profile,my,join,logout;
+public class ProfileActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
 
-    TextView welname;
+
+    TextView userName,welname,gender,age,brief,email;
     FirebaseAuth mAuth;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
 
+    NavigationBarView bottomNavigationView;
     private ImageView profileImageview;
+
+    private Button button_setting;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_me);
 
         mAuth = FirebaseAuth.getInstance();
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_profile);
+
+        welname = findViewById(R.id.wel_name);
+        userName = findViewById(R.id.ds_name);
+        gender = findViewById(R.id.ds_gender);
+        email = findViewById(R.id.ds_email);
+        brief = findViewById(R.id.ds_brief);
+        age = findViewById(R.id.ds_age);
+        profileImageview=findViewById(R.id.profileImageview);
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(this);
         bottomNavigationView.getMenu().findItem(R.id.Me).setChecked(true);
 
         final String uid = mAuth.getUid();
-        welname = findViewById(R.id.wel_name);
-        profileImageview=findViewById(R.id.profileImageview);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference().child("user").child(uid);
@@ -61,10 +74,11 @@ public class MeActivity extends AppCompatActivity implements NavigationBarView.O
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+            public void onDataChange(@NonNull  DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
                 //System.out.println(user);
                 welname.setText(user.getUserName());
+                bind(user);
 
                 documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -81,44 +95,56 @@ public class MeActivity extends AppCompatActivity implements NavigationBarView.O
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
+            public void onCancelled(@NonNull  DatabaseError error) {
+                Toast.makeText(ProfileActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
             }
         });
 
-        profile = findViewById(R.id.profile);
-        profile.setOnClickListener(new View.OnClickListener() {
+        // put the button into the navigation bar latter
+        button_setting = findViewById(R.id.button_setting);
+        button_setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MeActivity.this, ProfileActivity.class));
+                startActivity(new Intent(ProfileActivity.this, SettingActivity.class));
             }
         });
 
-        my = findViewById(R.id.my_activities);
-        my.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MeActivity.this, MyActivityListActivity.class));
-            }
-        });
 
-        join = findViewById(R.id.joined_Activities);
-        join.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MeActivity.this, JoinedActivity.class));
-            }
-        });
+    }
 
-        logout = findViewById(R.id.logout);
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.me_menu,menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.edit:
+                startActivity(new Intent(ProfileActivity.this, SettingActivity.class));
+                break;
+            case R.id.logout:
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(MeActivity.this, LoginActivity.class));
+                startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
                 finish();
-            }
-        });
+                break;
+            case R.id.myActivities:
+                startActivity(new Intent(ProfileActivity.this, MyActivityListActivity.class));
+                break;
+            default:
+                break;
+        }
+        return true;
+
+    }
+
+    public void bind(User user){
+        userName.setText(user.getUserName());
+        gender.setText(user.getGender());
+        email.setText(user.getEmail());
+        brief.setText(user.getBrief());
+        age.setText(user.getAge());
     }
 
     @Override
@@ -139,6 +165,7 @@ public class MeActivity extends AppCompatActivity implements NavigationBarView.O
         }
         return false;
     }
+
 
 
 }

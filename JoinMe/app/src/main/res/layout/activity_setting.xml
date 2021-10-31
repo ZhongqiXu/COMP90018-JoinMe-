@@ -23,16 +23,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
                 android:layout_marginTop="45dp"
                 android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Setting"
-                    android:textStyle="bold"
-                    android:layout_gravity="center_vertical"
-                    android:textSize="24sp"/>
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="130dp"
@@ -55,10 +48,10 @@
                 <ImageView
                     android:id="@+id/camera"
                     android:layout_width="50dp"
-                    android:layout_height="20dp"
+                    android:layout_height="40dp"
                     android:layout_marginTop="100dp"
                     app:srcCompat="@drawable/ic_baseline_camera_alt_24"
-                    tools:ignore="VectorDrawableCompat"/>
+                    tools:ignore="VectorDrawableCompat" />
 
 
             </LinearLayout>
@@ -73,62 +66,78 @@
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="40dp"
                 android:hint="Username">
+
                 <EditText
                     android:id="@+id/setting_name"
-                    android:layout_width="match_parent"
+                    android:layout_width="330dp"
                     android:layout_height="wrap_content"
+                    android:background="#72FFFFFF"
                     android:inputType="text"
-                    tools:text="464564@1234.com" />
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="#ACACAC"
+                    android:textSize="14sp"
+                    tools:text="Enter your username here"/>
             </com.google.android.material.textfield.TextInputLayout>
 
 
+            <LinearLayout
+                android:layout_width="330dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="    Gender:"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="16dp"/>
-
-            <RadioGroup
-                android:id="@+id/radioSex"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="16dp">
-
-
-                <RadioButton
-                    android:id="@+id/radioMale"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:text="Male"
-                    android:checked="true" />
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="16dp"
+                    android:text="Gender:"
+                    android:textSize="14sp" />
 
-                <RadioButton
-                    android:id="@+id/radioFemale"
+                <RadioGroup
+                    android:id="@+id/radioSex"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
-                    android:text="Female" />
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="20sp"
+                    android:layout_marginLeft="20sp"
+                    android:orientation="horizontal">
 
-            </RadioGroup>
+
+                    <RadioButton
+                        android:id="@+id/radioMale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="Male" />
+
+                    <RadioButton
+                        android:id="@+id/radioFemale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20sp"
+                        android:text="Female" />
+
+                </RadioGroup>
+            </LinearLayout>
 
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="330dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp">
+                android:layout_marginRight="16dp"
+                android:orientation="horizontal">
+
                 <TextView
                     android:id="@+id/setting_age_title"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_marginTop="10dp"
-                    android:text="    Age:"/>
+                    android:layout_weight="1"
+                    android:text="    Age:" />
+
                 <helper.HorizontalNumberPicker
                     android:id="@+id/setting_age"
                     android:layout_width="wrap_content"
@@ -145,20 +154,31 @@
                 android:hint="Brief">
                 <EditText
                     android:id="@+id/setting_brief"
-                    android:layout_width="match_parent"
+                    android:layout_width="330dp"
                     android:layout_height="wrap_content"
+                    android:background="#72FFFFFF"
                     android:inputType="text"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="#ACACAC"
+                    android:textSize="14sp"
                     tools:text="464564@1234.com" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/setting_submit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="300dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
                 android:layout_marginLeft="16dp"
+                android:layout_marginTop="80dp"
                 android:layout_marginRight="16dp"
-                android:layout_marginTop="30dp"
-                android:text="submit">
+                android:background="@drawable/custom_button"
+                android:shadowRadius="2"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                app:backgroundTint="#45A4AC"
+                android:text="SUBMIT">
             </Button>
 
 

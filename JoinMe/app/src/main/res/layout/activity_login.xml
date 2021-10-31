@@ -5,17 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_vertical"
+    android:background="#FBEBD9"
+    android:theme="@style/Theme.JoinMe.NoActionBar"
     android:orientation="vertical"
     tools:context=".LoginActivity">
-    
-    
+
+
     <ImageView
         android:id="@+id/LogoImage"
-        android:layout_width="150dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="223dp"
+        android:layout_height="58dp"
         android:layout_gravity="center_horizontal"
-        />
+        android:layout_marginTop="80dp"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/login_back" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/login_EmailBox"
@@ -25,10 +28,14 @@
         android:layout_marginTop="16dp"
         android:layout_marginRight="16dp"
         android:hint="Email">
+
         <EditText
             android:id="@+id/login_Email"
-            android:layout_width="match_parent"
+            android:layout_width="330dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
+            android:background="#72FFFFFF"
             android:inputType="textEmailAddress"
             tools:text="464564@1234.com" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -41,68 +48,77 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:hint="Password">
+
         <EditText
             android:id="@+id/login_pwd"
-            android:layout_width="match_parent"
+            android:layout_width="330dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="#72FFFFFF"
             android:inputType="textPassword"
             tools:text="464564@1234.com" />
     </com.google.android.material.textfield.TextInputLayout>
-    
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="16dp">
+
         <TextView
             android:id="@+id/btn_fotget"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="16dp"
             android:text="Forget Password?"
-            android:textStyle="bold"
-            android:layout_alignParentRight="true"/>
+            android:textColor="#5A8184"
+            android:textStyle="bold" />
     </RelativeLayout>
 
 
     <Button
         android:id="@+id/btn_login"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
+        android:layout_gravity="center_horizontal"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
         android:layout_marginTop="40dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/custom_button"
         android:text="LOGIN"
-        android:gravity="center"/>
+        android:textColor="#5A8184"
+        android:textSize="16sp"
+        app:backgroundTint="#FFFFFF" />
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="40dp">
+        android:layout_marginTop="40dp"
+        android:layout_marginRight="16dp">
+
         <TextView
             android:id="@+id/tx_donotHaveAccount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Do not have an account?"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="false"
+            android:text="Do not have an account?" />
 
         <TextView
             android:id="@+id/btn_ToRegister"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Register"
-            android:textStyle="bold"
+            android:layout_toRightOf="@+id/tx_donotHaveAccount"
             android:paddingLeft="5dp"
-            android:layout_toRightOf="@+id/tx_donotHaveAccount"/>
+            android:text="Register"
+            android:textColor="#5A8184"
+            android:textStyle="bold" />
 
 
     </RelativeLayout>
-
-
-
-
 
 
 </LinearLayout>

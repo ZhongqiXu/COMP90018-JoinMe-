@@ -9,11 +9,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -28,11 +29,10 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class MyActivityListActivity extends AppCompatActivity {
-
-    NavigationBarView bottomNavigationView;
+public class JoinedActivity extends AppCompatActivity{
 
     private ListView activityListView;
     private DatabaseReference databaseReference;
@@ -41,26 +41,13 @@ public class MyActivityListActivity extends AppCompatActivity {
     private ArrayList<String> activityIdList = new ArrayList<String>();
     private ArrayAdapter<String> adapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list);
+        setContentView(R.layout.activity_joined);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        // using toolbar as ActionBar
-        setSupportActionBar(toolbar);
-
-        ImageView imageView = (ImageView) findViewById(R.id.imageView);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-
-            // incrementing the value of textView
-            public void onClick( View view ) {
-                startActivity(new Intent(MyActivityListActivity.this, MapActivity.class));
-            }
-        });
-
-        adapter = new ArrayAdapter<String>(MyActivityListActivity.this, R.layout.activity_list_view1, activityList);
+        adapter = new ArrayAdapter<String>(JoinedActivity.this, R.layout.activity_list_view, activityList);
 
         activityListView = (ListView) findViewById(R.id.activity_List);
         activityListView.setAdapter(adapter);
@@ -75,7 +62,7 @@ public class MyActivityListActivity extends AppCompatActivity {
                             Log.e("firebase", "Error getting data", task.getException());
                         }
                         else {
-                            Intent intent = new Intent(MyActivityListActivity.this, MyActivityDetailActivity.class);
+                            Intent intent = new Intent(JoinedActivity.this, DetailActivity.class);
                             HashMap activity = (HashMap) task.getResult().getValue();
                             intent.putExtra("activityInfo", activity);
                             startActivity(intent);
@@ -89,7 +76,6 @@ public class MyActivityListActivity extends AppCompatActivity {
         databaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
-                @SuppressWarnings("unchecked")
                 Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
 
                 String uid = "";
@@ -98,9 +84,11 @@ public class MyActivityListActivity extends AppCompatActivity {
                 if (user != null) {
                     uid = user.getUid();
                 }
-                String owner = (String) map.get("owner");
+                List<String> participants = (List<String>) map.get("participants");
 
-                if (owner.equals(uid)) {
+                System.out.println(participants);
+
+                if (participants != null && participants.contains(uid)) {
                     activityList.add((String) map.get("title"));
                     activityIdList.add((String) dataSnapshot.getKey());
                 }
@@ -129,6 +117,5 @@ public class MyActivityListActivity extends AppCompatActivity {
         });
 
     }
-
 
 }

@@ -32,7 +32,7 @@
         android:paddingRight="10dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_baseline_camera_alt_24"
-        app:tint="@color/black" />
+        app:tint="#45A4AC" />
 
     <ImageButton
         android:id="@+id/picbtn"
@@ -41,9 +41,11 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
-        android:layout_marginLeft="5dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginLeft="2dp"
         android:layout_marginTop="20dp"
-        android:layout_marginRight="0dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginRight="2dp"
         android:layout_marginBottom="5dp"
         android:layout_toRightOf="@id/cameraBtn"
         android:backgroundTint="@android:color/transparent"
@@ -53,7 +55,7 @@
         android:paddingRight="10dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_baseline_image_24"
-        app:tint="@color/black" />
+        app:tint="#45A4AC" />
 
     <EditText
         android:layout_width="match_parent"
@@ -76,27 +78,29 @@
         android:layout_gravity="start" />
 
     <androidx.cardview.widget.CardView
-        android:layout_width="45dp"
-        android:layout_height="45dp"
         android:id="@+id/cardviewofsendmessage"
-        android:layout_toRightOf="@+id/getmessage"
-        android:layout_marginLeft="-50dp"
-        android:layout_marginBottom="5dp"
-        android:backgroundTint="#0D8F80"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_alignParentBottom="true"
+        android:layout_marginLeft="-50dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toRightOf="@+id/getmessage"
+        android:background="#45A4AC"
+        android:backgroundTint="#0D8F80"
+        app:cardBackgroundColor="#45A4AC"
         app:cardCornerRadius="45dp">
 
         <ImageButton
+            android:id="@+id/imageviewsendmessage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_baseline_arrow_forward_24"
-            app:tint="@color/white"
-            android:scaleType="centerCrop"
-            android:backgroundTint="@android:color/transparent"
-            android:background="@android:color/transparent"
-            android:id="@+id/imageviewsendmessage"
             android:layout_gravity="center"
-            android:padding="5dp"/>
+            android:background="@android:color/transparent"
+            android:backgroundTint="@android:color/transparent"
+            android:padding="6dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_baseline_arrow_forward_24"
+            app:tint="@color/white" />
 
     </androidx.cardview.widget.CardView>
 

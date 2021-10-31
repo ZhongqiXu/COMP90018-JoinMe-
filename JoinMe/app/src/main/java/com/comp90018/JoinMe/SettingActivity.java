@@ -12,7 +12,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -139,7 +138,7 @@ public class SettingActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task task) {
                         if (task.isSuccessful()){
 
-                            startActivity(new Intent(SettingActivity.this,MeActivity.class));
+                            startActivity(new Intent(SettingActivity.this, ProfileActivity.class));
                             finish();
                         }
                         else
@@ -150,7 +149,13 @@ public class SettingActivity extends AppCompatActivity {
                 });
                 //added by chatting
                 if(imagepath!=null){
-                    sendImagetoStorage();
+                    Bitmap bits=null;
+                    try{
+                        bits=MediaStore.Images.Media.getBitmap(getContentResolver(), imagepath);
+                    }catch (IOException e){
+                        e.printStackTrace();
+                    }
+                    sendImagetoStorage(bits);
                 }
             }
         });
@@ -219,7 +224,7 @@ public class SettingActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100) {
             Bitmap captureImage = (Bitmap) data.getExtras().get("data");
-
+            sendImagetoStorage(captureImage);
             getuserimageinimageview.setImageBitmap(captureImage);
         }
     }
@@ -262,14 +267,9 @@ public class SettingActivity extends AppCompatActivity {
         return user;
     }
     //added by chatting
-    private void sendImagetoStorage(){
+    private void sendImagetoStorage(Bitmap bitmap){
         StorageReference imageref=storageReference.child("images").child(mAuth.getUid()).child("Profile Pic");
-        Bitmap bitmap=null;
-        try{
-            bitmap=MediaStore.Images.Media.getBitmap(getContentResolver(), imagepath);
-        }catch (IOException e){
-            e.printStackTrace();
-        }
+
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 25, byteArrayOutputStream);
@@ -315,4 +315,5 @@ public class SettingActivity extends AppCompatActivity {
         });
 
     }
+
 }

@@ -1,5 +1,6 @@
 package com.comp90018.JoinMe;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -32,8 +33,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import helper.HorizontalNumberPicker;
 import object.Activity;
@@ -173,11 +176,17 @@ public class NewActivity extends AppCompatActivity implements OnMapReadyCallback
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
+        Date today = new Date();
+        @SuppressLint("SimpleDateFormat") Date setDate = new SimpleDateFormat("dd/MM/yyyy").parse(date);
+
         // validate empty fields
         if (TextUtils.isEmpty(title.getText().toString()))
             Toast.makeText(NewActivity.this,"Please enter title.",Toast.LENGTH_SHORT).show();
         else if (TextUtils.isEmpty(date))
             Toast.makeText(NewActivity.this,"Please choose date.",Toast.LENGTH_SHORT).show();
+        else if (setDate.before(today)) {
+            Toast.makeText(NewActivity.this,"Chosen date should after today.",Toast.LENGTH_SHORT).show();
+        }
         else if (TextUtils.isEmpty(time))
             Toast.makeText(NewActivity.this,"Please choose time.",Toast.LENGTH_SHORT).show();
         else if (locationLatLng == null)

@@ -10,6 +10,7 @@ import android.content.IntentSender;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -33,6 +34,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -45,9 +47,11 @@ import java.util.Map;
 
 import object.Activity;
 
-public class MarkOnMap extends AppCompatActivity implements OnMapReadyCallback {
+public class MarkOnMap extends AppCompatActivity implements OnMapReadyCallback , NavigationBarView.OnItemSelectedListener{
 
     private DatabaseReference databaseReference;
+
+    NavigationBarView bottomNavigationView;
 
     ArrayList<String> activityName = new ArrayList<>();
     ArrayList<String> owner = new ArrayList<>();
@@ -74,6 +78,11 @@ public class MarkOnMap extends AppCompatActivity implements OnMapReadyCallback {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mark_on_map);
+
+
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setOnItemSelectedListener(this);
+        bottomNavigationView.getMenu().findItem(R.id.mapView).setChecked(true);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map2);
@@ -291,5 +300,24 @@ public class MarkOnMap extends AppCompatActivity implements OnMapReadyCallback {
                     }
                 });
 
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        bottomNavigationView.getMenu().findItem(item.getItemId()).setChecked(true);
+        switch (item.getItemId()) {
+            case R.id.Me:
+                startActivity(new Intent(this, MeActivity.class));
+                break;
+            case R.id.activities:
+                startActivity(new Intent(this, MainActivity.class));
+                break;
+            case R.id.chats:
+                startActivity(new Intent(this, ChatActivity.class));
+                break;
+            default:
+                break;
+        }
+        return false;
     }
 }

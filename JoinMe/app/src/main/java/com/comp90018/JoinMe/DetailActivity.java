@@ -104,14 +104,6 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
             }
         });
 
-        back = findViewById(R.id.back);
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(DetailActivity.this, MainActivity.class));
-            }
-        });
-
         join = findViewById(R.id.join);
         join.setOnClickListener(new View.OnClickListener() {
             @Override

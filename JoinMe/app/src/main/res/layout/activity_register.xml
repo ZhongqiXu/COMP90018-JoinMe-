@@ -5,16 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_vertical"
+    android:background="@color/white"
+    android:theme="@style/Theme.JoinMe.NoActionBar"
     android:orientation="vertical"
     tools:context=".RegisterActivity">
-
-    <ImageView
-        android:id="@+id/LogoImage"
-        android:layout_width="150dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="16dp"
-        android:layout_gravity="center_horizontal"
-        />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/regst_EmailBox"
@@ -24,12 +18,19 @@
         android:layout_marginTop="16dp"
         android:layout_marginRight="16dp"
         android:hint="Email">
+
         <EditText
             android:id="@+id/regst_Email"
-            android:layout_width="match_parent"
+            android:layout_width="330dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="10dp"
+            android:background="#72FFFFFF"
             android:inputType="textEmailAddress"
-            tools:text="464564@1234.com" />
+            android:textColor="#ACACAC"
+            android:textSize="14sp"
+            tools:text="Enter your Email here" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -40,12 +41,18 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:hint="Password">
+
         <EditText
             android:id="@+id/regst_pwd"
-            android:layout_width="match_parent"
+            android:layout_width="330dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="#72FFFFFF"
+            android:layout_gravity="center_horizontal"
             android:inputType="textPassword"
-            tools:text="464564@1234.com" />
+            android:textColor="#ACACAC"
+            android:textSize="14sp"
+            tools:text="Password" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -55,46 +62,63 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:hint="userName">
+        android:hint="Username"
+        app:hintTextColor="@color/black">
+
         <EditText
             android:id="@+id/regst_userName"
-            android:layout_width="match_parent"
+            android:layout_width="330dp"
             android:layout_height="wrap_content"
+            android:background="#72FFFFFF"
             android:inputType="text"
-            tools:text="Jack" />
+            android:layout_gravity="center_horizontal"
+            android:textColor="#ACACAC"
+            android:textSize="14sp"
+            tools:text="Enter your username here" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/btn_register"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
+        android:layout_gravity="center"
         android:layout_marginLeft="16dp"
+        android:layout_marginTop="80dp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="40dp"
-        android:text="REGISTER"
-        android:gravity="center"/>
+        android:background="@drawable/custom_button"
+        android:shadowRadius="2"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        app:backgroundTint="#45A4AC"
+        android:text="REGISTER" />
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="40dp">
+        android:layout_marginTop="40dp"
+        android:layout_marginRight="16dp">
+
         <TextView
             android:id="@+id/tx_HaveAccount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Already have an account?"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="false"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:text="Already have an account?" />
 
         <TextView
             android:id="@+id/btn_ToLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tx_HaveAccount"
+            android:paddingLeft="2dp"
             android:text="Login"
-            android:textStyle="bold"
-            android:paddingLeft="5dp"
-            android:layout_toRightOf="@+id/tx_HaveAccount"/>
+            android:textColor="#45A4AC"
+            android:textStyle="bold" />
 
 
     </RelativeLayout>
