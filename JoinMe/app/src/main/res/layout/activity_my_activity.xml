@@ -201,6 +201,22 @@
             </LinearLayout>
 
             <Button
+                android:id="@+id/participant_list"
+                android:layout_width="286dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/custom_button"
+                android:shadowRadius="2"
+                android:text="Participant List"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                app:backgroundTint="#45A4AC" />
+
+            <Button
                 android:id="@+id/candidate_list"
                 android:layout_width="300dp"
                 android:layout_height="45dp"

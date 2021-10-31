@@ -45,10 +45,11 @@ public class CandidateList extends AppCompatActivity {
     HashMap activityInfo;
     private String aId;
 
-    public static String candidatesId[]= new String[]{}; // candidates_id
-    public static String candidatesName[]= new String[]{};  // candidate_name
-    private List<String> participants = new ArrayList<>(1);
-    private List<String> candidates = new ArrayList<>(1);
+    public  String candidatesId[]= new String[]{}; // candidates_id
+    public  String candidatesName[]= new String[]{};  // candidate_name
+    public List<String> participants = new ArrayList<String>(1);
+    public List<String> candidates = new ArrayList<String>(1);
+
 
     public static String participatesId[]= new String[]{}; // participates_id
     public static String participatesName[]= new String[]{};  // participates_name
@@ -58,6 +59,7 @@ public class CandidateList extends AppCompatActivity {
 
     private List<Map<String, Object>> mData;
     private List<Map<String, Object>> mData2;
+    private View convertView;
 
     private int flag;
 
@@ -80,21 +82,92 @@ public class CandidateList extends AppCompatActivity {
         object.Activity activity = new Activity();
         activity.mapToActivity(activity, activityInfo);
         autoJoin = String.valueOf(activity.isAutoJoin());
-
-        if (autoJoin == "false" && activity.getCandidates() != null && !activity.getCandidates().isEmpty()){
-        candidatesId = activity.getCandidates().toArray(new String[0]);}
-
-        if (activity.getParticipants() != null && !activity.getParticipants().isEmpty()) {
-            participatesId = activity.getParticipants().toArray(new String[0]);
-        }
         aId = activity.getAid();
 
+
+
+
         if (activity.getParticipants() != null && !activity.getParticipants().isEmpty()) {
-            participants = activity.getParticipants();
+            databaseReference = FirebaseDatabase.getInstance().getReference().child("activity").child(aId).child("participants");
+            databaseReference.addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
+                    @SuppressWarnings("unchecked")
+
+                    String value = dataSnapshot.getValue(String.class);
+                    participants.add(value);
+                }
+
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
         }
+
+
+
         if (activity.getCandidates() != null && !activity.getCandidates().isEmpty()) {
-            candidates= activity.getCandidates();
+            databaseReference = FirebaseDatabase.getInstance().getReference().child("activity").child(aId).child("candidates");
+            databaseReference.addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
+                    @SuppressWarnings("unchecked")
+
+                    String value = dataSnapshot.getValue(String.class);
+                    candidates.add(value);
+                }
+
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
         }
+
+
+
+        if (autoJoin == "false" && activity.getCandidates() != null && !activity.getCandidates().isEmpty()){
+            candidatesId = activity.getCandidates().toArray(new String[0]);
+        }
+
+
+        if (activity.getParticipants() != null && !activity.getParticipants().isEmpty()) {
+            participatesId = participants.toArray(new String[0]);
+        }
+
 
 
 
@@ -179,36 +252,31 @@ public class CandidateList extends AppCompatActivity {
     }
 
 
-        // participants
-        if (activity.getParticipants() != null && !activity.getParticipants().isEmpty()) {
-            String[] temp2 = new String[participatesId.length];
-
-            for (int i = 0; i < participatesId.length; i++) {
-
-                for (int j = 0; j < user_id_array.length; j++) {
-                    if (participatesId[i].equals(user_id_array[j])) {
-                        temp2[i] = user_list_array[j];
-                    }
-                }
-            }
-            participatesName = temp2;
-
-            databaseReference = FirebaseDatabase.getInstance().getReference().child("activity");
-            List<Map<String, Object>> list2 = new ArrayList<Map<String, Object>>();
-            for(int i=0;i<participatesId.length;i++){
-                Map<String, Object> map = new HashMap<String, Object>();
-                map.put("participatesName", participatesName[i]);
-                list2.add(map);
-            }
-            mData2  = list2;
-
-//            ListView listView2 = (ListView) findViewById(R.id.list_view2);
-//            MyAdapter2 adapter2 = new MyAdapter2(this);
-//            listView2.setAdapter(adapter2);
+//        // participants
+//        if (activity.getParticipants() != null && !activity.getParticipants().isEmpty()) {
+//            String[] temp2 = new String[participatesId.length];
 //
-//            adapter2.notifyDataSetChanged();
-
-        }
+//            for (int i = 0; i < participatesId.length; i++) {
+//
+//                for (int j = 0; j < user_id_array.length; j++) {
+//                    if (participatesId[i].equals(user_id_array[j])) {
+//                        temp2[i] = user_list_array[j];
+//                    }
+//                }
+//            }
+//            participatesName = temp2;
+//
+//            databaseReference = FirebaseDatabase.getInstance().getReference().child("activity");
+//            List<Map<String, Object>> list2 = new ArrayList<Map<String, Object>>();
+//            for(int i=0;i<participatesId.length;i++){
+//                Map<String, Object> map = new HashMap<String, Object>();
+//                map.put("participatesName", participatesName[i]);
+//                list2.add(map);
+//            }
+//            mData2  = list2;
+//
+//
+//        }
 
 
 
@@ -290,72 +358,13 @@ public class CandidateList extends AppCompatActivity {
         }
     }
 
-//    public class MyAdapter2 extends BaseAdapter {
-//
-//        private final LayoutInflater mInflater;
-
-//        public MyAdapter2 (Context context) {
-//            this.mInflater = LayoutInflater.from(context);
-//        }
-//
-//        @Override
-//        public int getCount() {
-//            // TODO Auto-generated method stub
-//            return mData2.size();
-//        }
-//
-//        @Override
-//        public Object getItem(int position) {
-//            // TODO Auto-generated method stub
-//            return null;
-//        }
-//
-//        @Override
-//        public long getItemId(int position) {
-//            // TODO Auto-generated method stub
-//            return 0;
-//        }
-//
-//        @Override
-//        public View getView(final int position, View convertView, ViewGroup parent) {
-////            ViewHolder2 holder = new ViewHolder2();
-////            if (convertView == null) {
-////
-////                //可以理解为从vlist获取view  之后把view返回给ListView
-////                convertView = mInflater.inflate(R.layout.vlist_2, null);
-////                holder.title = (TextView) convertView.findViewById(R.id.title);
-////
-////                convertView.setTag(holder);
-////            } else {
-////                holder = (ViewHolder2) convertView.getTag();
-////            }
-////
-////            holder.title.setText((String) mData2.get(position).get("participatesName"));
-////
-////
-////            return convertView;
-//
-//            convertView = mInflater.inflate(R.layout.vlist_2, null);
-//            TextView title = (TextView) convertView.findViewById(R.id.title);
-//            title.setText((String) mData2.get(position).get("participatesName"));
-//
-//            return convertView;
-//
-//
-//
-//
-//        }
-//    }
-
 
         public final class ViewHolder {
             public TextView title;
             public Button viewBtn;
         }
 
-        public final class ViewHolder2 {
-            public TextView title;
-        }
+
 
         public void confirm(int position){
 
@@ -370,7 +379,6 @@ public class CandidateList extends AppCompatActivity {
                             candidates.remove(position);
                             FirebaseDatabase.getInstance().getReference().child("activity").child(aId).child("participants").setValue(participants);
                             FirebaseDatabase.getInstance().getReference().child("activity").child(aId).child("candidates").setValue(candidates);
-
                             recreate();
 
                         }

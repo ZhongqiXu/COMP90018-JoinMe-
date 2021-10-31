@@ -41,6 +41,7 @@ public class MyActivityDetailActivity extends AppCompatActivity implements OnMap
 
     private TextView host, title, details, dateTime, autoEnabled, size;
     private Button candidate_list;
+    private Button participant_list;
     private String owner, placeName;
     private List<String> participants = new ArrayList<>(1);
     private List<String> candidates = new ArrayList<>(1);
@@ -112,6 +113,17 @@ public class MyActivityDetailActivity extends AppCompatActivity implements OnMap
                 startActivity(intent);
             }
         });
+
+        participant_list = findViewById(R.id.participant_list);
+        participant_list.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MyActivityDetailActivity.this, ParticipantsList.class);
+                intent.putExtra("activityInfo", activityInfo);
+                startActivity(intent);
+            }
+        });
+
     }
 
     public void createAlertDialog() {

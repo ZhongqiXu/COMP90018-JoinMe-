@@ -4,12 +4,6 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="57dp"
-        android:text="Candidates" />
-
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
