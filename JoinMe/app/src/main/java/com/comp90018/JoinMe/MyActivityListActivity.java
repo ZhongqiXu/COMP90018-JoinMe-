@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -43,6 +44,17 @@ public class MyActivityListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+
+        ImageView imageView = (ImageView) findViewById(R.id.imageView);
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+
+            // incrementing the value of textView
+            public void onClick( View view ) {
+                startActivity(new Intent(MyActivityListActivity.this, MapActivity.class));
+            }
+        });
 
         adapter = new ArrayAdapter<String>(MyActivityListActivity.this, R.layout.activity_list_view1, activityList);
 
@@ -85,7 +97,7 @@ public class MyActivityListActivity extends AppCompatActivity {
                 String owner = (String) map.get("owner");
 
                 if (owner.equals(uid)) {
-                    Toast.makeText(MyActivityListActivity.this, (String) map.get("title"),Toast.LENGTH_SHORT).show();
+
                     activityList.add((String) map.get("title"));
                     activityIdList.add((String) dataSnapshot.getKey());
                 }
