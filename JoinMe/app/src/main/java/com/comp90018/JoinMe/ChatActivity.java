@@ -126,7 +126,7 @@ public class ChatActivity extends AppCompatActivity implements NavigationBarView
         bottomNavigationView.getMenu().findItem(item.getItemId()).setChecked(true);
         switch (item.getItemId()) {
             case R.id.Me:
-                startActivity(new Intent(this, ProfileActivity.class));
+                startActivity(new Intent(this, MeActivity.class));
                 break;
             case R.id.mapView:
                 startActivity(new Intent(this, MarkOnMap.class));
