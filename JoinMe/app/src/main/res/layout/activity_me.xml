@@ -4,36 +4,49 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F3F3F3"
     tools:context=".MeActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintBaseline_toTopOf="@id/bottomNavigationView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <Button
             android:id="@+id/profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Profile" />
+            android:text="Profile"
+            android:textColor="@color/black"
+            app:backgroundTint="#FFFFFF" />
 
         <Button
             android:id="@+id/my_activities"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="My Activities" />
+            android:text="My Activities"
+            android:textColor="@color/black"
+            app:backgroundTint="#FFFFFF" />
 
         <Button
             android:id="@+id/joined_Activities"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Joined Activities" />
+            android:text="Joined Activities"
+            android:textColor="@color/black"
+            app:backgroundTint="#FFFFFF" />
 
         <Button
             android:id="@+id/logout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Log out" />
+            android:text="Log out"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/quantum_googred" />
     </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -41,10 +54,10 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:background="#F4F4F4"
+        app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_nav_menu"
-        app:labelVisibilityMode="labeled"/>
+        app:menu="@menu/bottom_nav_menu" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
