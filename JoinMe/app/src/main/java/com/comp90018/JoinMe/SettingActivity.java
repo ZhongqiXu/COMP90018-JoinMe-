@@ -150,7 +150,13 @@ public class SettingActivity extends AppCompatActivity {
                 });
                 //added by chatting
                 if(imagepath!=null){
-                    sendImagetoStorage();
+                    Bitmap bits=null;
+                    try{
+                        bits=MediaStore.Images.Media.getBitmap(getContentResolver(), imagepath);
+                    }catch (IOException e){
+                        e.printStackTrace();
+                    }
+                    sendImagetoStorage(bits);
                 }
             }
         });
@@ -219,7 +225,7 @@ public class SettingActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100) {
             Bitmap captureImage = (Bitmap) data.getExtras().get("data");
-
+            sendImagetoStorage(captureImage);
             getuserimageinimageview.setImageBitmap(captureImage);
         }
     }
@@ -262,14 +268,9 @@ public class SettingActivity extends AppCompatActivity {
         return user;
     }
     //added by chatting
-    private void sendImagetoStorage(){
+    private void sendImagetoStorage(Bitmap bitmap){
         StorageReference imageref=storageReference.child("images").child(mAuth.getUid()).child("Profile Pic");
-        Bitmap bitmap=null;
-        try{
-            bitmap=MediaStore.Images.Media.getBitmap(getContentResolver(), imagepath);
-        }catch (IOException e){
-            e.printStackTrace();
-        }
+
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 25, byteArrayOutputStream);
@@ -315,4 +316,5 @@ public class SettingActivity extends AppCompatActivity {
         });
 
     }
+
 }
