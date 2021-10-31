@@ -10,10 +10,11 @@ import android.view.View;
 import android.widget.Button;
 
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MeActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener{
     NavigationBarView bottomNavigationView;
-    private Button profile,my,join;
+    private Button profile,my,join,logout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +37,16 @@ public class MeActivity extends AppCompatActivity implements NavigationBarView.O
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MeActivity.this, MyActivityListActivity.class));
+            }
+        });
+
+        logout = findViewById(R.id.logout);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(MeActivity.this, LoginActivity.class));
+                finish();
             }
         });
     }
