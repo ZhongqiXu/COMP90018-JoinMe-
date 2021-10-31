@@ -34,7 +34,7 @@ public class PermissionCheck extends AppCompatActivity {
         // if location access is permitted
         if(ContextCompat.checkSelfPermission(PermissionCheck.this,
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            startActivity((new Intent(PermissionCheck.this, MeActivity.class)));
+            startActivity((new Intent(PermissionCheck.this, MainActivity.class)));
             finish();
             return;
         }
@@ -49,7 +49,7 @@ public class PermissionCheck extends AppCompatActivity {
                         .withListener(new PermissionListener() {
                             @Override
                             public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
-                                startActivity(new Intent(PermissionCheck.this, MeActivity.class));
+                                startActivity(new Intent(PermissionCheck.this, MainActivity.class));
                                 finish();
                             }
 

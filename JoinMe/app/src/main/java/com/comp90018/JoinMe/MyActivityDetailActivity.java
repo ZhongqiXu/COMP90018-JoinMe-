@@ -86,17 +86,6 @@ public class MyActivityDetailActivity extends AppCompatActivity implements Navig
             }
         });
 
-        edit = findViewById(R.id.edit);
-        edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MyActivityDetailActivity.this, EditActivityActivity.class);
-                intent.putExtra("activityInfo", activityInfo);
-                startActivity(intent);
-            }
-        });
-
-
 
         candidate_list = findViewById(R.id.activity_List);
         candidate_list.setOnClickListener(new View.OnClickListener() {
@@ -109,12 +98,6 @@ public class MyActivityDetailActivity extends AppCompatActivity implements Navig
         });
 
 
-
-
-
-
-
-
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -125,12 +108,6 @@ public class MyActivityDetailActivity extends AppCompatActivity implements Navig
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.edit:
-                Intent intent = new Intent(MyActivityDetailActivity.this, EditActivityActivity.class);
-                intent.putExtra("activityInfo", activityInfo);
-                startActivity(intent);
-                break;
-
             case R.id.delete:
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
                 alertDialog

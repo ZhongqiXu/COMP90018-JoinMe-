@@ -1,0 +1,463 @@
+Index: app/src/main/res/menu/bottom_nav_menu.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<menu xmlns:android=\"http://schemas.android.com/apk/res/android\">\n    <item\n        android:id=\"@+id/profile\"\n        android:title=\"Profile\"/>\n    <item\n        android:id=\"@+id/activities\"\n        android:title=\"Activities\"/>\n    <item\n        android:id=\"@+id/mapView\"\n        android:title=\"Map\"/>\n    <item\n        android:id=\"@+id/chats\"\n        android:title=\"Chats\"/>\n</menu>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/menu/bottom_nav_menu.xml b/app/src/main/res/menu/bottom_nav_menu.xml
+--- a/app/src/main/res/menu/bottom_nav_menu.xml	
++++ b/app/src/main/res/menu/bottom_nav_menu.xml	
+@@ -1,15 +1,20 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <menu xmlns:android="http://schemas.android.com/apk/res/android">
+     <item
+-        android:id="@+id/profile"
+-        android:title="Profile"/>
+-    <item
+         android:id="@+id/activities"
+-        android:title="Activities"/>
++        android:title="Activities"
++        android:icon="@drawable/ic_baseline_format_list_bulleted_24"/>
+     <item
+         android:id="@+id/mapView"
+-        android:title="Map"/>
++        android:title="Map"
++        android:icon="@drawable/ic_baseline_map_24"/>
+     <item
+         android:id="@+id/chats"
+-        android:title="Chats"/>
++        android:icon="@drawable/ic_baseline_chat_24"
++        android:textColorSecondary="@color/teal_200"
++        android:title="Chats" />
++    <item
++        android:id="@+id/profile"
++        android:title="Profile"
++        android:icon="@drawable/ic_baseline_person_24"/>
+ </menu>
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_register.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<LinearLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\n    xmlns:tools=\"http://schemas.android.com/tools\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\"\n    android:layout_gravity=\"center_vertical\"\n    android:orientation=\"vertical\"\n    tools:context=\".RegisterActivity\">\n\n    <ImageView\n        android:id=\"@+id/LogoImage\"\n        android:layout_width=\"150dp\"\n        android:layout_height=\"200dp\"\n        android:layout_marginTop=\"16dp\"\n        android:layout_gravity=\"center_horizontal\"\n        />\n\n    <com.google.android.material.textfield.TextInputLayout\n        android:id=\"@+id/regst_EmailBox\"\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"wrap_content\"\n        android:layout_marginLeft=\"16dp\"\n        android:layout_marginTop=\"16dp\"\n        android:layout_marginRight=\"16dp\"\n        android:hint=\"Email\">\n        <EditText\n            android:id=\"@+id/regst_Email\"\n            android:layout_width=\"match_parent\"\n            android:layout_height=\"wrap_content\"\n            android:inputType=\"textEmailAddress\"\n            tools:text=\"464564@1234.com\" />\n    </com.google.android.material.textfield.TextInputLayout>\n\n\n    <com.google.android.material.textfield.TextInputLayout\n        android:id=\"@+id/regst_pwdBox\"\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"wrap_content\"\n        android:layout_marginLeft=\"16dp\"\n        android:layout_marginRight=\"16dp\"\n        android:hint=\"Password\">\n        <EditText\n            android:id=\"@+id/regst_pwd\"\n            android:layout_width=\"match_parent\"\n            android:layout_height=\"wrap_content\"\n            android:inputType=\"textPassword\"\n            tools:text=\"464564@1234.com\" />\n    </com.google.android.material.textfield.TextInputLayout>\n\n\n    <com.google.android.material.textfield.TextInputLayout\n        android:id=\"@+id/regst_userNameBox\"\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"wrap_content\"\n        android:layout_marginLeft=\"16dp\"\n        android:layout_marginRight=\"16dp\"\n        android:hint=\"userName\">\n        <EditText\n            android:id=\"@+id/regst_userName\"\n            android:layout_width=\"match_parent\"\n            android:layout_height=\"wrap_content\"\n            android:inputType=\"text\"\n            tools:text=\"Jack\" />\n    </com.google.android.material.textfield.TextInputLayout>\n\n    <Button\n        android:id=\"@+id/btn_register\"\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"wrap_content\"\n        android:layout_marginLeft=\"16dp\"\n        android:layout_marginRight=\"16dp\"\n        android:layout_marginTop=\"40dp\"\n        android:text=\"REGISTER\"\n        android:gravity=\"center\"/>\n\n    <RelativeLayout\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"wrap_content\"\n        android:layout_marginLeft=\"16dp\"\n        android:layout_marginRight=\"16dp\"\n        android:layout_marginTop=\"40dp\">\n        <TextView\n            android:id=\"@+id/tx_HaveAccount\"\n            android:layout_width=\"wrap_content\"\n            android:layout_height=\"wrap_content\"\n            android:text=\"Already have an account?\"\n            android:layout_centerHorizontal=\"true\"/>\n\n        <TextView\n            android:id=\"@+id/btn_ToLogin\"\n            android:layout_width=\"wrap_content\"\n            android:layout_height=\"wrap_content\"\n            android:text=\"Login\"\n            android:textStyle=\"bold\"\n            android:paddingLeft=\"5dp\"\n            android:layout_toRightOf=\"@+id/tx_HaveAccount\"/>\n\n\n    </RelativeLayout>\n\n\n</LinearLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_register.xml b/app/src/main/res/layout/activity_register.xml
+--- a/app/src/main/res/layout/activity_register.xml	
++++ b/app/src/main/res/layout/activity_register.xml	
+@@ -12,9 +12,8 @@
+         android:id="@+id/LogoImage"
+         android:layout_width="150dp"
+         android:layout_height="200dp"
+-        android:layout_marginTop="16dp"
+         android:layout_gravity="center_horizontal"
+-        />
++        android:layout_marginTop="16dp" />
+ 
+     <com.google.android.material.textfield.TextInputLayout
+         android:id="@+id/regst_EmailBox"
+@@ -24,12 +23,16 @@
+         android:layout_marginTop="16dp"
+         android:layout_marginRight="16dp"
+         android:hint="Email">
++
+         <EditText
+             android:id="@+id/regst_Email"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
++            android:fontFamily="sans-serif-light"
+             android:inputType="textEmailAddress"
+-            tools:text="464564@1234.com" />
++            android:textColor="#ACACAC"
++            android:textSize="14sp"
++            tools:text="Enter your Email here" />
+     </com.google.android.material.textfield.TextInputLayout>
+ 
+ 
+@@ -40,12 +43,15 @@
+         android:layout_marginLeft="16dp"
+         android:layout_marginRight="16dp"
+         android:hint="Password">
++
+         <EditText
+             android:id="@+id/regst_pwd"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
++            android:fontFamily="sans-serif-light"
+             android:inputType="textPassword"
+-            tools:text="464564@1234.com" />
++            android:textColor="#ACACAC"
++            tools:text="Password" />
+     </com.google.android.material.textfield.TextInputLayout>
+ 
+ 
+@@ -55,46 +61,63 @@
+         android:layout_height="wrap_content"
+         android:layout_marginLeft="16dp"
+         android:layout_marginRight="16dp"
+-        android:hint="userName">
++        android:hint="Username"
++        app:hintTextColor="@color/black">
++
+         <EditText
+             android:id="@+id/regst_userName"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
++            android:fontFamily="sans-serif-light"
+             android:inputType="text"
+-            tools:text="Jack" />
++            android:textColor="#ACACAC"
++            tools:text="Enter your username here" />
+     </com.google.android.material.textfield.TextInputLayout>
+ 
+     <Button
+         android:id="@+id/btn_register"
+-        android:layout_width="match_parent"
+-        android:layout_height="wrap_content"
++        android:layout_width="250dp"
++        android:layout_height="50dp"
++        android:layout_gravity="center"
+         android:layout_marginLeft="16dp"
+-        android:layout_marginRight="16dp"
+         android:layout_marginTop="40dp"
++        android:layout_marginRight="16dp"
++        android:shadowRadius="2"
+         android:text="REGISTER"
+-        android:gravity="center"/>
++        android:textSize="16sp"
++        android:textStyle="normal"
++        app:backgroundTint="#FFFFFF"
++        android:background="@drawable/custom_button"
++        app:backgroundTintMode="multiply" />
+ 
+     <RelativeLayout
+-        android:layout_width="match_parent"
++        android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
++        android:layout_gravity="center_horizontal"
+         android:layout_marginLeft="16dp"
++        android:layout_marginTop="40dp"
+         android:layout_marginRight="16dp"
+-        android:layout_marginTop="40dp">
++        android:clickable="false"
++        android:clipChildren="false"
++        android:ignoreGravity="false">
++
+         <TextView
+             android:id="@+id/tx_HaveAccount"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+-            android:text="Already have an account?"
+-            android:layout_centerHorizontal="true"/>
++            android:layout_centerHorizontal="false"
++            android:layout_marginEnd="10dp"
++            android:layout_marginRight="10dp"
++            android:text="Already have an account?" />
+ 
+         <TextView
+             android:id="@+id/btn_ToLogin"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
++            android:layout_toRightOf="@+id/tx_HaveAccount"
++            android:paddingLeft="3dp"
+             android:text="Login"
+-            android:textStyle="bold"
+-            android:paddingLeft="5dp"
+-            android:layout_toRightOf="@+id/tx_HaveAccount"/>
++            android:textStyle="bold" />
+ 
+ 
+     </RelativeLayout>
+Index: app/src/main/res/layout/activity_main.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<androidx.constraintlayout.widget.ConstraintLayout\n    xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\n    xmlns:tools=\"http://schemas.android.com/tools\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\"\n    tools:context=\".MainActivity\">\n\n    <ScrollView\n        android:id=\"@+id/scrollView2\"\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"match_parent\"\n        app:layout_constraintBottom_toTopOf=\"@+id/newActivity\"\n        app:layout_constraintTop_toTopOf=\"parent\">\n\n        <LinearLayout\n            android:layout_width=\"match_parent\"\n            android:layout_height=\"wrap_content\"\n            android:orientation=\"vertical\"\n            app:layout_constraintBottom_toTopOf=\"@+id/flFragment\"\n            app:layout_constraintTop_toTopOf=\"parent\"\n            tools:context=\".ListActivity\"\n            tools:layout_editor_absoluteX=\"0dp\">\n\n            <ListView\n                android:id=\"@+id/activity_List\"\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"match_parent\"\n                app:layout_constraintBottom_toTopOf=\"@+id/flFragment\" />\n\n        </LinearLayout>\n    </ScrollView>\n    <Button\n        android:id=\"@+id/newActivity\"\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"wrap_content\"\n        android:text=\"new activity\"\n        android:minHeight=\"0dp\"\n        android:background=\"#000\"\n        app:layout_constraintBottom_toTopOf=\"@+id/bottomNavigationView\" />\n\n    <com.google.android.material.bottomnavigation.BottomNavigationView\n        android:id=\"@+id/bottomNavigationView\"\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"70dp\"\n        app:layout_constraintBottom_toBottomOf=\"parent\"\n        app:layout_constraintEnd_toEndOf=\"parent\"\n        app:layout_constraintStart_toStartOf=\"parent\"\n        app:menu=\"@menu/bottom_nav_menu\"\n        app:labelVisibilityMode=\"labeled\"/>\n\n\n\n\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_main.xml b/app/src/main/res/layout/activity_main.xml
+--- a/app/src/main/res/layout/activity_main.xml	
++++ b/app/src/main/res/layout/activity_main.xml	
+@@ -1,6 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<androidx.constraintlayout.widget.ConstraintLayout
+-    xmlns:android="http://schemas.android.com/apk/res/android"
++<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="match_parent"
+@@ -31,26 +30,28 @@
+ 
+         </LinearLayout>
+     </ScrollView>
++
+     <Button
+         android:id="@+id/newActivity"
+-        android:layout_width="match_parent"
+-        android:layout_height="wrap_content"
++        android:layout_width="250dp"
++        android:layout_height="50dp"
++        android:layout_gravity="center"
+         android:text="new activity"
+-        android:minHeight="0dp"
+-        android:background="#000"
+-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView" />
++        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
++        app:backgroundTint="#FFFFFF"
++        android:background="@drawable/custom_button"
++        app:backgroundTintMode="multiply"/>
+ 
+     <com.google.android.material.bottomnavigation.BottomNavigationView
+         android:id="@+id/bottomNavigationView"
+         android:layout_width="match_parent"
+         android:layout_height="70dp"
++        app:itemBackground="#fbebd9"
++        app:labelVisibilityMode="labeled"
+         app:layout_constraintBottom_toBottomOf="parent"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintStart_toStartOf="parent"
+-        app:menu="@menu/bottom_nav_menu"
+-        app:labelVisibilityMode="labeled"/>
+-
+-
++        app:menu="@menu/bottom_nav_menu" />
+ 
+ 
+ </androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/res/menu/me_menu.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<menu xmlns:android=\"http://schemas.android.com/apk/res/android\">\n\n\n    <item\n        android:id=\"@+id/myActivities\"\n        android:title=\"My Activities\"/>\n\n    <item\n        android:id=\"@+id/edit\"\n        android:title=\"Edit\"/>\n\n    <item\n        android:id=\"@+id/logout\"\n        android:title=\"Log Out\"/>\n\n\n\n</menu>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/menu/me_menu.xml b/app/src/main/res/menu/me_menu.xml
+--- a/app/src/main/res/menu/me_menu.xml	
++++ b/app/src/main/res/menu/me_menu.xml	
+@@ -1,7 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <menu xmlns:android="http://schemas.android.com/apk/res/android">
+ 
+-
+     <item
+         android:id="@+id/myActivities"
+         android:title="My Activities"/>
+Index: app/src/main/res/values/themes.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources xmlns:tools=\"http://schemas.android.com/tools\">\n    <!-- Base application theme. -->\n    <style name=\"Theme.JoinMe\" parent=\"Theme.MaterialComponents.DayNight.DarkActionBar\">\n        <!-- Primary brand color. -->\n        <item name=\"colorPrimary\">@color/purple_500</item>\n        <item name=\"colorPrimaryVariant\">@color/purple_700</item>\n        <item name=\"colorOnPrimary\">@color/white</item>\n        <!-- Secondary brand color. -->\n        <item name=\"colorSecondary\">@color/teal_200</item>\n        <item name=\"colorSecondaryVariant\">@color/teal_700</item>\n        <item name=\"colorOnSecondary\">@color/black</item>\n        <!-- Status bar color. -->\n        <item name=\"android:statusBarColor\" tools:targetApi=\"l\">?attr/colorPrimaryVariant</item>\n        <!-- Customize your theme here. -->\n    </style>\n\n    <style name=\"Theme.JoinMe.NoActionBar\">\n        <item name=\"windowActionBar\">false</item>\n        <item name=\"windowNoTitle\">true</item>\n    </style>\n\n    <style name=\"Theme.JoinMe.AppBarOverlay\" parent=\"ThemeOverlay.AppCompat.Dark.ActionBar\" />\n\n    <style name=\"Theme.JoinMe.PopupOverlay\" parent=\"ThemeOverlay.AppCompat.Light\" />\n</resources>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/values/themes.xml b/app/src/main/res/values/themes.xml
+--- a/app/src/main/res/values/themes.xml	
++++ b/app/src/main/res/values/themes.xml	
+@@ -2,12 +2,12 @@
+     <!-- Base application theme. -->
+     <style name="Theme.JoinMe" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+         <!-- Primary brand color. -->
+-        <item name="colorPrimary">@color/purple_500</item>
+-        <item name="colorPrimaryVariant">@color/purple_700</item>
++        <item name="colorPrimary">#fbebd9</item>
++        <item name="colorPrimaryVariant">#fbebd9</item>
+         <item name="colorOnPrimary">@color/white</item>
+         <!-- Secondary brand color. -->
+-        <item name="colorSecondary">@color/teal_200</item>
+-        <item name="colorSecondaryVariant">@color/teal_700</item>
++        <item name="colorSecondary">#fbebd9</item>
++        <item name="colorSecondaryVariant">#fbebd9</item>
+         <item name="colorOnSecondary">@color/black</item>
+         <!-- Status bar color. -->
+         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+Index: .idea/runConfigurations.xml
+===================================================================
+diff --git a/.idea/runConfigurations.xml b/.idea/runConfigurations.xml
+deleted file mode 100644
+--- a/.idea/runConfigurations.xml	
++++ /dev/null	
+@@ -1,10 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="RunConfigurationProducerService">
+-    <option name="ignoredProducers">
+-      <set>
+-        <option value="com.android.tools.idea.compose.preview.runconfiguration.ComposePreviewRunConfigurationProducer" />
+-      </set>
+-    </option>
+-  </component>
+-</project>
+\ No newline at end of file
+Index: app/src/main/res/drawable/ic_baseline_add_24.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/drawable/ic_baseline_add_24.xml b/app/src/main/res/drawable/ic_baseline_add_24.xml
+new file mode 100644
+--- /dev/null	
++++ b/app/src/main/res/drawable/ic_baseline_add_24.xml	
+@@ -0,0 +1,10 @@
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
++    android:width="24dp"
++    android:height="24dp"
++    android:viewportWidth="24"
++    android:viewportHeight="24"
++    android:tint="?attr/colorControlNormal">
++  <path
++      android:fillColor="@android:color/white"
++      android:pathData="M19,13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
++</vector>
+Index: app/src/main/res/drawable/custom_button.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/drawable/custom_button.xml b/app/src/main/res/drawable/custom_button.xml
+new file mode 100644
+--- /dev/null	
++++ b/app/src/main/res/drawable/custom_button.xml	
+@@ -0,0 +1,7 @@
++<?xml version="1.0" encoding="utf-8"?>
++<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
++
++    <gradient android:startColor="#FFEFBA" android:endColor="#fbebd9" android:type="linear"/>
++    <corners android:radius="50dp"/>
++
++</shape>
+\ No newline at end of file
+Index: app/src/main/res/layout/candidate_list.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<LinearLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    android:layout_width=\"fill_parent\"\n    android:layout_height=\"fill_parent\"\n    android:orientation=\"vertical\" >\n\n    <TextView\n        android:id=\"@+id/textView\"\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"57dp\"\n        android:text=\"Candidates\" />\n\n    <ListView\n        android:id=\"@+id/listView\"\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"313dp\"\n        android:divider=\"@drawable/list_line\"\n        android:dividerHeight=\"1dip\" />\n\n    <TextView\n        android:id=\"@+id/textView5\"\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"53dp\"\n        android:text=\"Participants\" />\n\n    <ListView\n        android:id=\"@+id/list_view2\"\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"310dp\"\n        android:divider=\"@drawable/list_line\"\n        android:dividerHeight=\"1dip\" />\n\n</LinearLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/candidate_list.xml b/app/src/main/res/layout/candidate_list.xml
+--- a/app/src/main/res/layout/candidate_list.xml	
++++ b/app/src/main/res/layout/candidate_list.xml	
+@@ -1,4 +1,3 @@
+-<?xml version="1.0" encoding="utf-8"?>
+ <?xml version="1.0" encoding="utf-8"?>
+ <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="fill_parent"
+Index: app/src/main/res/drawable/ic_baseline_person_24.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/drawable/ic_baseline_person_24.xml b/app/src/main/res/drawable/ic_baseline_person_24.xml
+new file mode 100644
+--- /dev/null	
++++ b/app/src/main/res/drawable/ic_baseline_person_24.xml	
+@@ -0,0 +1,10 @@
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
++    android:width="24dp"
++    android:height="24dp"
++    android:viewportWidth="24"
++    android:viewportHeight="24"
++    android:tint="?attr/colorControlNormal">
++  <path
++      android:fillColor="@android:color/white"
++      android:pathData="M12,12c2.21,0 4,-1.79 4,-4s-1.79,-4 -4,-4 -4,1.79 -4,4 1.79,4 4,4zM12,14c-2.67,0 -8,1.34 -8,4v2h16v-2c0,-2.66 -5.33,-4 -8,-4z"/>
++</vector>
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\n  <component name=\"GradleSettings\">\n    <option name=\"linkedExternalProjectsSettings\">\n      <GradleProjectSettings>\n        <option name=\"testRunner\" value=\"PLATFORM\" />\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\n        <option name=\"modules\">\n          <set>\n            <option value=\"$PROJECT_DIR$\" />\n            <option value=\"$PROJECT_DIR$/app\" />\n          </set>\n        </option>\n        <option name=\"resolveModulePerSourceSet\" value=\"false\" />\n      </GradleProjectSettings>\n    </option>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/gradle.xml b/.idea/gradle.xml
+--- a/.idea/gradle.xml	
++++ b/.idea/gradle.xml	
+@@ -4,7 +4,7 @@
+   <component name="GradleSettings">
+     <option name="linkedExternalProjectsSettings">
+       <GradleProjectSettings>
+-        <option name="testRunner" value="PLATFORM" />
++        <option name="testRunner" value="GRADLE" />
+         <option name="distributionType" value="DEFAULT_WRAPPED" />
+         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+         <option name="modules">
+Index: app/src/main/res/drawable/ic_baseline_map_24.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/drawable/ic_baseline_map_24.xml b/app/src/main/res/drawable/ic_baseline_map_24.xml
+new file mode 100644
+--- /dev/null	
++++ b/app/src/main/res/drawable/ic_baseline_map_24.xml	
+@@ -0,0 +1,10 @@
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
++    android:width="24dp"
++    android:height="24dp"
++    android:viewportWidth="24"
++    android:viewportHeight="24"
++    android:tint="?attr/colorControlNormal">
++  <path
++      android:fillColor="@android:color/white"
++      android:pathData="M20.5,3l-0.16,0.03L15,5.1 9,3 3.36,4.9c-0.21,0.07 -0.36,0.25 -0.36,0.48V20.5c0,0.28 0.22,0.5 0.5,0.5l0.16,-0.03L9,18.9l6,2.1 5.64,-1.9c0.21,-0.07 0.36,-0.25 0.36,-0.48V3.5c0,-0.28 -0.22,-0.5 -0.5,-0.5zM15,19l-6,-2.11V5l6,2.11V19z"/>
++</vector>
+Index: app/src/main/res/drawable/ic_baseline_format_list_bulleted_24.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/drawable/ic_baseline_format_list_bulleted_24.xml b/app/src/main/res/drawable/ic_baseline_format_list_bulleted_24.xml
+new file mode 100644
+--- /dev/null	
++++ b/app/src/main/res/drawable/ic_baseline_format_list_bulleted_24.xml	
+@@ -0,0 +1,10 @@
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
++    android:width="24dp"
++    android:height="24dp"
++    android:viewportWidth="24"
++    android:viewportHeight="24"
++    android:tint="?attr/colorControlNormal">
++  <path
++      android:fillColor="@android:color/white"
++      android:pathData="M4,10.5c-0.83,0 -1.5,0.67 -1.5,1.5s0.67,1.5 1.5,1.5 1.5,-0.67 1.5,-1.5 -0.67,-1.5 -1.5,-1.5zM4,4.5c-0.83,0 -1.5,0.67 -1.5,1.5S3.17,7.5 4,7.5 5.5,6.83 5.5,6 4.83,4.5 4,4.5zM4,16.5c-0.83,0 -1.5,0.68 -1.5,1.5s0.68,1.5 1.5,1.5 1.5,-0.68 1.5,-1.5 -0.67,-1.5 -1.5,-1.5zM7,19h14v-2L7,17v2zM7,13h14v-2L7,11v2zM7,5v2h14L21,5L7,5z"/>
++</vector>
+Index: app/src/main/res/drawable/ic_baseline_mail_outline_24.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/drawable/ic_baseline_mail_outline_24.xml b/app/src/main/res/drawable/ic_baseline_mail_outline_24.xml
+new file mode 100644
+--- /dev/null	
++++ b/app/src/main/res/drawable/ic_baseline_mail_outline_24.xml	
+@@ -0,0 +1,10 @@
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
++    android:width="24dp"
++    android:height="24dp"
++    android:viewportWidth="24"
++    android:viewportHeight="24"
++    android:tint="?attr/colorControlNormal">
++  <path
++      android:fillColor="@android:color/white"
++      android:pathData="M20,4L4,4c-1.1,0 -1.99,0.9 -1.99,2L2,18c0,1.1 0.9,2 2,2h16c1.1,0 2,-0.9 2,-2L22,6c0,-1.1 -0.9,-2 -2,-2zM20,18L4,18L4,8l8,5 8,-5v10zM12,11L4,6h16l-8,5z"/>
++</vector>
+Index: app/src/main/res/drawable/ic_baseline_chat_24.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/drawable/ic_baseline_chat_24.xml b/app/src/main/res/drawable/ic_baseline_chat_24.xml
+new file mode 100644
+--- /dev/null	
++++ b/app/src/main/res/drawable/ic_baseline_chat_24.xml	
+@@ -0,0 +1,10 @@
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
++    android:width="24dp"
++    android:height="24dp"
++    android:viewportWidth="24"
++    android:viewportHeight="24"
++    android:tint="?attr/colorControlNormal">
++  <path
++      android:fillColor="@android:color/white"
++      android:pathData="M20,2L4,2c-1.1,0 -1.99,0.9 -1.99,2L2,22l4,-4h14c1.1,0 2,-0.9 2,-2L22,4c0,-1.1 -0.9,-2 -2,-2zM6,9h12v2L6,11L6,9zM14,14L6,14v-2h8v2zM18,8L6,8L6,6h12v2z"/>
++</vector>

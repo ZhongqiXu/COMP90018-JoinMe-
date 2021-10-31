@@ -4,10 +4,16 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../../../layout/custom_preview.xml" value="0.26197916666666665" />
-        <entry key="app/src/main/res/layout/activity_captured_image.xml" value="0.1578125" />
+        <entry key="app/src/main/res/drawable/btn_detail_selecter.xml" value="0.190625" />
+        <entry key="app/src/main/res/drawable/custom_button.xml" value="0.13055555555555556" />
+        <entry key="app/src/main/res/drawable/divider.xml" value="0.1287037037037037" />
+        <entry key="app/src/main/res/drawable/ic_baseline_chat_24.xml" value="0.13055555555555556" />
+        <entry key="app/src/main/res/drawable/ic_baseline_format_list_bulleted_24.xml" value="0.13055555555555556" />
+        <entry key="app/src/main/res/drawable/item.xml" value="0.190625" />
+        <entry key="app/src/main/res/drawable/login_back.xml" value="0.1287037037037037" />
         <entry key="app/src/main/res/layout/activity_chat.xml" value="0.2953125" />
         <entry key="app/src/main/res/layout/activity_chat_activity.xml" value="0.1503623188405797" />
-        <entry key="app/src/main/res/layout/activity_chat_window.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/activity_chat_window.xml" value="0.129296875" />
         <entry key="app/src/main/res/layout/activity_chat_window_new.xml" value="0.1578125" />
         <entry key="app/src/main/res/layout/activity_detail.xml" value="0.19519927536231885" />
         <entry key="app/src/main/res/layout/activity_edit_activity.xml" value="0.19519927536231885" />
@@ -17,22 +23,26 @@
         <entry key="app/src/main/res/layout/activity_list_view.xml" value="0.19519927536231885" />
         <entry key="app/src/main/res/layout/activity_list_view1.xml" value="0.19519927536231885" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.1956521739130435" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.19519927536231885" />
-        <entry key="app/src/main/res/layout/activity_me.xml" value="0.19519927536231885" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.21739130434782608" />
+        <entry key="app/src/main/res/layout/activity_map.xml" value="0.16847826086956522" />
+        <entry key="app/src/main/res/layout/activity_me.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_my_activity.xml" value="0.19519927536231885" />
         <entry key="app/src/main/res/layout/activity_new.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_new_chat.xml" value="0.14447463768115942" />
         <entry key="app/src/main/res/layout/activity_permission_check.xml" value="0.11246200607902736" />
-        <entry key="app/src/main/res/layout/activity_re_set.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_setting.xml" value="0.2953125" />
+        <entry key="app/src/main/res/layout/activity_re_set.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_register.xml" value="0.36811068878469155" />
+        <entry key="app/src/main/res/layout/activity_setting.xml" value="0.129296875" />
         <entry key="app/src/main/res/layout/candidate_list.xml" value="0.19429347826086957" />
         <entry key="app/src/main/res/layout/candidate_list_view.xml" value="0.21422101449275363" />
         <entry key="app/src/main/res/layout/canditate_list.xml" value="0.25677083333333334" />
-        <entry key="app/src/main/res/layout/chatviewlayout.xml" value="0.2953125" />
+        <entry key="app/src/main/res/layout/chatviewlayout.xml" value="0.129296875" />
         <entry key="app/src/main/res/layout/horizontal_number_picker.xml" value="0.19519927536231885" />
         <entry key="app/src/main/res/layout/info_window.xml" value="0.11246200607902736" />
+        <entry key="app/src/main/res/layout/main_test.xml" value="0.1" />
         <entry key="app/src/main/res/layout/receiverchatlayout.xml" value="0.1578125" />
-        <entry key="app/src/main/res/layout/vlist_2.xml" value="0.1578125" />
+        <entry key="app/src/main/res/layout/vlist.xml" value="0.17447916666666666" />
+        <entry key="app/src/main/res/layout/vlist_2.xml" value="0.25" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.23541666666666666" />
         <entry key="app/src/main/res/menu/me_menu.xml" value="0.23541666666666666" />
         <entry key="app/src/main/res/menu/my_activity_menu.xml" value="0.20612771582490919" />
@@ -40,6 +50,9 @@
     </option>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="ProjectPlainTextFileTypeManager">
+    <file url="file://$PROJECT_DIR$/app/src/main/res/layout/candidate_list.xml" />
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>

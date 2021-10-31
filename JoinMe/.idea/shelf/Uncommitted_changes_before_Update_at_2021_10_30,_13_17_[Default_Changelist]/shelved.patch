@@ -1,0 +1,75 @@
+Index: .idea/runConfigurations.xml
+===================================================================
+diff --git a/.idea/runConfigurations.xml b/.idea/runConfigurations.xml
+deleted file mode 100644
+--- a/.idea/runConfigurations.xml	(revision ad15c7ac1c730d3e4795a16234b16f57433c9365)
++++ /dev/null	(revision ad15c7ac1c730d3e4795a16234b16f57433c9365)
+@@ -1,10 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="RunConfigurationProducerService">
+-    <option name="ignoredProducers">
+-      <set>
+-        <option value="com.android.tools.idea.compose.preview.runconfiguration.ComposePreviewRunConfigurationProducer" />
+-      </set>
+-    </option>
+-  </component>
+-</project>
+\ No newline at end of file
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\n  <component name=\"GradleSettings\">\n    <option name=\"linkedExternalProjectsSettings\">\n      <GradleProjectSettings>\n        <option name=\"testRunner\" value=\"PLATFORM\" />\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\n        <option name=\"modules\">\n          <set>\n            <option value=\"$PROJECT_DIR$\" />\n            <option value=\"$PROJECT_DIR$/app\" />\n          </set>\n        </option>\n        <option name=\"resolveModulePerSourceSet\" value=\"false\" />\n      </GradleProjectSettings>\n    </option>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/gradle.xml b/.idea/gradle.xml
+--- a/.idea/gradle.xml	(revision ad15c7ac1c730d3e4795a16234b16f57433c9365)
++++ b/.idea/gradle.xml	(date 1635569367898)
+@@ -4,7 +4,7 @@
+   <component name="GradleSettings">
+     <option name="linkedExternalProjectsSettings">
+       <GradleProjectSettings>
+-        <option name="testRunner" value="PLATFORM" />
++        <option name="testRunner" value="GRADLE" />
+         <option name="distributionType" value="DEFAULT_WRAPPED" />
+         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+         <option name="modules">
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"DesignSurface\">\n    <option name=\"filePathToZoomLevelMap\">\n      <map>\n        <entry key=\"../../../../../../layout/custom_preview.xml\" value=\"0.26197916666666665\" />\n        <entry key=\"app/src/main/res/drawable/btn_detail_selecter.xml\" value=\"0.190625\" />\n        <entry key=\"app/src/main/res/drawable/item.xml\" value=\"0.190625\" />\n        <entry key=\"app/src/main/res/layout/activity_chat.xml\" value=\"0.2953125\" />\n        <entry key=\"app/src/main/res/layout/activity_chat_activity.xml\" value=\"0.1503623188405797\" />\n        <entry key=\"app/src/main/res/layout/activity_chat_window.xml\" value=\"0.3098958333333333\" />\n        <entry key=\"app/src/main/res/layout/activity_chat_window_new.xml\" value=\"0.1578125\" />\n        <entry key=\"app/src/main/res/layout/activity_detail.xml\" value=\"0.19519927536231885\" />\n        <entry key=\"app/src/main/res/layout/activity_edit_activity.xml\" value=\"0.19519927536231885\" />\n        <entry key=\"app/src/main/res/layout/activity_image_showing.xml\" value=\"0.1578125\" />\n        <entry key=\"app/src/main/res/layout/activity_image_showing2.xml\" value=\"0.1578125\" />\n        <entry key=\"app/src/main/res/layout/activity_list.xml\" value=\"0.13234347618705175\" />\n        <entry key=\"app/src/main/res/layout/activity_list_view.xml\" value=\"0.19519927536231885\" />\n        <entry key=\"app/src/main/res/layout/activity_list_view1.xml\" value=\"0.19519927536231885\" />\n        <entry key=\"app/src/main/res/layout/activity_login.xml\" value=\"0.1956521739130435\" />\n        <entry key=\"app/src/main/res/layout/activity_main.xml\" value=\"0.19519927536231885\" />\n        <entry key=\"app/src/main/res/layout/activity_me.xml\" value=\"0.19519927536231885\" />\n        <entry key=\"app/src/main/res/layout/activity_my_activity.xml\" value=\"0.19519927536231885\" />\n        <entry key=\"app/src/main/res/layout/activity_new.xml\" value=\"0.1\" />\n        <entry key=\"app/src/main/res/layout/activity_new_chat.xml\" value=\"0.14447463768115942\" />\n        <entry key=\"app/src/main/res/layout/activity_permission_check.xml\" value=\"0.11246200607902736\" />\n        <entry key=\"app/src/main/res/layout/activity_re_set.xml\" value=\"0.1\" />\n        <entry key=\"app/src/main/res/layout/activity_setting.xml\" value=\"0.2953125\" />\n        <entry key=\"app/src/main/res/layout/candidate_list.xml\" value=\"0.19429347826086957\" />\n        <entry key=\"app/src/main/res/layout/candidate_list_view.xml\" value=\"0.21422101449275363\" />\n        <entry key=\"app/src/main/res/layout/canditate_list.xml\" value=\"0.25677083333333334\" />\n        <entry key=\"app/src/main/res/layout/chatviewlayout.xml\" value=\"0.2953125\" />\n        <entry key=\"app/src/main/res/layout/horizontal_number_picker.xml\" value=\"0.19519927536231885\" />\n        <entry key=\"app/src/main/res/layout/info_window.xml\" value=\"0.11246200607902736\" />\n        <entry key=\"app/src/main/res/layout/main_test.xml\" value=\"0.1\" />\n        <entry key=\"app/src/main/res/layout/receiverchatlayout.xml\" value=\"0.1578125\" />\n        <entry key=\"app/src/main/res/layout/vlist.xml\" value=\"0.17447916666666666\" />\n        <entry key=\"app/src/main/res/layout/vlist_2.xml\" value=\"0.25\" />\n        <entry key=\"app/src/main/res/menu/bottom_nav_menu.xml\" value=\"0.23541666666666666\" />\n        <entry key=\"app/src/main/res/menu/me_menu.xml\" value=\"0.23541666666666666\" />\n        <entry key=\"app/src/main/res/menu/my_activity_menu.xml\" value=\"0.20612771582490919\" />\n      </map>\n    </option>\n  </component>\n  <component name=\"ExternalStorageConfigurationManager\" enabled=\"true\" />\n  <component name=\"ProjectPlainTextFileTypeManager\">\n    <file url=\"file://$PROJECT_DIR$/app/src/main/res/layout/candidate_list.xml\" />\n  </component>\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_14\" default=\"false\" project-jdk-name=\"11\" project-jdk-type=\"JavaSDK\">\n    <output url=\"file://$PROJECT_DIR$/build/classes\" />\n  </component>\n  <component name=\"ProjectType\">\n    <option name=\"id\" value=\"Android\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision ad15c7ac1c730d3e4795a16234b16f57433c9365)
++++ b/.idea/misc.xml	(date 1635570739312)
+@@ -46,7 +46,7 @@
+   <component name="ProjectPlainTextFileTypeManager">
+     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/candidate_list.xml" />
+   </component>
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_14" default="false" project-jdk-name="11" project-jdk-type="JavaSDK">
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/build/classes" />
+   </component>
+   <component name="ProjectType">
+Index: .idea/compiler.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"CompilerConfiguration\">\n    <bytecodeTargetLevel target=\"14\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/compiler.xml b/.idea/compiler.xml
+--- a/.idea/compiler.xml	(revision ad15c7ac1c730d3e4795a16234b16f57433c9365)
++++ b/.idea/compiler.xml	(date 1635570739314)
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+   <component name="CompilerConfiguration">
+-    <bytecodeTargetLevel target="14" />
++    <bytecodeTargetLevel target="11" />
+   </component>
+ </project>
+\ No newline at end of file

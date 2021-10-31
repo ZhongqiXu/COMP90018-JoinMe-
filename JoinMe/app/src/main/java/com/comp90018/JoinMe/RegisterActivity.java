@@ -96,7 +96,7 @@ public class RegisterActivity extends AppCompatActivity {
                             Toast.makeText(RegisterActivity.this, "Authentication success.",
                                     Toast.LENGTH_SHORT).show();
 
-                            Intent intent = new Intent(RegisterActivity.this,MeActivity.class);
+                            Intent intent = new Intent(RegisterActivity.this,MainActivity.class);
                             startActivity(intent);
                             finish();
                         } else {

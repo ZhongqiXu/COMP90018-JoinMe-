@@ -2,19 +2,39 @@
     <!-- Base application theme. -->
     <style name="Theme.JoinMe" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#fbebd9</item>
-        <item name="colorPrimaryVariant">#fbebd9</item>
+        <item name="colorPrimary">#45A4AC</item>
+        <item name="colorPrimaryVariant">#45A4AC</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">#fbebd9</item>
-        <item name="colorSecondaryVariant">#fbebd9</item>
+        <item name="colorSecondary">#45A4AC</item>
+        <item name="colorSecondaryVariant">#45A4AC</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="android:divider">@drawable/divider</item>
+        <item name="android:dividerHeight">1px</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="ToolbarTitle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">15sp</item>
     </style>
 
     <style name="Theme.JoinMe.NoActionBar">
+        <item name="colorPrimary">#45A4AC</item>
+        <item name="colorPrimaryVariant">#45A4AC</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">#45A4AC</item>
+        <item name="colorSecondaryVariant">#45A4AC</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+        <item name="android:divider">@drawable/divider</item>
+        <item name="android:dividerHeight">1px</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
