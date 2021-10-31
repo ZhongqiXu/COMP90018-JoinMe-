@@ -40,6 +40,14 @@ public class MeActivity extends AppCompatActivity implements NavigationBarView.O
             }
         });
 
+        join = findViewById(R.id.joined_Activities);
+        join.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MeActivity.this, JoinedActivity.class));
+            }
+        });
+
         logout = findViewById(R.id.logout);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
