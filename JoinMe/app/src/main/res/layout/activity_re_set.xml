@@ -28,10 +28,10 @@
 
         <TextView
             android:layout_width="250dp"
-            android:layout_centerInParent="true"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="Enter your e-mail address we will send you an e-mail to reset your password"/>
+            android:text="Enter your e-mail address we will send you an e-mail to reset your password" />
 
     </RelativeLayout>
 
@@ -45,21 +45,33 @@
         android:hint="Email">
         <EditText
             android:id="@+id/reset_Email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
+            android:layout_width="330dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:background="#72FFFFFF"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#ACACAC"
+            android:textSize="14sp"
             tools:text="464564@1234.com" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
     <Button
         android:id="@+id/btn_reset"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
+        android:layout_gravity="center"
         android:layout_marginLeft="16dp"
+        android:layout_marginTop="80dp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="40dp"
-        android:text="Submit"
-        android:gravity="center"/>
+        android:background="@drawable/custom_button"
+        android:shadowRadius="2"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        app:backgroundTint="#45A4AC"
+        android:text="SUBMIT"/>
 
 </LinearLayout>

@@ -153,8 +153,8 @@ public class MyActivityDetailActivity extends AppCompatActivity implements Navig
             case R.id.activities:
                 startActivity(new Intent(this, MainActivity.class));
                 break;
-            case R.id.profile:
-                startActivity(new Intent(this, MeActivity.class));
+            case R.id.Me:
+                startActivity(new Intent(this, ProfileActivity.class));
                 break;
             case R.id.mapView:
                 startActivity(new Intent(this, MarkOnMap.class));

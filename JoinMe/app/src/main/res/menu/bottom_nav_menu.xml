@@ -13,7 +13,7 @@
         android:icon="@drawable/ic_baseline_chat_24"
         android:title="Chats" />
     <item
-        android:id="@+id/profile"
-        android:title="Profile"
+        android:id="@+id/Me"
+        android:title="Me"
         android:icon="@drawable/ic_baseline_person_24"/>
 </menu>

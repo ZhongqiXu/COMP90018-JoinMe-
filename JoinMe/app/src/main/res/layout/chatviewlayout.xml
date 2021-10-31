@@ -22,14 +22,13 @@
             android:layout_toRightOf="@id/cardviewofuser"
             android:text="Name Display Here"
             android:textColor="#0b0b0b"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textSize="16sp" />
 
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardviewofuser"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginBottom="20dp"

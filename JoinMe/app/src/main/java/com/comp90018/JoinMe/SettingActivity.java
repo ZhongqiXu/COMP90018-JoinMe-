@@ -12,7 +12,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -139,7 +138,7 @@ public class SettingActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task task) {
                         if (task.isSuccessful()){
 
-                            startActivity(new Intent(SettingActivity.this,MeActivity.class));
+                            startActivity(new Intent(SettingActivity.this, ProfileActivity.class));
                             finish();
                         }
                         else
