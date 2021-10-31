@@ -7,7 +7,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -126,8 +125,8 @@ public class ChatActivity extends AppCompatActivity implements NavigationBarView
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         bottomNavigationView.getMenu().findItem(item.getItemId()).setChecked(true);
         switch (item.getItemId()) {
-            case R.id.profile:
-                startActivity(new Intent(this, MeActivity.class));
+            case R.id.Me:
+                startActivity(new Intent(this, ProfileActivity.class));
                 break;
             case R.id.mapView:
                 startActivity(new Intent(this, MarkOnMap.class));

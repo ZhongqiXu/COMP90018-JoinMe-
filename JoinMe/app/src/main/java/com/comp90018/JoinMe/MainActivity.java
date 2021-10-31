@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -154,8 +153,8 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         bottomNavigationView.getMenu().findItem(item.getItemId()).setChecked(true);
         switch (item.getItemId()) {
-            case R.id.profile:
-                startActivity(new Intent(this, MeActivity.class));
+            case R.id.Me:
+                startActivity(new Intent(this, ProfileActivity.class));
                 break;
             case R.id.mapView:
                 startActivity(new Intent(this, MarkOnMap.class));

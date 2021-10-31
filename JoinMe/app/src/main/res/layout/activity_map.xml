@@ -29,14 +29,19 @@
 
     <Button
         android:id="@+id/btn_find"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:text="Confirm"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/custom_button"
+        android:shadowRadius="2"
         android:textColor="#FFFFFF"
-        android:background="@color/green"
-        android:layout_margin="16dp"
-        android:textStyle="bold"/>
+        android:textSize="16sp"
+        android:textStyle="normal"
+        app:backgroundTint="#45A4AC"/>
 
 </RelativeLayout>

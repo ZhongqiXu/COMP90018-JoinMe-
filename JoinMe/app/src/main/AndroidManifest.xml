@@ -13,10 +13,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.JoinMe">
+        <activity
+            android:name=".MeActivity"
+            android:exported="true" />
         <meta-data
             android:name="com.google.android.actions"
             android:resource="@xml/divider" />
-
         <activity
             android:name=".CapturedImage"
             android:exported="true" />
@@ -46,7 +48,7 @@
         <activity android:name=".MyActivityListActivity" />
         <activity android:name=".MyActivityDetailActivity" />
         <activity android:name=".SettingActivity" />
-        <activity android:name=".MeActivity" />
+        <activity android:name=".ProfileActivity" />
         <activity android:name=".ReSetActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".NewActivity" />

@@ -155,8 +155,6 @@ public class MyActivityDetailActivity extends AppCompatActivity implements OnMap
             googleMap.animateCamera(CameraUpdateFactory.zoomIn());
             // Zoom out to zoom level 10, animating with a duration of 2 seconds.
             googleMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
-
         }
-
     }
 }
