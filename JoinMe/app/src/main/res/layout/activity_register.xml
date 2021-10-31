@@ -12,9 +12,8 @@
         android:id="@+id/LogoImage"
         android:layout_width="150dp"
         android:layout_height="200dp"
-        android:layout_marginTop="16dp"
         android:layout_gravity="center_horizontal"
-        />
+        android:layout_marginTop="16dp" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/regst_EmailBox"
@@ -24,12 +23,16 @@
         android:layout_marginTop="16dp"
         android:layout_marginRight="16dp"
         android:hint="Email">
+
         <EditText
             android:id="@+id/regst_Email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
             android:inputType="textEmailAddress"
-            tools:text="464564@1234.com" />
+            android:textColor="#ACACAC"
+            android:textSize="14sp"
+            tools:text="Enter your Email here" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -40,12 +43,15 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:hint="Password">
+
         <EditText
             android:id="@+id/regst_pwd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
             android:inputType="textPassword"
-            tools:text="464564@1234.com" />
+            android:textColor="#ACACAC"
+            tools:text="Password" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -55,46 +61,63 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:hint="userName">
+        android:hint="Username"
+        app:hintTextColor="@color/black">
+
         <EditText
             android:id="@+id/regst_userName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
             android:inputType="text"
-            tools:text="Jack" />
+            android:textColor="#ACACAC"
+            tools:text="Enter your username here" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/btn_register"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
         android:layout_marginTop="40dp"
+        android:layout_marginRight="16dp"
+        android:shadowRadius="2"
         android:text="REGISTER"
-        android:gravity="center"/>
+        android:textSize="16sp"
+        android:textStyle="normal"
+        app:backgroundTint="#FFFFFF"
+        android:background="@drawable/custom_button"
+        app:backgroundTintMode="multiply" />
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_marginLeft="16dp"
+        android:layout_marginTop="40dp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="40dp">
+        android:clickable="false"
+        android:clipChildren="false"
+        android:ignoreGravity="false">
+
         <TextView
             android:id="@+id/tx_HaveAccount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Already have an account?"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="false"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:text="Already have an account?" />
 
         <TextView
             android:id="@+id/btn_ToLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tx_HaveAccount"
+            android:paddingLeft="3dp"
             android:text="Login"
-            android:textStyle="bold"
-            android:paddingLeft="5dp"
-            android:layout_toRightOf="@+id/tx_HaveAccount"/>
+            android:textStyle="bold" />
 
 
     </RelativeLayout>

@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/profile"
-        android:title="Profile"/>
-    <item
         android:id="@+id/activities"
-        android:title="Activities"/>
+        android:title="Activities"
+        android:icon="@drawable/ic_baseline_format_list_bulleted_24"/>
     <item
         android:id="@+id/mapView"
-        android:title="Map"/>
+        android:title="Map"
+        android:icon="@drawable/ic_baseline_map_24"/>
     <item
         android:id="@+id/chats"
-        android:title="Chats"/>
+        android:icon="@drawable/ic_baseline_chat_24"
+        android:textColorSecondary="@color/teal_200"
+        android:title="Chats" />
+    <item
+        android:id="@+id/profile"
+        android:title="Profile"
+        android:icon="@drawable/ic_baseline_person_24"/>
 </menu>
