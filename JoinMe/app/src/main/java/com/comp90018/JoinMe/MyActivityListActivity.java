@@ -9,9 +9,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -104,6 +106,8 @@ public class MyActivityListActivity extends AppCompatActivity {
                     activityList.add((String) map.get("title"));
                     activityIdList.add((String) dataSnapshot.getKey());
                 }
+
+                setListViewHeightBasedOnChildren(activityListView);
                 adapter.notifyDataSetChanged();
             }
 
@@ -128,6 +132,26 @@ public class MyActivityListActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void setListViewHeightBasedOnChildren(ListView activityListView) {
+        ListAdapter listAdapter = activityListView.getAdapter();
+        if (listAdapter == null) {
+            //pre-condition
+            return;
+        }
+
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, activityListView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = activityListView.getLayoutParams();
+        params.height = totalHeight + (activityListView.getDividerHeight() * (listAdapter.getCount() - 1));
+        activityListView.setLayoutParams(params);
+        activityListView.requestLayout();
     }
 
 
