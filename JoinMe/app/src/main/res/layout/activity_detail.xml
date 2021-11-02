@@ -259,6 +259,7 @@
 
                 <Button
                     android:id="@+id/join"
+                    android:text="JOIN"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -266,7 +267,6 @@
                     android:layout_marginBottom="20dp"
                     android:background="@color/white"
                     android:shadowRadius="2"
-                    android:text="JOIN"
                     android:textColor="#FFFFFF"
                     android:textSize="16sp"
                     android:textStyle="normal"
