@@ -41,7 +41,7 @@ public class MyActivityDetailActivity extends AppCompatActivity implements OnMap
 
     private TextView host, title, details, dateTime, autoEnabled, size;
     private Button candidate_list;
-    private Button participant_list;
+    private Button participant_list, delete;
     private String owner, placeName;
     private List<String> participants = new ArrayList<>(1);
     private List<String> candidates = new ArrayList<>(1);
@@ -104,7 +104,7 @@ public class MyActivityDetailActivity extends AppCompatActivity implements OnMap
             }
         });
 
-        candidate_list = findViewById(R.id.candidate_list);
+        candidate_list = findViewById(R.id.candidate_List);
         candidate_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,7 +124,41 @@ public class MyActivityDetailActivity extends AppCompatActivity implements OnMap
             }
         });
 
+        delete = findViewById(R.id.deleteMy);
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(MyActivityDetailActivity.this);
+                alertDialog
+                        .setTitle("title")
+                        .setMessage("Are you sure you want to delete this activity?")
+                        .setPositiveButton("Yes",
+                                new DialogInterface.OnClickListener() {
+
+                                    @Override
+                                    public void onClick(DialogInterface dialog,
+                                                        int which) {
+                                        FirebaseDatabase.getInstance().getReference().child("activity").child(activity.getAid()).removeValue();
+                                        Intent intent = new Intent(MyActivityDetailActivity.this,MyActivityListActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                })
+                        .setNegativeButton("Cancel",
+                                new DialogInterface.OnClickListener() {
+
+                                    @Override
+                                    public void onClick(DialogInterface dialog,
+                                                        int which) {
+
+                                    }
+                                }).show();
+            }
+        });
+
     }
+
+
 
     public void createAlertDialog() {
         AlertDialog alertDialog = new AlertDialog.Builder(MyActivityDetailActivity.this).create();

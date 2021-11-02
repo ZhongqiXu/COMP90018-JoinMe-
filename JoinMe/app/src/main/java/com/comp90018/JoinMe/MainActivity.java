@@ -30,6 +30,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import helper.MyListAdapter;
+
 public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
 
     NavigationBarView bottomNavigationView;
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     private DatabaseReference databaseReference;
 
     private ArrayList<String> activityList = new ArrayList<String>();
+    private ArrayList<String> activityListDetail = new ArrayList<>();
     private ArrayList<String> activityIdList = new ArrayList<String>();
     private ArrayAdapter<String> adapter;
 
@@ -67,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         bottomNavigationView.setOnItemSelectedListener(this);
         bottomNavigationView.getMenu().findItem(R.id.activities).setChecked(true);
 
-        adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.activity_list_view, activityList);
+        MyListAdapter adapter = new MyListAdapter(MainActivity.this,  activityList, activityListDetail);
 
         activityListView = (ListView) findViewById(R.id.activity_List);
         activityListView.setAdapter(adapter);
@@ -99,6 +102,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                 @SuppressWarnings("unchecked")
                 Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
                 activityList.add((String) map.get("title"));
+                activityListDetail.add("[" + (String) map.get("datetime") + "] " + (String) map.get("details"));
                 activityIdList.add((String) dataSnapshot.getKey());
                 setListViewHeightBasedOnChildren(activityListView);
 

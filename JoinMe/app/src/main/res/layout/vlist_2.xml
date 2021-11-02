@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="70.0dip"
+    android:background="@color/white"
     android:minHeight="70.0dip">
 
     <TextView
@@ -13,10 +14,9 @@
         android:layout_marginStart="20dip"
         android:layout_marginLeft="20dip"
         android:layout_toRightOf="@+id/sItemIcon"
-        android:background="#00FFFFFF"
         android:gravity="center_vertical"
         android:singleLine="true"
         android:text="TextView"
         android:textColor="@color/listTitle"
-        android:textSize="16sp" />
+        android:textSize="16.0sp" />
 </RelativeLayout>

@@ -32,6 +32,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import helper.MyListAdapter;
+
 public class MyActivityListActivity extends AppCompatActivity {
 
     NavigationBarView bottomNavigationView;
@@ -40,6 +42,7 @@ public class MyActivityListActivity extends AppCompatActivity {
     private DatabaseReference databaseReference;
 
     private ArrayList<String> activityList = new ArrayList<String>();
+    private ArrayList<String> activityListDetail = new ArrayList<>();
     private ArrayList<String> activityIdList = new ArrayList<String>();
     private ArrayAdapter<String> adapter;
 
@@ -62,7 +65,8 @@ public class MyActivityListActivity extends AppCompatActivity {
             }
         });
 
-        adapter = new ArrayAdapter<String>(MyActivityListActivity.this, R.layout.activity_list_view1, activityList);
+
+        MyListAdapter adapter = new MyListAdapter(MyActivityListActivity.this,  activityList, activityListDetail);
 
         activityListView = (ListView) findViewById(R.id.activity_List);
         activityListView.setAdapter(adapter);
