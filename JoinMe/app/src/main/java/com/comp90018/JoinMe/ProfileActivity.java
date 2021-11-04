@@ -29,7 +29,7 @@ import com.squareup.picasso.Picasso;
 
 import object.User;
 
-public class ProfileActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
+public class ProfileActivity extends AppCompatActivity{
 
 
     TextView userName,welname,gender,age,brief,email;
@@ -37,7 +37,6 @@ public class ProfileActivity extends AppCompatActivity implements NavigationBarV
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
 
-    NavigationBarView bottomNavigationView;
     private ImageView profileImageview;
 
     private Button button_setting;
@@ -59,10 +58,6 @@ public class ProfileActivity extends AppCompatActivity implements NavigationBarV
         brief = findViewById(R.id.ds_brief);
         age = findViewById(R.id.ds_age);
         profileImageview=findViewById(R.id.profileImageview);
-
-        bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setOnItemSelectedListener(this);
-        bottomNavigationView.getMenu().findItem(R.id.Me).setChecked(true);
 
         final String uid = mAuth.getUid();
 
@@ -146,26 +141,6 @@ public class ProfileActivity extends AppCompatActivity implements NavigationBarV
         brief.setText(user.getBrief());
         age.setText(user.getAge());
     }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        bottomNavigationView.getMenu().findItem(item.getItemId()).setChecked(true);
-        switch (item.getItemId()) {
-            case R.id.activities:
-                startActivity(new Intent(this, MainActivity.class));
-                break;
-            case R.id.mapView:
-                startActivity(new Intent(this, MarkOnMap.class));
-                break;
-            case R.id.chats:
-                startActivity(new Intent(this, ChatActivity.class));
-                break;
-            default:
-                break;
-        }
-        return false;
-    }
-
 
 
 }

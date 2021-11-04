@@ -108,6 +108,7 @@ public class MyActivityListActivity extends AppCompatActivity {
 
                 if (owner.equals(uid)) {
                     activityList.add((String) map.get("title"));
+                    activityListDetail.add("[" + (String) map.get("datetime") + "] " + (String) map.get("details"));
                     activityIdList.add((String) dataSnapshot.getKey());
                 }
 
