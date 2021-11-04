@@ -51,12 +51,12 @@ public class MessageAdapter extends RecyclerView.Adapter {
         if(holder.getClass()==SenderViewHolder.class){
             SenderViewHolder viewHolder = (SenderViewHolder) holder;
             if(message.getType().equalsIgnoreCase("String")){
-                viewHolder.textViewmessage.setVisibility(View.VISIBLE);
+                viewHolder.textViewMsg.setVisibility(View.VISIBLE);
                 viewHolder.imageViewpic.setVisibility(View.GONE);
-                viewHolder.textViewmessage.setText(message.getMessage());
+                viewHolder.textViewMsg.setText(message.getMessage());
                 viewHolder.timeofmessage.setText(message.getCurrenttime());
             }else{
-                viewHolder.textViewmessage.setVisibility(View.GONE);
+                viewHolder.textViewMsg.setVisibility(View.GONE);
                 viewHolder.imageViewpic.setVisibility(View.VISIBLE);
                 String uri = message.getMessage();
                 Picasso.get().load(uri).into(viewHolder.imageViewpic);
@@ -64,7 +64,6 @@ public class MessageAdapter extends RecyclerView.Adapter {
                 viewHolder.imageViewpic.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        Toast.makeText(context.getApplicationContext(), "image clicked", Toast.LENGTH_SHORT).show();
                         Intent intent=new Intent(v.getContext(), ImageShowing.class);
                         intent.putExtra("image", uri);
                         v.getContext().startActivity(intent);
@@ -72,16 +71,15 @@ public class MessageAdapter extends RecyclerView.Adapter {
                 });
 
             }
-
         }else{
             ReceiverViewHolder viewHolder = (ReceiverViewHolder) holder;
             if(message.getType().equalsIgnoreCase("String")) {
-                viewHolder.textViewmessage.setVisibility(View.VISIBLE);
+                viewHolder.textViewMsg.setVisibility(View.VISIBLE);
                 viewHolder.imageViewpic.setVisibility(View.GONE);
-                viewHolder.textViewmessage.setText(message.getMessage());
+                viewHolder.textViewMsg.setText(message.getMessage());
                 viewHolder.timeofmessage.setText(message.getCurrenttime());
             }else{
-                viewHolder.textViewmessage.setVisibility(View.GONE);
+                viewHolder.textViewMsg.setVisibility(View.GONE);
                 viewHolder.imageViewpic.setVisibility(View.VISIBLE);
                 String uri = message.getMessage();
                 Picasso.get().load(uri).into(viewHolder.imageViewpic);
@@ -117,13 +115,13 @@ public class MessageAdapter extends RecyclerView.Adapter {
 
     class SenderViewHolder extends RecyclerView.ViewHolder{
 
-        TextView textViewmessage;
+        TextView textViewMsg;
         TextView timeofmessage;
         ImageView imageViewpic;
 
         public SenderViewHolder(@NonNull View itemView) {
             super(itemView);
-            textViewmessage=itemView.findViewById(R.id.sendermessage);
+            textViewMsg=itemView.findViewById(R.id.sendermessage);
             timeofmessage=itemView.findViewById(R.id.timeofmessage);
             imageViewpic=itemView.findViewById(R.id.senderpic);
         }
@@ -131,19 +129,16 @@ public class MessageAdapter extends RecyclerView.Adapter {
 
     class ReceiverViewHolder extends RecyclerView.ViewHolder{
 
-        TextView textViewmessage;
+        TextView textViewMsg;
         TextView timeofmessage;
         ImageView imageViewpic;
 
         public ReceiverViewHolder(@NonNull View itemView) {
             super(itemView);
-            textViewmessage=itemView.findViewById(R.id.sendermessage);
+            textViewMsg=itemView.findViewById(R.id.sendermessage);
             timeofmessage=itemView.findViewById(R.id.timeofmessage);
             imageViewpic=itemView.findViewById(R.id.senderpic);
         }
     }
-
-
-
 
 }

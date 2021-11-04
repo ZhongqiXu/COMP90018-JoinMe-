@@ -7,7 +7,7 @@
     tools:context=".ChatWindow">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerviewofspecific"
+        android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/getmessage"

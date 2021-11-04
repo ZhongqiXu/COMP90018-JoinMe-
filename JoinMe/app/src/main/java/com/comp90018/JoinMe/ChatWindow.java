@@ -10,7 +10,6 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -25,7 +24,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -55,7 +53,7 @@ public class ChatWindow extends AppCompatActivity {
     CardView sendMsgCardV;
     ImageButton sendBtn, picBtn, cameraBtn;
 
-    RecyclerView mmesagerecyclerview;
+    RecyclerView messageRecyclerView;
     ArrayList<Message> messageArrayList;
     MessageAdapter messageAdapter;
 
@@ -68,10 +66,10 @@ public class ChatWindow extends AppCompatActivity {
 
     Calendar calender;
     SimpleDateFormat simpleDateFormat;
-    String mreceivername, mreceiveruid, msenderuid, senderroom, receiverroom, enteredmessage, currenttime, ImageUriAcessToken;
+    String receivername, receiveruid, senderuid, senderroom, receiverroom, enteredmessage, currenttime, ImageUriAcessToken;
 
     private Uri imagepath;
-    ActivityResultLauncher<Intent> startForResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+    ActivityResultLauncher<Intent> startForResultPic = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult result) {
             if(result != null && result.getResultCode() == RESULT_OK){
@@ -113,12 +111,12 @@ public class ChatWindow extends AppCompatActivity {
         cameraBtn = findViewById(R.id.cameraBtn);
 
         messageArrayList =new ArrayList<>();
-        mmesagerecyclerview = findViewById(R.id.recyclerviewofspecific);
+        messageRecyclerView = findViewById(R.id.recyclerview);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setStackFromEnd(true);
-        mmesagerecyclerview.setLayoutManager(linearLayoutManager);
+        messageRecyclerView.setLayoutManager(linearLayoutManager);
         messageAdapter =new MessageAdapter(ChatWindow.this, messageArrayList);
-        mmesagerecyclerview.setAdapter(messageAdapter);
+        messageRecyclerView.setAdapter(messageAdapter);
 
         intent=getIntent();
 
@@ -130,11 +128,11 @@ public class ChatWindow extends AppCompatActivity {
         calender= Calendar.getInstance();
         simpleDateFormat=new SimpleDateFormat("hh:mm a");
 
-        msenderuid=firebaseAuth.getUid();
-        mreceiveruid=getIntent().getStringExtra("receiveruid");
-        mreceivername=getIntent().getStringExtra("name");
-        senderroom=msenderuid+mreceiveruid;
-        receiverroom=mreceiveruid+msenderuid;
+        senderuid=firebaseAuth.getUid();
+        receiveruid=getIntent().getStringExtra("receiveruid");
+        receivername=getIntent().getStringExtra("name");
+        senderroom=senderuid+receiveruid;
+        receiverroom=receiveruid+senderuid;
 
         DatabaseReference databaseReference=firebaseDatabase.getReference().child("chats").child(senderroom);
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -163,24 +161,17 @@ public class ChatWindow extends AppCompatActivity {
                     documentReference.update("time", time);
                     documentReference2.update("time", time);
 
-//                    Date date = new Date();
                     currenttime=simpleDateFormat.format(calender.getTime());
                     Message message = new Message(enteredmessage, firebaseAuth.getUid(), time, currenttime, "String");
                     firebaseDatabase=FirebaseDatabase.getInstance();
                     firebaseDatabase.getReference().child("chats").child(senderroom).push().setValue(message).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            firebaseDatabase.getReference().child("chats").child(receiverroom).push().setValue(message).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    Toast.makeText(getApplicationContext(), "Sent ", Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                            firebaseDatabase.getReference().child("chats").child(receiverroom).push().setValue(message);
                         }
                     });
 
                     getMsg.setText(null);
-
                 }
             }
         });
@@ -205,7 +196,7 @@ public class ChatWindow extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-                startForResult.launch(intent);
+                startForResultPic.launch(intent);
             }
         });
     }
@@ -229,20 +220,9 @@ public class ChatWindow extends AppCompatActivity {
                         ImageUriAcessToken = uri.toString();
                         sendImageDatabase();
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), "URI get Failed", Toast.LENGTH_SHORT).show();
-                    }
                 });
             }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getApplicationContext(), "Image Not Uploaded", Toast.LENGTH_SHORT).show();
-            }
         });
-
     }
 
     private void sendImageDatabase(){
@@ -258,12 +238,7 @@ public class ChatWindow extends AppCompatActivity {
         firebaseDatabase.getReference().child("chats").child(senderroom).push().setValue(message).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                firebaseDatabase.getReference().child("chats").child(receiverroom).push().setValue(message).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(getApplicationContext(), "Sent ", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                firebaseDatabase.getReference().child("chats").child(receiverroom).push().setValue(message);
             }
         });
     }
