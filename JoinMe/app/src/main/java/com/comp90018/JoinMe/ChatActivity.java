@@ -28,12 +28,11 @@ import helper.CustomLayout;
 public class ChatActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
 
     NavigationBarView bottomNavigationView;
-//    ScrollView scrollView;
 
     private FirebaseFirestore firebaseFirestore;
     LinearLayoutManager linearLayoutManager;
     private FirebaseAuth firebaseAuth;
-    ImageView mimageviewofuser;
+    ImageView imageUser;
     FirestoreRecyclerAdapter<firebasemodel,NoteViewHolder> chatAdapter;
     RecyclerView mrecyclerview;
 
@@ -47,7 +46,6 @@ public class ChatActivity extends AppCompatActivity implements NavigationBarView
         bottomNavigationView=findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(this);
         bottomNavigationView.getMenu().findItem(R.id.chats).setChecked(true);
-//        scrollView = findViewById(R.id.scrollView);
         mrecyclerview= findViewById(R.id.recyclerview);
         mrecyclerview.setHasFixedSize(true);
         linearLayoutManager=new CustomLayout(this);
@@ -56,17 +54,16 @@ public class ChatActivity extends AppCompatActivity implements NavigationBarView
 
         Query query=firebaseFirestore.collection("Contact").whereEqualTo("uid", firebaseAuth.getUid()).orderBy("time", Query.Direction.DESCENDING);
 
-        FirestoreRecyclerOptions<firebasemodel> allusername = new FirestoreRecyclerOptions.Builder<firebasemodel>().setQuery(query, firebasemodel.class).build();
+        FirestoreRecyclerOptions<firebasemodel> alluser = new FirestoreRecyclerOptions.Builder<firebasemodel>().setQuery(query, firebasemodel.class).build();
 
-        chatAdapter=new FirestoreRecyclerAdapter<firebasemodel, NoteViewHolder>(allusername) {
+        chatAdapter=new FirestoreRecyclerAdapter<firebasemodel, NoteViewHolder>(alluser) {
             @Override
             protected void onBindViewHolder(@NonNull NoteViewHolder holder, int position, @NonNull firebasemodel model) {
-
 
                 holder.particularusername.setText(model.getName());
                 String uri = model.getImage();
 
-                Picasso.get().load(uri).into(mimageviewofuser);
+                Picasso.get().load(uri).into(imageUser);
 
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -78,8 +75,6 @@ public class ChatActivity extends AppCompatActivity implements NavigationBarView
 
                     }
                 });
-
-
             }
 
             @NonNull
@@ -89,7 +84,6 @@ public class ChatActivity extends AppCompatActivity implements NavigationBarView
                 return new NoteViewHolder(view);
             }
         };
-
         chatAdapter.startListening();
         mrecyclerview.setAdapter(chatAdapter);
 
@@ -102,7 +96,7 @@ public class ChatActivity extends AppCompatActivity implements NavigationBarView
         public NoteViewHolder(@NonNull View itemView) {
             super(itemView);
             particularusername=itemView.findViewById(R.id.nameofuser);
-            mimageviewofuser=itemView.findViewById(R.id.imageviewofuser);
+            imageUser =itemView.findViewById(R.id.imageviewofuser);
 
         }
     }
