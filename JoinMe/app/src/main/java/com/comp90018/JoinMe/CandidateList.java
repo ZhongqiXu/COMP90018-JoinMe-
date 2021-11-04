@@ -2,8 +2,10 @@ package com.comp90018.JoinMe;
 
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +48,7 @@ public class CandidateList extends AppCompatActivity {
     private String aId;
 
     public  String candidatesId[]= new String[]{}; // candidates_id
+    public  String candidatesId1[]= new String[]{}; // candidates_id
     public  String candidatesName[]= new String[]{};  // candidate_name
     public List<String> participants = new ArrayList<String>(1);
     public List<String> candidates = new ArrayList<String>(1);
@@ -86,13 +89,11 @@ public class CandidateList extends AppCompatActivity {
 
 
 
-
         if (activity.getParticipants() != null && !activity.getParticipants().isEmpty()) {
             databaseReference = FirebaseDatabase.getInstance().getReference().child("activity").child(aId).child("participants");
             databaseReference.addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
-                    @SuppressWarnings("unchecked")
 
                     String value = dataSnapshot.getValue(String.class);
                     participants.add(value);
@@ -161,11 +162,12 @@ public class CandidateList extends AppCompatActivity {
 
         if (autoJoin == "false" && activity.getCandidates() != null && !activity.getCandidates().isEmpty()){
             candidatesId = activity.getCandidates().toArray(new String[0]);
+            candidatesId1 = candidates.toArray(new String[0]);
         }
 
 
         if (activity.getParticipants() != null && !activity.getParticipants().isEmpty()) {
-            participatesId = participants.toArray(new String[0]);
+            participatesId = activity.getParticipants().toArray(new String[0]);
         }
 
 
@@ -223,63 +225,34 @@ public class CandidateList extends AppCompatActivity {
 
         // candidates
         if (autoJoin == "false" && activity.getCandidates() != null && !activity.getCandidates().isEmpty()){
-        String[] temp = new String[candidatesId.length];
+            String[] temp = new String[candidatesId.length];
 
-        for (int i = 0; i < candidatesId.length; i++) {
+            for (int i = 0; i < candidatesId.length; i++) {
 
-            for (int j = 0; j< user_id_array.length;j++){
-                if (candidatesId[i].equals(user_id_array[j])) {
+                for (int j = 0; j< user_id_array.length;j++){
+                    if (candidatesId[i].equals(user_id_array[j])) {
                         temp[i] = user_list_array[j];
+                    }
                 }
             }
-        }
-        candidatesName = temp;
+            candidatesName = temp;
 
             databaseReference = FirebaseDatabase.getInstance().getReference().child("activity");
             List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
             for(int i=0;i<candidatesId.length;i++) {
                 Map<String, Object> map = new HashMap<String, Object>();
                 map.put("candidatesName", candidatesName[i]);
-               list.add(map);
+                list.add(map);
             }
 
             mData = list;
 
-        ListView listView = (ListView) findViewById(R.id.listView);
-        MyAdapter adapter = new MyAdapter(this);
-        listView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-    }
-
-
-//        // participants
-//        if (activity.getParticipants() != null && !activity.getParticipants().isEmpty()) {
-//            String[] temp2 = new String[participatesId.length];
-//
-//            for (int i = 0; i < participatesId.length; i++) {
-//
-//                for (int j = 0; j < user_id_array.length; j++) {
-//                    if (participatesId[i].equals(user_id_array[j])) {
-//                        temp2[i] = user_list_array[j];
-//                    }
-//                }
-//            }
-//            participatesName = temp2;
-//
-//            databaseReference = FirebaseDatabase.getInstance().getReference().child("activity");
-//            List<Map<String, Object>> list2 = new ArrayList<Map<String, Object>>();
-//            for(int i=0;i<participatesId.length;i++){
-//                Map<String, Object> map = new HashMap<String, Object>();
-//                map.put("participatesName", participatesName[i]);
-//                list2.add(map);
-//            }
-//            mData2  = list2;
-//
-//
-//        }
-
-
-
+            ListView listView = (ListView) findViewById(R.id.listView);
+            MyAdapter adapter = new MyAdapter(CandidateList.this, candidatesName);
+            listView.setAdapter(adapter);
+            setListViewHeightBasedOnChildren(listView);
+            adapter.notifyDataSetChanged();
+        }
 
     }
 
@@ -289,9 +262,13 @@ public class CandidateList extends AppCompatActivity {
     public class MyAdapter extends BaseAdapter {
 
         private final LayoutInflater mInflater;
+        private Context context;
+        private String[] candidatesName;
 
-        public MyAdapter(Context context) {
+        public MyAdapter(Context context, String[] candidatesName) {
             this.mInflater = LayoutInflater.from(context);
+            this.context = context;
+            this.candidatesName = candidatesName;
         }
 
         @Override
@@ -314,36 +291,16 @@ public class CandidateList extends AppCompatActivity {
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-//            ViewHolder holder = new ViewHolder();
-//            if (convertView == null) {
-//                //可以理解为从vlist获取view  之后把view返回给ListView
-//                convertView = mInflater.inflate(R.layout.vlist, null);
-//                holder.title = (TextView) convertView.findViewById(R.id.title);
-//                holder.viewBtn = (Button) convertView.findViewById(R.id.view_btn);
-//                convertView.setTag(holder);
-//
-//
-//            }
-//            else {
-//                holder = (ViewHolder) convertView.getTag();
-//            }
-//            holder.title.setText((String) mData.get(position).get("candidatesName"));
-//            holder.viewBtn.setTag(position);
-//            holder.viewBtn.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    confirm(position);
-//                }
-//            });
-//
-//            //holder.viewBtn.setOnClickListener(MyListener(position));
-//            return convertView;
 
-            convertView = mInflater.inflate(R.layout.vlist, null);
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//            convertView = mInflater.inflate(R.layout.vlist, null);
+            convertView = inflater.inflate(R.layout.vlist, null);
             TextView title = (TextView) convertView.findViewById(R.id.title);
             Button viewBtn = (Button) convertView.findViewById(R.id.view_btn);
 
-            title.setText((String) mData.get(position).get("candidatesName"));
+
+//            title.setText((String) mData.get(position).get("candidatesName"));
+            title.setText((String) candidatesName[position]);
             viewBtn.setTag(position);
             viewBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -359,39 +316,57 @@ public class CandidateList extends AppCompatActivity {
     }
 
 
-        public final class ViewHolder {
-            public TextView title;
-            public Button viewBtn;
+    public final class ViewHolder {
+        public TextView title;
+        public Button viewBtn;
+    }
+
+
+
+    public void confirm(int position){
+
+        ImageView img=new ImageView(CandidateList.this);
+        new AlertDialog.Builder(this).setView(img)
+                .setTitle("Are you sure you would like to add ")
+                .setMessage(candidatesName[position]+" to the activity?")
+                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        participants.add(candidatesId[position]);
+                        candidates.remove(position);
+                        FirebaseDatabase.getInstance().getReference().child("activity").child(aId).child("participants").setValue(participants);
+                        FirebaseDatabase.getInstance().getReference().child("activity").child(aId).child("candidates").setValue(candidates);
+                        recreate();
+
+                    }
+                })
+                .show();
+
+    }
+
+    public void setListViewHeightBasedOnChildren(ListView activityListView) {
+        ListAdapter listAdapter = activityListView.getAdapter();
+        if (listAdapter == null) {
+            //pre-condition
+            return;
         }
 
-
-
-        public void confirm(int position){
-
-            ImageView img=new ImageView(CandidateList.this);
-            new AlertDialog.Builder(this).setView(img)
-                    .setTitle("Are you sure you would like to add ")
-                    .setMessage(candidatesName[position]+" to the activity?")
-                    .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            participants.add(candidatesId[position]);
-                            candidates.remove(position);
-                            FirebaseDatabase.getInstance().getReference().child("activity").child(aId).child("participants").setValue(participants);
-                            FirebaseDatabase.getInstance().getReference().child("activity").child(aId).child("candidates").setValue(candidates);
-                            recreate();
-
-                        }
-                    })
-                    .show();
-
-
-
-
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, activityListView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
         }
+
+        ViewGroup.LayoutParams params = activityListView.getLayoutParams();
+        params.height = totalHeight + (activityListView.getDividerHeight() * (listAdapter.getCount() - 1));
+        activityListView.setLayoutParams(params);
+        activityListView.requestLayout();
+    }
 
 
 }
+
 
 
 

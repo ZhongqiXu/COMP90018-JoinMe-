@@ -102,7 +102,6 @@ public class ParticipantsList extends AppCompatActivity{
 
         }
 
-        System.out.println(participantIdList);
 
         databaseReference = FirebaseDatabase.getInstance().getReference().child("user");
         databaseReference.addChildEventListener(new ChildEventListener() {
@@ -113,10 +112,10 @@ public class ParticipantsList extends AppCompatActivity{
 
                 for (int i = 0; i < participantIdList.size(); i++){
                     if (participantIdList.get(i).equals(map.get("uid"))){
-
                         participantList.add((String) map.get("userName"));
-
                     }
+
+                    setListViewHeightBasedOnChildren(participantListView);
 
                     adapter.notifyDataSetChanged();
 
@@ -146,6 +145,29 @@ public class ParticipantsList extends AppCompatActivity{
         });
 
 
+    }
+
+
+    public void setListViewHeightBasedOnChildren(ListView activityListView) {
+        ListAdapter listAdapter = activityListView.getAdapter();
+        if (listAdapter == null) {
+            //pre-condition
+            return;
+        }
+
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, activityListView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = activityListView.getLayoutParams();
+//        params.height = totalHeight + (activityListView.getDividerHeight() * (listAdapter.getCount() - 1))
+//                + bottomNavigationView.getHeight();
+        params.height = totalHeight + (activityListView.getDividerHeight() * (listAdapter.getCount() - 1));
+        activityListView.setLayoutParams(params);
+        activityListView.requestLayout();
     }
 
 }
