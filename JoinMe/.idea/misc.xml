@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="app/src/main/res/drawable-v24/underline.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/custom_button.xml" value="0.1111111111111111" />
+        <entry key="app/src/main/res/layout/activity_chat_activity.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_chat_window.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_detail.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_image_showing.xml" value="0.1290983606557377" />
+        <entry key="app/src/main/res/layout/activity_joined.xml" value="0.1290983606557377" />
+        <entry key="app/src/main/res/layout/activity_list.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_list_view.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/activity_list_view1.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_map.xml" value="0.1290983606557377" />
+        <entry key="app/src/main/res/layout/activity_mark_on_map.xml" value="0.1290983606557377" />
+        <entry key="app/src/main/res/layout/activity_me.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_my_activity.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_re_set.xml" value="0.1290983606557377" />
+        <entry key="app/src/main/res/layout/activity_register.xml" value="0.1290983606557377" />
+        <entry key="app/src/main/res/layout/activity_setting.xml" value="0.1290983606557377" />
+        <entry key="app/src/main/res/layout/candidate_list.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/candidate_list_view.xml" value="0.1290983606557377" />
+        <entry key="app/src/main/res/layout/chatviewlayout.xml" value="0.16402649545343057" />
+        <entry key="app/src/main/res/layout/info_window.xml" value="0.1290983606557377" />
+        <entry key="app/src/main/res/layout/layout.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/participants_list.xml" value="0.1290983606557377" />
+        <entry key="app/src/main/res/layout/vlist.xml" value="0.37521142839162275" />
+        <entry key="app/src/main/res/layout/vlist_2.xml" value="0.1290983606557377" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK" />
+</project>

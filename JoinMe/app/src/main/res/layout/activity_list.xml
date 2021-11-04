@@ -33,7 +33,7 @@
                 android:text="My Activities"
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 tools:layout_editor_absoluteX="165dp"
                 tools:layout_editor_absoluteY="17dp" />
 

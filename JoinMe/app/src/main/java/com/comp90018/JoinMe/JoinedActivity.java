@@ -32,6 +32,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import helper.MyListAdapter;
+
 public class JoinedActivity extends AppCompatActivity{
 
     private ListView activityListView;
@@ -39,6 +41,7 @@ public class JoinedActivity extends AppCompatActivity{
 
     private ArrayList<String> activityList = new ArrayList<String>();
     private ArrayList<String> activityIdList = new ArrayList<String>();
+    private ArrayList<String> activityListDetail = new ArrayList<>();
     private ArrayAdapter<String> adapter;
 
 
@@ -47,7 +50,7 @@ public class JoinedActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_joined);
 
-        adapter = new ArrayAdapter<String>(JoinedActivity.this, R.layout.activity_list_view, activityList);
+        MyListAdapter adapter = new MyListAdapter(JoinedActivity.this,  activityList, activityListDetail);
 
         activityListView = (ListView) findViewById(R.id.activity_List);
         activityListView.setAdapter(adapter);
@@ -90,8 +93,11 @@ public class JoinedActivity extends AppCompatActivity{
 
                 if (participants != null && participants.contains(uid)) {
                     activityList.add((String) map.get("title"));
+                    activityListDetail.add("[" + (String) map.get("datetime") + "] " + (String) map.get("details"));
                     activityIdList.add((String) dataSnapshot.getKey());
                 }
+
+                setListViewHeightBasedOnChildren(activityListView);
                 adapter.notifyDataSetChanged();
             }
 
@@ -116,6 +122,26 @@ public class JoinedActivity extends AppCompatActivity{
             }
         });
 
+    }
+
+    public void setListViewHeightBasedOnChildren(ListView activityListView) {
+        ListAdapter listAdapter = activityListView.getAdapter();
+        if (listAdapter == null) {
+            //pre-condition
+            return;
+        }
+
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, activityListView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = activityListView.getLayoutParams();
+        params.height = totalHeight + (activityListView.getDividerHeight() * (listAdapter.getCount() - 1));
+        activityListView.setLayoutParams(params);
+        activityListView.requestLayout();
     }
 
 }

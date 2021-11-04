@@ -372,7 +372,7 @@ public class CandidateList extends AppCompatActivity {
             new AlertDialog.Builder(this).setView(img)
                     .setTitle("Are you sure you would like to add ")
                     .setMessage(candidatesName[position]+" to the activity?")
-                    .setPositiveButton("confirm", new DialogInterface.OnClickListener() {
+                    .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             participants.add(candidatesId[position]);

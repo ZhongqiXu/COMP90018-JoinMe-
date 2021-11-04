@@ -1,0 +1,315 @@
+Index: app/src/main/java/com/comp90018/JoinMe/CandidateList.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.comp90018.JoinMe;\n\nimport android.os.Bundle;\nimport android.widget.ArrayAdapter;\nimport android.widget.ListView;\nimport java.util.ArrayList;\nimport java.util.HashMap;\nimport java.util.List;\nimport java.util.Map;\n\n\nimport android.app.AlertDialog;\nimport android.content.Context;\nimport android.content.DialogInterface;\nimport android.view.LayoutInflater;\nimport android.view.View;\nimport android.view.ViewGroup;\nimport android.widget.BaseAdapter;\nimport android.widget.Button;\nimport android.widget.ImageView;\nimport android.widget.TextView;\n\n\nimport com.google.firebase.database.DatabaseReference;\nimport com.google.firebase.database.FirebaseDatabase;\n\nimport androidx.annotation.NonNull;\nimport androidx.annotation.Nullable;\nimport androidx.appcompat.app.AppCompatActivity;\n\nimport com.google.android.material.navigation.NavigationBarView;\nimport com.google.firebase.database.ChildEventListener;\nimport com.google.firebase.database.DataSnapshot;\nimport com.google.firebase.database.DatabaseError;\n\nimport object.Activity;\n\npublic class CandidateList extends AppCompatActivity {\n    NavigationBarView bottomNavigationView;\n    Bundle bundle;\n    Activity activity = new Activity();\n    HashMap activityInfo;\n    private String aId;\n\n    public static String candidatesId[]= new String[]{}; // candidates_id\n    public static String candidatesName[]= new String[]{};  // candidate_name\n    private List<String> participants = new ArrayList<>(1);\n    private List<String> candidates = new ArrayList<>(1);\n\n    public static String participatesId[]= new String[]{}; // participates_id\n    public static String participatesName[]= new String[]{};  // participates_name\n\n    public static String user_list_array[] = new String[]{};\n    public static String user_id_array[] = new String[]{};\n\n    private List<Map<String, Object>> mData;\n    private List<Map<String, Object>> mData2;\n    private int flag;\n\n    private ListView candidateListView;\n    private DatabaseReference databaseReference;\n    private ArrayList<String> userList = new ArrayList<String>();\n    private ArrayList<String> userIdList = new ArrayList<String>();\n    private ArrayAdapter<String> adapter;\n    private String autoJoin;\n\n\n\n    @Override\n    protected void onCreate(Bundle savedInstanceState) {\n        super.onCreate(savedInstanceState);\n        setContentView(R.layout.candidate_list);\n\n        Bundle bundle = getIntent().getExtras();\n        HashMap activityInfo = (HashMap) bundle.get(\"activityInfo\");\n        object.Activity activity = new Activity();\n        activity.mapToActivity(activity, activityInfo);\n        autoJoin = String.valueOf(activity.isAutoJoin());\n\n        if (autoJoin == \"false\" && activity.getCandidates() != null && !activity.getCandidates().isEmpty()){\n        candidatesId = activity.getCandidates().toArray(new String[0]);}\n\n        if (activity.getParticipants() != null && !activity.getParticipants().isEmpty()) {\n            participatesId = activity.getParticipants().toArray(new String[0]);\n        }\n        aId = activity.getAid();\n\n        if (activity.getParticipants() != null && !activity.getParticipants().isEmpty()) {\n            participants = activity.getParticipants();\n        }\n        if (activity.getCandidates() != null && !activity.getCandidates().isEmpty()) {\n            candidates= activity.getCandidates();\n        }\n\n\n        databaseReference = FirebaseDatabase.getInstance().getReference().child(\"user\");\n        databaseReference.addChildEventListener(new ChildEventListener() {\n            @Override\n            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {\n                @SuppressWarnings(\"unchecked\")\n                Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();\n\n                userList.add((String) map.get(\"userName\"));\n                userIdList.add((String) map.get(\"uid\"));\n                String[] can_list_temp = new String[userList.size()];\n                String[] can_key_temp = new String[userIdList.size()];\n\n                for (int i = 0; i < userList.size(); i++){\n                    can_list_temp[i] = userList.get(i);\n                }\n                for (int i = 0; i < userIdList.size(); i++){\n                    can_key_temp[i] = userIdList.get(i);\n                }\n\n                user_list_array = can_list_temp;\n                user_id_array = can_key_temp;\n\n\n//                adapter.notifyDataSetChanged();\n            }\n\n            @Override\n            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {\n\n            }\n\n            @Override\n            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {\n\n            }\n\n            @Override\n            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {\n\n            }\n\n            @Override\n            public void onCancelled(@NonNull DatabaseError databaseError) {\n\n            }\n        });\n\n\n        // candidates\n        if (autoJoin == \"false\" && activity.getCandidates() != null && !activity.getCandidates().isEmpty()){\n        String[] temp = new String[candidatesId.length];\n\n        for (int i = 0; i < candidatesId.length; i++) {\n\n            for (int j = 0; j< user_id_array.length;j++){\n                if (candidatesId[i].equals(user_id_array[j])) {\n                        temp[i] = user_list_array[j];\n                }\n            }\n        }\n        candidatesName = temp;\n\n        mData = getData();\n        ListView listView = (ListView) findViewById(R.id.listView);\n        MyAdapter adapter = new MyAdapter(this);\n        listView.setAdapter(adapter);\n        adapter.notifyDataSetChanged();\n    }\n\n\n        // participants\n        if (activity.getParticipants() != null && !activity.getParticipants().isEmpty()) {\n            String[] temp2 = new String[participatesId.length];\n\n            for (int i = 0; i < participatesId.length; i++) {\n\n                for (int j = 0; j < user_id_array.length; j++) {\n                    if (participatesId[i].equals(user_id_array[j])) {\n                        temp2[i] = user_list_array[j];\n                    }\n                }\n            }\n            participatesName = temp2;\n\n            mData2 = getData2();\n            ListView listView2 = (ListView) findViewById(R.id.list_view2);\n            MyAdapter2 adapter2 = new MyAdapter2(this);\n            listView2.setAdapter(adapter2);\n            adapter2.notifyDataSetChanged();\n\n        }\n\n\n    }\n\n\n\n    private List<Map<String, Object>> getData() {\n        databaseReference = FirebaseDatabase.getInstance().getReference().child(\"activity\");\n        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();\n        for(int i=0;i<candidatesId.length;i++){\n            Map<String, Object> map = new HashMap<String, Object>();\n            map.put(\"candidatesName\", candidatesName[i]);\n            list.add(map);\n   }\n\n        return list;\n}\n\n    private List<Map<String, Object>> getData2() {\n        databaseReference = FirebaseDatabase.getInstance().getReference().child(\"activity\");\n        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();\n        for(int i=0;i<participatesId.length;i++){\n            Map<String, Object> map = new HashMap<String, Object>();\n            map.put(\"participatesName\", participatesName[i]);\n            list.add(map);\n        }\n\n        return list;\n    }\n\n\n\n    public class MyAdapter extends BaseAdapter {\n\n        private final LayoutInflater mInflater;\n\n        public MyAdapter(Context context) {\n            this.mInflater = LayoutInflater.from(context);\n        }\n\n        @Override\n        public int getCount() {\n            // TODO Auto-generated method stub\n            return mData.size();\n        }\n\n        @Override\n        public Object getItem(int position) {\n            // TODO Auto-generated method stub\n            return null;\n        }\n\n        @Override\n        public long getItemId(int position) {\n            // TODO Auto-generated method stub\n            return 0;\n        }\n\n        @Override\n        public View getView(final int position, View convertView, ViewGroup parent) {\n            ViewHolder holder = null;\n            if (convertView == null) {\n\n                holder = new ViewHolder();\n\n                //可以理解为从vlist获取view  之后把view返回给ListView\n\n                convertView = mInflater.inflate(R.layout.vlist, null);\n                holder.title = (TextView) convertView.findViewById(R.id.title);\n//                holder.info = (TextView) convertView.findViewById(R.id.info);\n                holder.viewBtn = (Button) convertView.findViewById(R.id.view_btn);\n                convertView.setTag(holder);\n            } else {\n                holder = (ViewHolder) convertView.getTag();\n            }\n\n            holder.title.setText((String) mData.get(position).get(\"candidatesName\"));\n//            holder.info.setText((String) mData.get(position).get(\"info\"));\n            holder.viewBtn.setTag(position);\n            //给Button添加单击事件  添加Button之后ListView将失去焦点  需要的直接把Button的焦点去掉\n            holder.viewBtn.setOnClickListener(new View.OnClickListener() {\n                @Override\n                public void onClick(View v) {\n                    confirm(position);\n                }\n                // todo\n            });\n\n            //holder.viewBtn.setOnClickListener(MyListener(position));\n\n            return convertView;\n        }\n    }\n\n    public class MyAdapter2 extends BaseAdapter {\n\n        private final LayoutInflater mInflater;\n\n        public MyAdapter2 (Context context) {\n            this.mInflater = LayoutInflater.from(context);\n        }\n\n        @Override\n        public int getCount() {\n            // TODO Auto-generated method stub\n            return mData2.size();\n        }\n\n        @Override\n        public Object getItem(int position) {\n            // TODO Auto-generated method stub\n            return null;\n        }\n\n        @Override\n        public long getItemId(int position) {\n            // TODO Auto-generated method stub\n            return 0;\n        }\n\n        @Override\n        public View getView(final int position, View convertView, ViewGroup parent) {\n            ViewHolder2 holder = null;\n            if (convertView == null) {\n\n                holder = new ViewHolder2();\n\n                //可以理解为从vlist获取view  之后把view返回给ListView\n\n                convertView = mInflater.inflate(R.layout.vlist_2, null);\n                holder.title = (TextView) convertView.findViewById(R.id.title);\n//                holder.info = (TextView) convertView.findViewById(R.id.info);\n//                holder.viewBtn = (Button) convertView.findViewById(R.id.view_btn);\n                convertView.setTag(holder);\n            } else {\n                holder = (ViewHolder2) convertView.getTag();\n            }\n\n            holder.title.setText((String) mData2.get(position).get(\"participatesName\"));\n//            holder.info.setText((String) mData.get(position).get(\"info\"));\n//            holder.viewBtn.setTag(position);\n\n            //holder.viewBtn.setOnClickListener(MyListener(position));\n\n            return convertView;\n        }\n    }\n\n\n\n\n\n\n\n        public final class ViewHolder {\n            public TextView title;\n//            public TextView info;\n            public Button viewBtn;\n        }\n\n        public final class ViewHolder2 {\n            public TextView title;\n            //            public TextView info;\n//            public Button viewBtn;\n        }\n\n        public void confirm(int position){\n\n            ImageView img=new ImageView(CandidateList.this);\n            img.setImageResource(R.drawable.b);\n            new AlertDialog.Builder(this).setView(img)\n                    .setTitle(\"Are you sure you would like to add \")\n                    .setMessage(candidatesName[position]+\" to the activity?\")\n                    .setPositiveButton(\"confirm\", new DialogInterface.OnClickListener() {\n                        @Override\n                        public void onClick(DialogInterface dialog, int which) {\n                        }\n                    })\n                    .show();\n\n            participants.add(candidatesId[position]);\n            candidates.remove(position);\n            FirebaseDatabase.getInstance().getReference().child(\"activity\").child(aId).child(\"participants\").setValue(participants);\n            FirebaseDatabase.getInstance().getReference().child(\"activity\").child(aId).child(\"candidates\").setValue(candidates);\n\n        }\n\n\n\n\n}\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/comp90018/JoinMe/CandidateList.java b/app/src/main/java/com/comp90018/JoinMe/CandidateList.java
+--- a/app/src/main/java/com/comp90018/JoinMe/CandidateList.java	(revision 0672f1a219461a7f09295a57b27f6c17975b8d9e)
++++ b/app/src/main/java/com/comp90018/JoinMe/CandidateList.java	(date 1635692944402)
+@@ -353,11 +353,10 @@
+         public void confirm(int position){
+ 
+             ImageView img=new ImageView(CandidateList.this);
+-            img.setImageResource(R.drawable.b);
+             new AlertDialog.Builder(this).setView(img)
+                     .setTitle("Are you sure you would like to add ")
+                     .setMessage(candidatesName[position]+" to the activity?")
+-                    .setPositiveButton("confirm", new DialogInterface.OnClickListener() {
++                    .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                         @Override
+                         public void onClick(DialogInterface dialog, int which) {
+                         }
+Index: app/src/main/res/layout/candidate_list.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<LinearLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    android:layout_width=\"fill_parent\"\n    android:layout_height=\"fill_parent\"\n    android:orientation=\"vertical\" >\n\n    <TextView\n        android:id=\"@+id/textView\"\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"57dp\"\n        android:text=\"Candidates\" />\n\n    <ListView\n        android:id=\"@+id/listView\"\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"313dp\"\n        android:divider=\"@drawable/list_line\"\n        android:dividerHeight=\"1dip\" />\n\n    <TextView\n        android:id=\"@+id/textView5\"\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"53dp\"\n        android:text=\"Participants\" />\n\n    <ListView\n        android:id=\"@+id/list_view2\"\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"310dp\"\n        android:divider=\"@drawable/list_line\"\n        android:dividerHeight=\"1dip\" />\n\n</LinearLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/candidate_list.xml b/app/src/main/res/layout/candidate_list.xml
+--- a/app/src/main/res/layout/candidate_list.xml	(revision 0672f1a219461a7f09295a57b27f6c17975b8d9e)
++++ b/app/src/main/res/layout/candidate_list.xml	(date 1635692972456)
+@@ -7,27 +7,36 @@
+     <TextView
+         android:id="@+id/textView"
+         android:layout_width="match_parent"
+-        android:layout_height="57dp"
+-        android:text="Candidates" />
++        android:layout_height="wrap_content"
++        android:text="Candidates:"
++        android:textSize="20sp" />
++
++    <ScrollView
++        android:layout_width="match_parent"
++        android:layout_height="300dp">
+ 
+-    <ListView
+-        android:id="@+id/listView"
+-        android:layout_width="match_parent"
+-        android:layout_height="313dp"
+-        android:divider="@drawable/list_line"
+-        android:dividerHeight="1dip" />
++        <ListView
++            android:id="@+id/listView"
++            android:layout_width="match_parent"
++            android:layout_height="match_parent" />
++    </ScrollView>
+ 
+     <TextView
+         android:id="@+id/textView5"
+         android:layout_width="match_parent"
+-        android:layout_height="53dp"
+-        android:text="Participants" />
++        android:layout_height="wrap_content"
++        android:text="Participants"
++        android:textSize="20sp" />
++
++    <ScrollView
++        android:layout_width="match_parent"
++        android:layout_height="300dp">
+ 
+-    <ListView
+-        android:id="@+id/list_view2"
+-        android:layout_width="match_parent"
+-        android:layout_height="310dp"
+-        android:divider="@drawable/list_line"
+-        android:dividerHeight="1dip" />
++        <ListView
++            android:id="@+id/list_view2"
++            android:layout_width="match_parent"
++            android:layout_height="match_parent"
++            android:background="@color/white" />
++    </ScrollView>
+ 
+ </LinearLayout>
+\ No newline at end of file
+Index: app/src/main/res/layout/vlist_2.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<RelativeLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"70.0dip\"\n    android:background=\"@drawable/item\"\n    android:minHeight=\"70.0dip\">\n\n    <TextView\n        android:id=\"@+id/title\"\n        android:layout_width=\"wrap_content\"\n        android:layout_height=\"wrap_content\"\n        android:layout_alignTop=\"@+id/sItemIcon\"\n        android:layout_centerVertical=\"true\"\n        android:layout_marginStart=\"20dip\"\n        android:layout_marginLeft=\"20dip\"\n        android:layout_toRightOf=\"@+id/sItemIcon\"\n        android:gravity=\"center_vertical\"\n        android:singleLine=\"true\"\n        android:text=\"TextView\"\n        android:textColor=\"@color/listTitle\"\n        android:textSize=\"20.0sp\"\n        android:textStyle=\"bold\" />\n</RelativeLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/vlist_2.xml b/app/src/main/res/layout/vlist_2.xml
+--- a/app/src/main/res/layout/vlist_2.xml	(revision 0672f1a219461a7f09295a57b27f6c17975b8d9e)
++++ b/app/src/main/res/layout/vlist_2.xml	(date 1635691890431)
+@@ -2,8 +2,10 @@
+ <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+     android:layout_height="70.0dip"
+-    android:background="@drawable/item"
+-    android:minHeight="70.0dip">
++    android:layout_gravity="fill"
++    android:background="@color/white"
++    android:minHeight="70.0dip"
++    android:paddingLeft="20dp">
+ 
+     <TextView
+         android:id="@+id/title"
+@@ -11,13 +13,10 @@
+         android:layout_height="wrap_content"
+         android:layout_alignTop="@+id/sItemIcon"
+         android:layout_centerVertical="true"
+-        android:layout_marginStart="20dip"
+-        android:layout_marginLeft="20dip"
+         android:layout_toRightOf="@+id/sItemIcon"
+         android:gravity="center_vertical"
+         android:singleLine="true"
+         android:text="TextView"
+-        android:textColor="@color/listTitle"
+-        android:textSize="20.0sp"
+-        android:textStyle="bold" />
++        android:textColor="@color/black"
++        android:textSize="16sp" />
+ </RelativeLayout>
+\ No newline at end of file
+Index: app/src/main/res/layout/vlist.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<RelativeLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    android:layout_width=\"fill_parent\"\n    android:layout_height=\"70.0dip\"\n    android:background=\"@drawable/item\"\n    android:drawingCacheQuality=\"high\"\n    android:minHeight=\"70.0dip\"\n    android:orientation=\"horizontal\" >\n\n\t<TextView\n      android:id=\"@+id/title\" \n\t\t\tandroid:layout_width=\"wrap_content\"\n\t\t\tandroid:layout_height=\"wrap_content\" \n      \n        android:layout_alignTop=\"@+id/sItemIcon\"\n        android:layout_toRightOf=\"@+id/sItemIcon\"\n        android:gravity=\"center_vertical\"\n        android:layout_marginLeft=\"20dip\"\n      android:layout_centerVertical=\"true\"\n        android:textStyle=\"bold\"\n        android:singleLine=\"true\"\n        android:textColor=\"@color/listTitle\"\n        android:textSize=\"20.0sp\" />\n\n\n    <TextView\n       android:id=\"@+id/info\"\n\t\t\tandroid:layout_width=\"wrap_content\"\n\t\t\tandroid:layout_height=\"wrap_content\"\n        android:layout_below=\"@id/title\"\n        android:layout_toRightOf=\"@id/sItemIcon\"\n\n        android:layout_marginLeft=\"20dip\"\n       android:layout_marginTop=\"20dip\"\n        android:singleLine=\"true\"\n        android:ellipsize=\"marquee\"\n        android:textColor=\"#ff4400\"\n        android:textSize=\"12.0sp\" />\n\n\t<Button\n\t\tandroid:id=\"@+id/view_btn\"\n\t\tandroid:layout_width=\"wrap_content\"\n\t\tandroid:layout_height=\"wrap_content\"\n\t\tandroid:layout_alignParentRight=\"true\"\n\t\tandroid:layout_centerVertical=\"true\"\n\t\tandroid:layout_marginRight=\"15dip\"\n\t\tandroid:background=\"@drawable/btn_detail_selecter\"\n\t\tandroid:text=\"Confirm\" />\n\n\n</RelativeLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/vlist.xml b/app/src/main/res/layout/vlist.xml
+--- a/app/src/main/res/layout/vlist.xml	(revision 0672f1a219461a7f09295a57b27f6c17975b8d9e)
++++ b/app/src/main/res/layout/vlist.xml	(date 1635692078110)
+@@ -1,51 +1,43 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+-    android:layout_width="fill_parent"
+-    android:layout_height="70.0dip"
+-    android:background="@drawable/item"
+-    android:drawingCacheQuality="high"
+-    android:minHeight="70.0dip"
+-    android:orientation="horizontal" >
++	android:layout_width="fill_parent"
++	android:layout_height="70dip"
++	android:background="@color/white"
++	android:drawingCacheQuality="high"
++	android:minHeight="70.0dip"
++	android:orientation="horizontal">
+ 
+ 	<TextView
+-      android:id="@+id/title" 
+-			android:layout_width="wrap_content"
+-			android:layout_height="wrap_content" 
+-      
+-        android:layout_alignTop="@+id/sItemIcon"
+-        android:layout_toRightOf="@+id/sItemIcon"
+-        android:gravity="center_vertical"
+-        android:layout_marginLeft="20dip"
+-      android:layout_centerVertical="true"
+-        android:textStyle="bold"
+-        android:singleLine="true"
+-        android:textColor="@color/listTitle"
+-        android:textSize="20.0sp" />
+-
++		android:id="@+id/title"
++		android:layout_width="wrap_content"
++		android:layout_height="wrap_content"
++
++		android:layout_alignTop="@+id/sItemIcon"
++		android:layout_centerVertical="true"
++		android:layout_marginLeft="20dip"
++		android:layout_toRightOf="@+id/sItemIcon"
++		android:gravity="center_vertical"
++		android:singleLine="true"
++		android:textColor="@color/listTitle"
++		android:textSize="16.0sp" />
+ 
+-    <TextView
+-       android:id="@+id/info"
+-			android:layout_width="wrap_content"
+-			android:layout_height="wrap_content"
+-        android:layout_below="@id/title"
+-        android:layout_toRightOf="@id/sItemIcon"
+-
+-        android:layout_marginLeft="20dip"
+-       android:layout_marginTop="20dip"
+-        android:singleLine="true"
+-        android:ellipsize="marquee"
+-        android:textColor="#ff4400"
+-        android:textSize="12.0sp" />
+ 
+ 	<Button
+ 		android:id="@+id/view_btn"
+ 		android:layout_width="wrap_content"
+ 		android:layout_height="wrap_content"
+ 		android:layout_alignParentRight="true"
++		android:layout_alignParentBottom="false"
+ 		android:layout_centerVertical="true"
++		android:layout_gravity="center|center_vertical"
++		android:layout_marginLeft="16dp"
+ 		android:layout_marginRight="15dip"
+-		android:background="@drawable/btn_detail_selecter"
+-		android:text="Confirm" />
++		android:background="@drawable/custom_button"
++		android:shadowRadius="2"
++		android:text="Confirm"
++		android:textColor="#FFFFFF"
++		android:textSize="16sp"
++		android:textStyle="normal" />
+ 
+ 
+ </RelativeLayout>
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_my_activity.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<androidx.constraintlayout.widget.ConstraintLayout\n    xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\n    xmlns:tools=\"http://schemas.android.com/tools\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\"\n    app:layout_constraintTop_toTopOf=\"parent\"\n    tools:context=\".DetailActivity\">\n\n\n    <ScrollView\n        android:id=\"@+id/DetailNestedScrollView\"\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"match_parent\"\n        android:layout_marginBottom=\"70dp\"\n        app:layout_constraintTop_toTopOf=\"parent\">\n\n        <LinearLayout\n            android:layout_width=\"match_parent\"\n            android:layout_height=\"wrap_content\"\n            android:orientation=\"vertical\"\n            android:layout_margin=\"10dp\">\n\n            <LinearLayout\n                android:id=\"@+id/settingText\"\n                android:layout_width=\"wrap_content\"\n                android:layout_height=\"wrap_content\"\n                android:layout_marginLeft=\"16dp\"\n                android:layout_marginTop=\"45dp\"\n                android:orientation=\"vertical\">\n\n                <TextView\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"wrap_content\"\n                    android:text=\"Activity Detail\"\n                    android:textSize=\"16sp\"\n                    android:textStyle=\"bold\" />\n            </LinearLayout>\n\n            <LinearLayout\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"180dp\"\n                android:orientation=\"horizontal\"\n                android:layout_marginLeft=\"16dp\"\n                android:layout_marginRight=\"16dp\"\n                android:layout_marginTop=\"40dp\">\n\n                <fragment\n                    android:id=\"@+id/map_detail\"\n                    android:name=\"com.google.android.gms.maps.SupportMapFragment\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"match_parent\" />\n            </LinearLayout>\n\n            <LinearLayout\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"wrap_content\"\n                android:layout_marginLeft=\"16dp\"\n                android:layout_marginRight=\"16dp\"\n                android:layout_marginTop=\"16dp\"\n                android:orientation=\"horizontal\"\n                app:layout_constraintTop_toBottomOf=\"@+id/settingText\">\n\n                <TextView\n                    android:id=\"@+id/activity_host_box\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_weight=\"1\"\n                    android:text=\"Host\"\n                    android:textSize=\"16sp\"/>\n\n                <TextView\n                    android:id=\"@+id/activity_host\"\n                    android:layout_width=\"wrap_content\"\n                    android:layout_height=\"wrap_content\"\n                    android:text=\"Host\"\n                    android:textSize=\"16sp\" />\n            </LinearLayout>\n\n            <LinearLayout\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"wrap_content\"\n                android:layout_marginLeft=\"16dp\"\n                android:layout_marginRight=\"16dp\"\n                android:layout_marginTop=\"16dp\"\n                android:orientation=\"horizontal\"\n                app:layout_constraintTop_toBottomOf=\"@+id/settingText\">\n\n                <TextView\n                    android:id=\"@+id/activity_title_box\"\n                    android:layout_width=\"0dp\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_weight=\"1\"\n                    android:text=\"Title\"\n                    android:textSize=\"16sp\" />\n\n                <TextView\n                    android:id=\"@+id/activity_title\"\n                    android:layout_width=\"wrap_content\"\n                    android:layout_height=\"wrap_content\"\n                    android:text=\"Activity Name\"\n                    android:textSize=\"16sp\" />\n            </LinearLayout>\n\n            <LinearLayout\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"wrap_content\"\n                android:layout_marginLeft=\"16dp\"\n                android:layout_marginRight=\"16dp\"\n                android:layout_marginTop=\"16dp\"\n                android:orientation=\"horizontal\"\n                app:layout_constraintTop_toBottomOf=\"@+id/activity_title_box\">\n\n                <TextView\n                    android:id=\"@+id/activity_details_box\"\n                    android:layout_width=\"0dp\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_weight=\"1\"\n                    android:text=\"Details\"\n                    android:textSize=\"16sp\" />\n\n                <TextView\n                    android:id=\"@+id/activity_details\"\n                    android:layout_width=\"wrap_content\"\n                    android:layout_height=\"wrap_content\"\n                    android:text=\"Details\"\n                    android:textSize=\"16sp\" />\n            </LinearLayout>\n\n            <LinearLayout\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"wrap_content\"\n                android:layout_marginLeft=\"16dp\"\n                android:layout_marginTop=\"16dp\"\n                android:layout_marginRight=\"16dp\"\n                android:orientation=\"horizontal\">\n\n                <TextView\n                    android:id=\"@+id/activity_dateTime\"\n                    android:layout_width=\"0dp\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_weight=\"1\"\n                    android:text=\"Date and time\"\n                    android:textSize=\"16sp\" />\n\n                <TextView\n                    android:id=\"@+id/activity_date_view\"\n                    android:layout_width=\"wrap_content\"\n                    android:layout_height=\"wrap_content\"\n                    android:text=\"DataTime\"\n                    android:textSize=\"16sp\" />\n            </LinearLayout>\n\n            <LinearLayout\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"wrap_content\"\n                android:layout_marginLeft=\"16dp\"\n                android:layout_marginRight=\"16dp\"\n                android:layout_marginTop=\"16dp\"\n                android:orientation=\"horizontal\">\n\n                <TextView\n                    android:id=\"@+id/activity_autoJoin\"\n                    android:layout_width=\"0dp\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_weight=\"1\"\n                    android:text=\"Enable Auto Join\"\n                    android:textSize=\"16sp\" />\n\n                <TextView\n                    android:id=\"@+id/activity_autoJoin_view\"\n                    android:layout_width=\"wrap_content\"\n                    android:layout_height=\"wrap_content\"\n                    android:text=\"disabled\"\n                    android:textSize=\"16sp\" />\n            </LinearLayout>\n\n            <LinearLayout\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"wrap_content\"\n                android:layout_marginLeft=\"16dp\"\n                android:layout_marginRight=\"16dp\"\n                android:layout_marginTop=\"16dp\"\n                android:orientation=\"horizontal\">\n\n                <TextView\n                    android:id=\"@+id/activity_size\"\n                    android:layout_width=\"0dp\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_weight=\"1\"\n                    android:text=\"How many people can join?\"\n                    android:textSize=\"16sp\" />\n\n                <TextView\n                    android:id=\"@+id/activity_size_view\"\n                    android:layout_width=\"50dp\"\n                    android:layout_height=\"wrap_content\"\n                    android:text=\"1\"\n                    android:textSize=\"16sp\" />\n            </LinearLayout>\n\n            <Button\n                android:id=\"@+id/candidate_List\"\n                android:layout_width=\"300dp\"\n                android:layout_height=\"45dp\"\n                android:layout_gravity=\"center\"\n                android:layout_marginLeft=\"16dp\"\n                android:layout_marginTop=\"20dp\"\n                android:layout_marginRight=\"16dp\"\n                android:background=\"@drawable/custom_button\"\n                android:shadowRadius=\"2\"\n                android:text=\"Candidate List\"\n                android:textColor=\"#FFFFFF\"\n                android:textSize=\"16sp\"\n                android:textStyle=\"normal\"\n                app:backgroundTint=\"#45A4AC\" />\n        </LinearLayout>\n\n    </ScrollView>\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_my_activity.xml b/app/src/main/res/layout/activity_my_activity.xml
+--- a/app/src/main/res/layout/activity_my_activity.xml	(revision 0672f1a219461a7f09295a57b27f6c17975b8d9e)
++++ b/app/src/main/res/layout/activity_my_activity.xml	(date 1635688999647)
+@@ -202,6 +202,7 @@
+ 
+             <Button
+                 android:id="@+id/candidate_List"
++                android:text="Candidate List"
+                 android:layout_width="300dp"
+                 android:layout_height="45dp"
+                 android:layout_gravity="center"
+@@ -210,7 +211,6 @@
+                 android:layout_marginRight="16dp"
+                 android:background="@drawable/custom_button"
+                 android:shadowRadius="2"
+-                android:text="Candidate List"
+                 android:textColor="#FFFFFF"
+                 android:textSize="16sp"
+                 android:textStyle="normal"
+Index: app/src/main/res/layout/activity_permission_check.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<RelativeLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\n    xmlns:tools=\"http://schemas.android.com/tools\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\"\n    tools:context=\".PermissionCheck\"\n    android:padding=\"32dp\">\n\n    <LinearLayout\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"wrap_content\"\n        android:orientation=\"vertical\"\n        android:gravity=\"center_horizontal\">\n\n        <ImageView\n            android:layout_width=\"wrap_content\"\n            android:layout_height=\"wrap_content\"\n            android:src=\"@mipmap/ic_launcher\"\n            android:layout_marginTop=\"60dp\"/>\n\n        <TextView\n            android:layout_width=\"wrap_content\"\n            android:layout_height=\"wrap_content\"\n            android:text=\"Location permission request\"\n            android:textSize=\"24sp\"\n            android:layout_marginTop=\"20dp\"\n            android:fontFamily=\"sans-serif-condensed\"\n            android:textStyle=\"bold\"/>\n\n        <TextView\n            android:layout_width=\"wrap_content\"\n            android:layout_height=\"wrap_content\"\n            android:gravity=\"center_horizontal\"\n            android:layout_marginTop=\"30dp\"\n            android:text=\"This app needs your permission to access your device location to provide required services.\"/>\n\n    </LinearLayout>\n\n    <Button\n        android:id=\"@+id/button_permission\"\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"wrap_content\"\n        android:layout_alignParentBottom=\"true\"\n        android:background=\"@color/green\"\n        android:textColor=\"#FFFFFF\"\n        android:text=\"Grant Permission\"\n        android:textAllCaps=\"false\"/>\n\n</RelativeLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_permission_check.xml b/app/src/main/res/layout/activity_permission_check.xml
+--- a/app/src/main/res/layout/activity_permission_check.xml	(revision 0672f1a219461a7f09295a57b27f6c17975b8d9e)
++++ b/app/src/main/res/layout/activity_permission_check.xml	(date 1635689033972)
+@@ -39,11 +39,19 @@
+ 
+     <Button
+         android:id="@+id/button_permission"
+-        android:layout_width="match_parent"
+-        android:layout_height="wrap_content"
+-        android:layout_alignParentBottom="true"
+-        android:background="@color/green"
++        android:layout_width="300dp"
++        android:layout_height="45dp"
++        android:layout_gravity="center"
++        android:layout_marginLeft="16dp"
++        android:layout_marginTop="20dp"
++        android:layout_marginRight="16dp"
++        android:background="@drawable/custom_button"
++        android:shadowRadius="2"
+         android:textColor="#FFFFFF"
++        android:textSize="16sp"
++        android:textStyle="normal"
++        app:backgroundTint="#45A4AC"
++        android:layout_alignParentBottom="true"
+         android:text="Grant Permission"
+         android:textAllCaps="false"/>
+ 
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"DesignSurface\">\n    <option name=\"filePathToZoomLevelMap\">\n      <map>\n        <entry key=\"../../../../../../layout/custom_preview.xml\" value=\"0.26197916666666665\" />\n        <entry key=\"app/src/main/res/drawable/btn_detail_selecter.xml\" value=\"0.190625\" />\n        <entry key=\"app/src/main/res/drawable/custom_button.xml\" value=\"0.13055555555555556\" />\n        <entry key=\"app/src/main/res/drawable/divider.xml\" value=\"0.1287037037037037\" />\n        <entry key=\"app/src/main/res/drawable/ic_baseline_chat_24.xml\" value=\"0.13055555555555556\" />\n        <entry key=\"app/src/main/res/drawable/ic_baseline_format_list_bulleted_24.xml\" value=\"0.13055555555555556\" />\n        <entry key=\"app/src/main/res/drawable/item.xml\" value=\"0.190625\" />\n        <entry key=\"app/src/main/res/drawable/login_back.xml\" value=\"0.1287037037037037\" />\n        <entry key=\"app/src/main/res/layout/activity_chat.xml\" value=\"0.2953125\" />\n        <entry key=\"app/src/main/res/layout/activity_chat_activity.xml\" value=\"0.1503623188405797\" />\n        <entry key=\"app/src/main/res/layout/activity_chat_window.xml\" value=\"0.129296875\" />\n        <entry key=\"app/src/main/res/layout/activity_chat_window_new.xml\" value=\"0.1578125\" />\n        <entry key=\"app/src/main/res/layout/activity_detail.xml\" value=\"0.19519927536231885\" />\n        <entry key=\"app/src/main/res/layout/activity_edit_activity.xml\" value=\"0.19519927536231885\" />\n        <entry key=\"app/src/main/res/layout/activity_image_showing.xml\" value=\"0.1578125\" />\n        <entry key=\"app/src/main/res/layout/activity_image_showing2.xml\" value=\"0.1578125\" />\n        <entry key=\"app/src/main/res/layout/activity_list.xml\" value=\"0.13234347618705175\" />\n        <entry key=\"app/src/main/res/layout/activity_list_view.xml\" value=\"0.19519927536231885\" />\n        <entry key=\"app/src/main/res/layout/activity_list_view1.xml\" value=\"0.19519927536231885\" />\n        <entry key=\"app/src/main/res/layout/activity_login.xml\" value=\"0.1956521739130435\" />\n        <entry key=\"app/src/main/res/layout/activity_main.xml\" value=\"0.21739130434782608\" />\n        <entry key=\"app/src/main/res/layout/activity_map.xml\" value=\"0.16847826086956522\" />\n        <entry key=\"app/src/main/res/layout/activity_me.xml\" value=\"0.165\" />\n        <entry key=\"app/src/main/res/layout/activity_my_activity.xml\" value=\"0.19519927536231885\" />\n        <entry key=\"app/src/main/res/layout/activity_new.xml\" value=\"0.1\" />\n        <entry key=\"app/src/main/res/layout/activity_new_chat.xml\" value=\"0.14447463768115942\" />\n        <entry key=\"app/src/main/res/layout/activity_permission_check.xml\" value=\"0.11246200607902736\" />\n        <entry key=\"app/src/main/res/layout/activity_profile.xml\" value=\"0.11\" />\n        <entry key=\"app/src/main/res/layout/activity_re_set.xml\" value=\"0.25\" />\n        <entry key=\"app/src/main/res/layout/activity_register.xml\" value=\"0.36811068878469155\" />\n        <entry key=\"app/src/main/res/layout/activity_setting.xml\" value=\"0.129296875\" />\n        <entry key=\"app/src/main/res/layout/candidate_list.xml\" value=\"0.19429347826086957\" />\n        <entry key=\"app/src/main/res/layout/candidate_list_view.xml\" value=\"0.21422101449275363\" />\n        <entry key=\"app/src/main/res/layout/canditate_list.xml\" value=\"0.25677083333333334\" />\n        <entry key=\"app/src/main/res/layout/chatviewlayout.xml\" value=\"0.25\" />\n        <entry key=\"app/src/main/res/layout/horizontal_number_picker.xml\" value=\"0.19519927536231885\" />\n        <entry key=\"app/src/main/res/layout/info_window.xml\" value=\"0.11246200607902736\" />\n        <entry key=\"app/src/main/res/layout/main_test.xml\" value=\"0.1\" />\n        <entry key=\"app/src/main/res/layout/receiverchatlayout.xml\" value=\"0.1578125\" />\n        <entry key=\"app/src/main/res/layout/vlist.xml\" value=\"0.17447916666666666\" />\n        <entry key=\"app/src/main/res/layout/vlist_2.xml\" value=\"0.25\" />\n        <entry key=\"app/src/main/res/menu/bottom_nav_menu.xml\" value=\"0.23541666666666666\" />\n        <entry key=\"app/src/main/res/menu/me_menu.xml\" value=\"0.23541666666666666\" />\n        <entry key=\"app/src/main/res/menu/my_activity_menu.xml\" value=\"0.20612771582490919\" />\n      </map>\n    </option>\n  </component>\n  <component name=\"ExternalStorageConfigurationManager\" enabled=\"true\" />\n  <component name=\"ProjectPlainTextFileTypeManager\">\n    <file url=\"file://$PROJECT_DIR$/app/src/main/res/layout/candidate_list.xml\" />\n  </component>\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_11\" default=\"true\" project-jdk-name=\"11\" project-jdk-type=\"JavaSDK\">\n    <output url=\"file://$PROJECT_DIR$/build/classes\" />\n  </component>\n  <component name=\"ProjectType\">\n    <option name=\"id\" value=\"Android\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision 0672f1a219461a7f09295a57b27f6c17975b8d9e)
++++ b/.idea/misc.xml	(date 1635688999862)
+@@ -51,9 +51,6 @@
+     </option>
+   </component>
+   <component name="ExternalStorageConfigurationManager" enabled="true" />
+-  <component name="ProjectPlainTextFileTypeManager">
+-    <file url="file://$PROJECT_DIR$/app/src/main/res/layout/candidate_list.xml" />
+-  </component>
+   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/build/classes" />
+   </component>
+Index: app/src/main/res/layout/activity_profile.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\n    xmlns:tools=\"http://schemas.android.com/tools\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\"\n    tools:context=\".ProfileActivity\">\n\n\n    <ScrollView\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"match_parent\"\n        android:layout_marginBottom=\"70dp\">\n        \n        <LinearLayout\n            android:layout_width=\"match_parent\"\n            android:layout_height=\"wrap_content\"\n            android:orientation=\"vertical\">\n\n            <LinearLayout\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"wrap_content\"\n                android:layout_marginTop=\"30dp\">\n\n                <LinearLayout\n                    android:id=\"@+id/welcomeText\"\n                    android:layout_width=\"wrap_content\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_marginLeft=\"20dp\"\n                    android:layout_marginTop=\"45dp\"\n                    android:orientation=\"vertical\">\n\n                    <TextView\n                        android:layout_width=\"wrap_content\"\n                        android:layout_height=\"wrap_content\"\n                        android:text=\"Welcome, \"\n                        android:textSize=\"30sp\"\n                        android:textStyle=\"bold\" />\n\n                    <TextView\n                        android:id=\"@+id/wel_name\"\n                        android:layout_width=\"wrap_content\"\n                        android:layout_height=\"wrap_content\"\n                        android:layout_marginTop=\"10dp\"\n                        android:textStyle=\"bold\"\n                        android:textSize=\"16sp\" />\n\n\n\n                </LinearLayout>\n\n                <androidx.cardview.widget.CardView\n                    android:layout_width=\"130dp\"\n                    android:layout_height=\"130dp\"\n                    android:layout_marginBottom=\"20dp\"\n                    android:layout_marginLeft=\"80dp\"\n                    android:layout_marginRight=\"30dp\"\n                    android:id=\"@+id/getuserimage\"\n                    android:layout_marginTop=\"20dp\"\n                    app:cardCornerRadius=\"130dp\">\n\n                    <ImageView\n                        android:layout_width=\"match_parent\"\n                        android:layout_height=\"match_parent\"\n                        android:src=\"@drawable/defaultprofile\"\n                        android:id=\"@+id/profileImageview\"\n                        android:scaleType=\"centerCrop\"/>\n\n                </androidx.cardview.widget.CardView>\n\n            </LinearLayout>\n\n\n            <LinearLayout\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"50dp\"\n                android:layout_marginTop=\"30dp\">\n\n\n                <TextView\n                    android:layout_width=\"100dp\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_marginLeft=\"18dp\"\n                    android:layout_marginTop=\"14dp\"\n                    android:text=\"Username:\"\n                    android:textSize=\"16sp\" />\n\n                <TextView\n                    android:id=\"@+id/ds_name\"\n                    android:layout_width=\"wrap_content\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_marginTop=\"15dp\"\n                    android:layout_marginLeft=\"15dp\"\n                    android:textSize=\"20sp\" />\n\n            </LinearLayout>\n\n            <View\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"1dp\"\n                android:background=\"#303F9F\"/>\n\n            <LinearLayout\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"50dp\"\n\n                android:layout_marginTop=\"8dp\">\n\n                <TextView\n                    android:layout_width=\"100dp\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_marginLeft=\"18dp\"\n                    android:layout_marginTop=\"14dp\"\n                    android:text=\"Gender:\"\n                    android:textSize=\"16sp\" />\n\n                <TextView\n                    android:id=\"@+id/ds_gender\"\n                    android:layout_width=\"wrap_content\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_marginTop=\"15dp\"\n                    android:layout_marginLeft=\"15dp\"\n                    android:textSize=\"20sp\" />\n\n            </LinearLayout>\n\n            <View\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"1dp\"\n                android:background=\"#303F9F\"/>\n\n            <LinearLayout\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"50dp\"\n\n                android:layout_marginTop=\"8dp\">\n\n                <TextView\n                    android:layout_width=\"100dp\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_marginLeft=\"18dp\"\n                    android:layout_marginTop=\"14dp\"\n                    android:text=\"Age:\"\n                    android:textSize=\"16sp\" />\n\n                <TextView\n                    android:id=\"@+id/ds_age\"\n                    android:layout_width=\"wrap_content\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_marginTop=\"15dp\"\n                    android:layout_marginLeft=\"15dp\"\n                    android:textSize=\"20sp\" />\n\n            </LinearLayout>\n\n            <View\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"1dp\"\n                android:background=\"#303F9F\"/>\n\n            <LinearLayout\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"50dp\"\n                android:layout_marginTop=\"8dp\">\n\n                <TextView\n                    android:layout_width=\"100dp\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_marginLeft=\"18dp\"\n                    android:layout_marginTop=\"14dp\"\n                    android:text=\"Email:\"\n                    android:textSize=\"16sp\" />\n\n                <TextView\n                    android:id=\"@+id/ds_email\"\n                    android:layout_width=\"wrap_content\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_marginTop=\"15dp\"\n                    android:layout_marginLeft=\"15dp\"\n                    android:textSize=\"20sp\" />\n\n            </LinearLayout>\n\n            <View\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"1dp\"\n                android:background=\"#303F9F\"/>\n\n            <LinearLayout\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"wrap_content\"\n\n                android:layout_marginTop=\"8dp\">\n\n                <TextView\n                    android:layout_width=\"100dp\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_marginLeft=\"18dp\"\n                    android:layout_marginTop=\"14dp\"\n                    android:layout_marginBottom=\"10dp\"\n                    android:text=\"Brief:\"\n                    android:textSize=\"16sp\" />\n\n                <TextView\n                    android:id=\"@+id/ds_brief\"\n                    android:layout_width=\"wrap_content\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_marginTop=\"15dp\"\n                    android:layout_marginLeft=\"15dp\"\n                    android:textSize=\"20sp\" />\n\n            </LinearLayout>\n\n            <View\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"1dp\"\n                android:background=\"#303F9F\"/>\n\n            <Button\n                android:id=\"@+id/button_setting\"\n                android:layout_width=\"300dp\"\n                android:layout_height=\"45dp\"\n                android:layout_gravity=\"center\"\n                android:layout_marginLeft=\"16dp\"\n                android:layout_marginTop=\"10dp\"\n                android:layout_marginRight=\"16dp\"\n                android:background=\"@drawable/custom_button\"\n                android:shadowRadius=\"2\"\n                android:textColor=\"#FFFFFF\"\n                android:textSize=\"16sp\"\n                android:textStyle=\"normal\"\n                app:backgroundTint=\"#45A4AC\"\n                android:text=\"EDIT\"\n                android:textAllCaps=\"false\"/>\n\n        </LinearLayout>\n\n    </ScrollView>\n\n\n    <FrameLayout\n        android:id=\"@+id/flFragment\"\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"0dp\"\n        app:layout_constraintBottom_toTopOf=\"@+id/bottomNavigationView\"\n        app:layout_constraintEnd_toEndOf=\"parent\"\n        app:layout_constraintHorizontal_bias=\"0.5\"\n        app:layout_constraintStart_toStartOf=\"parent\"\n        app:layout_constraintTop_toTopOf=\"parent\" />\n\n    <com.google.android.material.bottomnavigation.BottomNavigationView\n        android:id=\"@+id/bottomNavigationView\"\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"70dp\"\n        android:background=\"#F4F4F4\"\n        app:layout_constraintBottom_toBottomOf=\"parent\"\n        app:layout_constraintEnd_toEndOf=\"parent\"\n        app:layout_constraintStart_toStartOf=\"parent\"\n        app:menu=\"@menu/bottom_nav_menu\"\n        app:labelVisibilityMode=\"labeled\"/>\n\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_profile.xml b/app/src/main/res/layout/activity_profile.xml
+--- a/app/src/main/res/layout/activity_profile.xml	(revision 0672f1a219461a7f09295a57b27f6c17975b8d9e)
++++ b/app/src/main/res/layout/activity_profile.xml	(date 1635688784129)
+@@ -237,7 +237,6 @@
+ 
+     </ScrollView>
+ 
+-
+     <FrameLayout
+         android:id="@+id/flFragment"
+         android:layout_width="match_parent"

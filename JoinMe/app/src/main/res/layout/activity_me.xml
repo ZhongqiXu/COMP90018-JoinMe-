@@ -74,34 +74,60 @@
         <Button
             android:id="@+id/profile"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/white"
+            android:shadowRadius="2"
             android:text="Profile"
-            android:textColor="@color/black"
-            app:backgroundTint="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="normal"
+            app:backgroundTint="#45A4AC" />
 
         <Button
             android:id="@+id/my_activities"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:background="@color/white"
+            android:shadowRadius="2"
             android:text="My Activities"
-            android:textColor="@color/black"
-            app:backgroundTint="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="normal"
+            app:backgroundTint="#45A4AC" />
 
         <Button
             android:id="@+id/joined_Activities"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:background="@color/white"
+            android:shadowRadius="2"
             android:text="Joined Activities"
-            android:textColor="@color/black"
-            app:backgroundTint="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="normal"
+            app:backgroundTint="#45A4AC" />
 
         <Button
             android:id="@+id/logout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:background="@color/white"
+            android:shadowRadius="2"
             android:text="Log out"
-            android:textColor="@color/white"
-            app:backgroundTint="@color/quantum_googred" />
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="normal"
+            app:backgroundTint="#D10215" />
     </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

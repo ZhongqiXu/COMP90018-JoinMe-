@@ -68,7 +68,13 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         size = findViewById(R.id.activity_size_view);
 
         title.setText(activity.getTitle());
-        details.setText(activity.getDetails());
+
+        if(activity.getDetails().isEmpty()){
+            details.setText("No details for now.");
+        }else{
+            details.setText(activity.getDetails());
+        }
+
         dateTime.setText(activity.getDatetime());
         autoEnabled.setText(String.valueOf(activity.isAutoJoin()));
         size.setText(String.valueOf(activity.getSize()));
@@ -142,6 +148,8 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
             }
         });
     }
+
+
 
     public void createAlertDialog() {
         AlertDialog alertDialog = new AlertDialog.Builder(DetailActivity.this).create();
